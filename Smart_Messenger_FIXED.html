@@ -1,0 +1,9624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
+
+
+<!-- SMART MESSENGER APP ICON / PWA META -->
+<meta name="theme-color" content="#1877f2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Smart Messenger">
+<link id="dynamicFavicon" rel="icon" type="image/svg+xml">
+<link rel="manifest" id="dynamicManifest">
+
+<title>Smart Messenger</title>
+
+<!-- ================= FIREBASE ================= -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f0f2f5;
+    color:#111;
+    height:100dvh;
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+.auth-screen{
+    width:100%;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    background:linear-gradient(
+        135deg,
+        #1877f2,
+        #4f9cff,
+        #00b894
+    );
+}
+
+.auth-box{
+    width:100%;
+    max-width:430px;
+    background:#fff;
+    border-radius:22px;
+    padding:28px 22px;
+    box-shadow:0 15px 50px rgba(0,0,0,.18);
+}
+
+.logo{
+    text-align:center;
+    font-size:31px;
+    font-weight:800;
+    color:#1877f2;
+    margin-bottom:7px;
+}
+
+.logo-sub{
+    text-align:center;
+    color:#777;
+    margin-bottom:24px;
+    font-size:14px;
+}
+
+.auth-box input{
+    width:100%;
+    height:50px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:0 15px;
+    font-size:16px;
+    outline:none;
+    margin-bottom:12px;
+}
+
+.auth-box input:focus{
+    border-color:#1877f2;
+}
+
+.auth-btn{
+    width:100%;
+    height:50px;
+    border:0;
+    border-radius:12px;
+    background:#1877f2;
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.auth-switch{
+    text-align:center;
+    margin-top:18px;
+    color:#555;
+    font-size:14px;
+}
+
+.auth-switch button{
+    border:0;
+    background:none;
+    color:#1877f2;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.auth-error{
+    color:#d93025;
+    font-size:13px;
+    margin-bottom:10px;
+    text-align:center;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+    width:100%;
+    height:100dvh;
+    min-height:100dvh;
+    display:flex;
+    overflow:hidden;
+    background:#fff;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    width:350px;
+    min-width:350px;
+    height:100dvh;
+    background:#fff;
+    border-right:1px solid #ddd;
+    display:flex;
+    flex-direction:column;
+}
+
+.profile-top{
+    min-height:68px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    border-bottom:1px solid #eee;
+}
+
+.profile-top img{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    object-fit:cover;
+    cursor:pointer;
+}
+
+.profile-info{
+    flex:1;
+    min-width:0;
+    cursor:pointer;
+}
+
+.profile-name{
+    font-size:15px;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.profile-status{
+    color:#31a24c;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.logout-btn{
+    border:0;
+    background:#f1f2f6;
+    color:#d93025;
+    border-radius:10px;
+    min-width:42px;
+    height:42px;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.search-box{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.search-box input{
+    width:100%;
+    height:44px;
+    border:0;
+    outline:none;
+    border-radius:22px;
+    background:#f0f2f5;
+    padding:0 16px;
+    font-size:16px;
+}
+
+.tabs{
+    display:flex;
+    padding:8px;
+    gap:6px;
+    border-bottom:1px solid #eee;
+}
+
+.tab{
+    flex:1;
+    height:40px;
+    border:0;
+    border-radius:10px;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    position:relative;
+}
+
+.tab.active{
+    background:#1877f2;
+    color:#fff;
+}
+
+.badge{
+    position:absolute;
+    right:3px;
+    top:2px;
+    min-width:18px;
+    height:18px;
+    line-height:18px;
+    border-radius:10px;
+    background:#e41e3f;
+    color:#fff;
+    font-size:10px;
+    display:none;
+}
+
+.user-list{
+    flex:1;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+}
+
+
+/* =====================================================
+   USER ROW
+===================================================== */
+
+.user-row{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:10px 12px;
+    min-height:66px;
+    cursor:pointer;
+    border-bottom:1px solid #f4f4f4;
+}
+
+.user-row:active{
+    background:#f0f2f5;
+}
+
+.user-row img{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit:cover;
+    flex:none;
+}
+
+.user-details{
+    flex:1;
+    min-width:0;
+}
+
+.user-name{
+    font-weight:700;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.user-about{
+    color:#777;
+    font-size:12px;
+    margin-top:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.online-dot{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#31a24c;
+    margin-right:4px;
+}
+
+.offline-text{
+    color:#999;
+}
+
+.row-actions{
+    display:flex;
+    gap:5px;
+}
+
+.small-btn{
+    min-height:36px;
+    padding:0 10px;
+    border:0;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+}
+
+.add-btn{
+    background:#1877f2;
+    color:#fff;
+}
+
+.accept-btn{
+    background:#31a24c;
+    color:#fff;
+}
+
+.reject-btn,
+.cancel-btn{
+    background:#f0f2f5;
+    color:#333;
+}
+
+
+/* =====================================================
+   CHAT
+===================================================== */
+
+.chat{
+    flex:1;
+    height:100dvh;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+}
+
+.chat-empty{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#777;
+    text-align:center;
+    padding:20px;
+}
+
+.chat-header{
+    min-height:68px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 14px;
+    border-bottom:1px solid #ddd;
+    background:#fff;
+    flex:none;
+}
+
+.back-btn{
+    display:none;
+    border:0;
+    background:#f0f2f5;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-size:19px;
+    cursor:pointer;
+}
+
+.chat-header img{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.chat-user-info{
+    flex:1;
+    min-width:0;
+}
+
+.chat-user-name{
+    font-weight:700;
+    font-size:15px;
+}
+
+.chat-user-status{
+    font-size:12px;
+    color:#777;
+    margin-top:3px;
+}
+
+.call-buttons{
+    display:flex;
+    gap:6px;
+}
+
+.call-btn{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:17px;
+}
+
+
+/* =====================================================
+   CALL STATUS INSIDE CHAT
+===================================================== */
+
+.chat-call-status{
+    display:none;
+    background:#1877f2;
+    color:#fff;
+    padding:10px 14px;
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+    animation:callPulse 1.2s infinite;
+}
+
+@keyframes callPulse{
+
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.65;
+    }
+
+    100%{
+        opacity:1;
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.messages{
+    flex:1;
+    overflow-y:auto;
+    padding:16px 14px;
+    background:#f7f8fa;
+    overscroll-behavior:contain;
+}
+
+.message-wrap{
+    display:flex;
+    margin:7px 0;
+}
+
+.message-wrap.mine{
+    justify-content:flex-end;
+}
+
+.message{
+    max-width:70%;
+    padding:9px 12px;
+    border-radius:17px;
+    background:#e4e6eb;
+    font-size:14px;
+    line-height:1.4;
+    word-break:break-word;
+}
+
+.message-wrap.mine .message{
+    background:#1877f2;
+    color:#fff;
+}
+
+.message-time{
+    display:block;
+    font-size:9px;
+    opacity:.65;
+    margin-top:4px;
+}
+
+.message img,
+.message video{
+    display:block;
+    max-width:100%;
+    max-height:280px;
+    border-radius:10px;
+    margin-bottom:4px;
+}
+
+.message audio{
+    max-width:220px;
+}
+
+.message-delete{
+    font-size:10px;
+    margin-left:8px;
+    cursor:pointer;
+    opacity:.7;
+}
+
+.typing{
+    min-height:22px;
+    padding:0 14px;
+    font-size:12px;
+    color:#777;
+    background:#f7f8fa;
+}
+
+
+/* =====================================================
+   COMPOSER
+===================================================== */
+
+.composer{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 9px;
+    padding-bottom:calc(
+        8px + env(safe-area-inset-bottom)
+    );
+    border-top:1px solid #ddd;
+    background:#fff;
+    flex:none;
+}
+
+.message-input{
+    flex:1;
+    min-width:0;
+    height:44px;
+    border:0;
+    outline:none;
+    border-radius:22px;
+    background:#f0f2f5;
+    padding:0 14px;
+    font-size:16px;
+}
+
+.composer-btn{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    border:0;
+    border-radius:50%;
+    background:#f0f2f5;
+    cursor:pointer;
+    font-size:17px;
+}
+
+.send-btn{
+    height:42px;
+    min-width:52px;
+    padding:0 12px;
+    border:0;
+    border-radius:21px;
+    background:#1877f2;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.file-input{
+    display:none;
+}
+
+
+/* =====================================================
+   PROFILE MODAL
+===================================================== */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:16px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:400px;
+    background:#fff;
+    border-radius:18px;
+    padding:20px;
+}
+
+.modal-title{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+.modal-box input,
+.modal-box textarea{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    outline:none;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.modal-box textarea{
+    min-height:90px;
+    resize:none;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+}
+
+.modal-actions button{
+    flex:1;
+    height:44px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.save-btn{
+    background:#1877f2;
+    color:#fff;
+}
+
+.close-btn{
+    background:#f0f2f5;
+}
+
+
+/* =====================================================
+   INCOMING CALL
+===================================================== */
+
+.call-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.72);
+    z-index:200;
+    padding:16px;
+}
+
+.call-box{
+    width:100%;
+    max-width:380px;
+    background:#fff;
+    border-radius:22px;
+    padding:27px 20px;
+    text-align:center;
+    animation:callBox .25s ease;
+}
+
+@keyframes callBox{
+
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+.call-avatar{
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    border:4px solid #1877f2;
+}
+
+.call-title{
+    font-size:21px;
+    font-weight:700;
+}
+
+.call-type{
+    color:#777;
+    margin:7px 0 22px;
+}
+
+.call-actions{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+}
+
+.call-actions button{
+    width:58px;
+    height:58px;
+    border:0;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:22px;
+}
+
+.answer-call{
+    background:#31a24c;
+    color:#fff;
+}
+
+.reject-call{
+    background:#e41e3f;
+    color:#fff;
+}
+
+
+/* =====================================================
+   VIDEO CALL
+===================================================== */
+
+.video-modal{
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:none;
+    z-index:300;
+}
+
+.remote-video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    background:#111;
+}
+
+.local-video{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:110px;
+    height:150px;
+    object-fit:cover;
+    border-radius:12px;
+    border:2px solid #fff;
+    background:#222;
+}
+
+.end-call{
+    position:absolute;
+    bottom:35px;
+    left:50%;
+    transform:translateX(-50%);
+    width:62px;
+    height:62px;
+    border:0;
+    border-radius:50%;
+    background:#e41e3f;
+    color:#fff;
+    font-size:22px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    .app{
+        position:relative;
+        height:100dvh;
+        min-height:100dvh;
+    }
+
+    .sidebar{
+        width:100%;
+        min-width:100%;
+        height:100dvh;
+        border:0;
+    }
+
+    .chat{
+        position:fixed;
+        inset:0;
+        width:100%;
+        height:100dvh;
+        min-height:100dvh;
+        background:#fff;
+        transform:translateX(100%);
+        transition:transform .25s ease;
+        z-index:20;
+    }
+
+    .app.chat-open .chat{
+        transform:translateX(0);
+    }
+
+    .back-btn{
+        display:block;
+        flex:none;
+    }
+
+    .profile-top{
+        min-height:62px;
+        padding:8px 10px;
+    }
+
+    .search-box{
+        padding:8px 10px;
+    }
+
+    .tabs{
+        padding:7px;
+    }
+
+    .user-row{
+        min-height:68px;
+        padding:10px;
+    }
+
+    .user-row img{
+        width:48px;
+        height:48px;
+    }
+
+    .small-btn{
+        min-height:38px;
+        padding:0 8px;
+    }
+
+    .chat-header{
+        min-height:62px;
+        padding:8px 9px;
+        padding-top:calc(
+            8px + env(safe-area-inset-top)
+        );
+    }
+
+    .chat-header img{
+        width:42px;
+        height:42px;
+    }
+
+    .call-buttons{
+        gap:3px;
+    }
+
+    .call-btn{
+        width:39px;
+        height:39px;
+    }
+
+    .messages{
+        padding:12px 9px;
+    }
+
+    .message{
+        max-width:85%;
+        font-size:14px;
+    }
+
+    .composer{
+        min-height:58px;
+        padding-left:7px;
+        padding-right:7px;
+    }
+
+    .message-input{
+        min-width:0;
+        height:44px;
+        font-size:16px;
+    }
+
+    .composer-btn{
+        width:40px;
+        min-width:40px;
+        height:40px;
+    }
+
+    .send-btn{
+        min-width:48px;
+        padding:0 10px;
+        font-size:13px;
+    }
+
+    .local-video{
+        width:95px;
+        height:130px;
+        right:8px;
+        top:8px;
+    }
+
+    .auth-screen{
+        align-items:flex-start;
+        padding-top:30px;
+    }
+
+    .auth-box{
+        border-radius:18px;
+        padding:25px 18px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONE
+===================================================== */
+
+@media(max-width:380px){
+
+    .profile-name{
+        font-size:14px;
+    }
+
+    .logout-btn{
+        min-width:38px;
+        width:38px;
+    }
+
+    .tab{
+        font-size:11px;
+    }
+
+    .call-btn{
+        width:35px;
+        height:35px;
+    }
+
+    .composer-btn{
+        width:36px;
+        min-width:36px;
+    }
+
+    .send-btn{
+        min-width:44px;
+        padding:0 8px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     AUTH SCREEN
+===================================================== -->
+
+<div id="authScreen" class="auth-screen">
+
+    <div class="auth-box">
+
+        <div class="logo">
+            Smart Messenger
+        </div>
+
+        <div class="logo-sub">
+            Connect • Chat • Call
+        </div>
+
+        <div id="authError"
+             class="auth-error"></div>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginForm">
+
+            <input
+                id="loginEmail"
+                type="email"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+            <button
+                class="auth-btn"
+                onclick="loginUser()"
+            >
+                Login
+            </button>
+
+            <div class="auth-switch">
+                Don't have an account?
+
+                <button onclick="showRegister()">
+                    Create Account
+                </button>
+            </div>
+
+        </div>
+
+
+        <!-- REGISTER -->
+
+        <div id="registerForm"
+             style="display:none;">
+
+            <input
+                id="registerName"
+                type="text"
+                placeholder="Your name"
+                autocomplete="name"
+            >
+
+            <input
+                id="registerEmail"
+                type="email"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <input
+                id="registerPassword"
+                type="password"
+                placeholder="Password"
+                autocomplete="new-password"
+            >
+
+            <button
+                class="auth-btn"
+                onclick="registerUser()"
+            >
+                Create Account
+            </button>
+
+            <div class="auth-switch">
+                Already have an account?
+
+                <button onclick="showLogin()">
+                    Login
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
+
+<div id="app"
+     class="app"
+     style="display:none;">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="profile-top">
+
+            <img
+                id="myAvatar"
+                src=""
+                alt="Profile"
+                onclick="openProfileModal()"
+            >
+
+            <div
+                class="profile-info"
+                onclick="openProfileModal()"
+            >
+
+                <div
+                    id="myName"
+                    class="profile-name"
+                >
+                    User
+                </div>
+
+                <div class="profile-status">
+                    ● Online
+                </div>
+
+            </div>
+
+            <button
+                class="logout-btn"
+                onclick="logoutUser()"
+            >
+                ↪
+            </button>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Search people..."
+                oninput="searchPeople()"
+            >
+
+        </div>
+
+
+        <div class="tabs">
+
+            <button
+                id="peopleTab"
+                class="tab active"
+                onclick="showTab('people')"
+            >
+                People
+            </button>
+
+            <button
+                id="friendsTab"
+                class="tab"
+                onclick="showTab('friends')"
+            >
+                Friends
+            </button>
+
+            <button
+                id="requestsTab"
+                class="tab"
+                onclick="showTab('requests')"
+            >
+                Requests
+
+                <span
+                    id="requestBadge"
+                    class="badge"
+                >
+                    0
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="userList"
+            class="user-list"
+        ></div>
+
+    </aside>
+
+
+    <!-- =================================================
+         CHAT
+    ================================================== -->
+
+    <main class="chat">
+
+
+        <div
+            id="chatEmpty"
+            class="chat-empty"
+        >
+
+            <div>
+
+                <h2>
+                    Smart Messenger
+                </h2>
+
+                <p style="margin-top:8px;">
+                    Add a friend and start chatting.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="chatArea"
+            style="
+                display:none;
+                height:100%;
+                flex-direction:column;
+            "
+        >
+
+
+            <!-- CHAT CALL STATUS -->
+
+            <div
+                id="chatCallStatus"
+                class="chat-call-status"
+            >
+                📞 Calling...
+            </div>
+
+
+            <!-- CHAT HEADER -->
+
+            <div class="chat-header">
+
+                <button
+                    class="back-btn"
+                    onclick="closeChat()"
+                >
+                    ←
+                </button>
+
+
+                <img
+                    id="chatAvatar"
+                    src=""
+                    alt=""
+                >
+
+
+                <div class="chat-user-info">
+
+                    <div
+                        id="chatUserName"
+                        class="chat-user-name"
+                    >
+                        User
+                    </div>
+
+                    <div
+                        id="chatUserStatus"
+                        class="chat-user-status"
+                    >
+                        Offline
+                    </div>
+
+                </div>
+
+
+                <div class="call-buttons">
+
+                    <button
+                        class="call-btn"
+                        onclick="startCall('audio')"
+                        title="Voice Call"
+                    >
+                        📞
+                    </button>
+
+                    <button
+                        class="call-btn"
+                        onclick="startCall('video')"
+                        title="Video Call"
+                    >
+                        📹
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGES -->
+
+            <div
+                id="messages"
+                class="messages"
+            ></div>
+
+
+            <!-- TYPING -->
+
+            <div
+                id="typing"
+                class="typing"
+            ></div>
+
+
+            <!-- COMPOSER -->
+
+            <div class="composer">
+
+                <label
+                    class="composer-btn"
+                    title="Send file"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    "
+                >
+
+                    📎
+
+                    <input
+                        id="fileInput"
+                        class="file-input"
+                        type="file"
+                        accept="image/*,video/*"
+                        onchange="sendFile(event)"
+                    >
+
+                </label>
+
+
+                <button
+                    id="voiceBtn"
+                    class="composer-btn"
+                    onclick="toggleRecording()"
+                    title="Voice message"
+                >
+                    🎤
+                </button>
+
+
+                <input
+                    id="messageInput"
+                    class="message-input"
+                    type="text"
+                    placeholder="Write a message..."
+                    autocomplete="off"
+                    oninput="handleTyping()"
+                    onkeydown="handleMessageKey(event)"
+                >
+
+
+                <button
+                    class="send-btn"
+                    onclick="sendMessage()"
+                >
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    id="profileModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+            Edit Profile
+        </div>
+
+        <input
+            id="profileNameInput"
+            type="text"
+            placeholder="Your name"
+        >
+
+        <textarea
+            id="profileAboutInput"
+            placeholder="About you"
+        ></textarea>
+
+        <input
+            id="profilePhotoInput"
+            type="file"
+            accept="image/*"
+        >
+
+        <div class="modal-actions">
+
+            <button
+                class="close-btn"
+                onclick="closeProfileModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveProfile()"
+            >
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     INCOMING CALL DISPLAY
+===================================================== -->
+
+<div
+    id="incomingCallModal"
+    class="call-modal"
+>
+
+    <div class="call-box">
+
+        <img
+            id="incomingCallAvatar"
+            class="call-avatar"
+            src=""
+            alt=""
+        >
+
+        <div
+            id="incomingCallName"
+            class="call-title"
+        >
+            Incoming Call
+        </div>
+
+        <div
+            id="incomingCallType"
+            class="call-type"
+        >
+            📞 Incoming voice call
+        </div>
+
+        <div class="call-actions">
+
+            <button
+                class="answer-call"
+                onclick="acceptIncomingCall()"
+            >
+                ✓
+            </button>
+
+            <button
+                class="reject-call"
+                onclick="rejectIncomingCall()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     VIDEO CALL
+===================================================== -->
+
+<div
+    id="videoModal"
+    class="video-modal"
+>
+
+    <video
+        id="remoteVideo"
+        class="remote-video"
+        autoplay
+        playsinline
+    ></video>
+
+    <video
+        id="localVideo"
+        class="local-video"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
+    <button
+        class="end-call"
+        onclick="endCall()"
+    >
+        ☎
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     RINGTONE
+===================================================== -->
+
+<audio
+    id="callRingtone"
+    loop
+    preload="auto"
+>
+    <source
+        src="https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg"
+        type="audio/ogg"
+    >
+</audio>
+
+
+
+<script>
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyDjgt2oKenX2VokbpurU8DfSYKGLq7Wfuc",
+
+    authDomain:
+        "smart-store-2e455.firebaseapp.com",
+
+    projectId:
+        "smart-store-2e455",
+
+    storageBucket:
+        "smart-store-2e455.firebasestorage.app",
+
+    messagingSenderId:
+        "498458496108",
+
+    appId:
+        "1:498458496108:web:989851f4be63cbcc7a1c49"
+
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+
+const auth =
+    firebase.auth();
+
+const db =
+    firebase.firestore();
+
+const storage =
+    firebase.storage();
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let currentUser = null;
+
+let currentProfile = null;
+
+let allUsers = [];
+
+let friends = [];
+
+let friendIds =
+    new Set();
+
+let incomingRequests = [];
+
+let outgoingRequests = [];
+
+let currentTab =
+    "people";
+
+let selectedUser = null;
+
+let unsubscribeMessages = null;
+
+let unsubscribeTyping = null;
+
+let unsubscribeIncomingCalls = null;
+
+let typingTimer = null;
+
+let mediaRecorder = null;
+
+let recordedChunks = [];
+
+let recording = false;
+
+let localStream = null;
+
+let remoteStream = null;
+
+let peerConnection = null;
+
+let currentCallId = null;
+
+let incomingCallData = null;
+
+let callUnsubscribers = [];
+
+
+/* =====================================================
+   DEFAULT AVATAR
+===================================================== */
+
+const defaultAvatar =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(`
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="200"
+             height="200"
+             viewBox="0 0 200 200">
+
+            <rect
+                width="200"
+                height="200"
+                fill="#1877f2"
+            />
+
+            <circle
+                cx="100"
+                cy="78"
+                r="38"
+                fill="white"
+            />
+
+            <path
+                d="M35 180c8-45 36-65 65-65s57 20 65 65"
+                fill="white"
+            />
+
+        </svg>
+
+    `);
+
+
+/* =====================================================
+   HELPER
+===================================================== */
+
+function $(id){
+
+    return document.getElementById(id);
+
+}
+
+
+/* =====================================================
+   LOGIN / REGISTER UI
+===================================================== */
+
+function showLogin(){
+
+    $("loginForm").style.display =
+        "block";
+
+    $("registerForm").style.display =
+        "none";
+
+    $("authError").textContent =
+        "";
+
+}
+
+
+function showRegister(){
+
+    $("loginForm").style.display =
+        "none";
+
+    $("registerForm").style.display =
+        "block";
+
+    $("authError").textContent =
+        "";
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(){
+
+    const email =
+        $("loginEmail")
+        .value
+        .trim();
+
+    const password =
+        $("loginPassword")
+        .value;
+
+
+    if(!email || !password){
+
+        $("authError").textContent =
+            "Please enter email and password.";
+
+        return;
+
+    }
+
+
+    try{
+
+        await auth
+            .signInWithEmailAndPassword(
+                email,
+                password
+            );
+
+    }catch(error){
+
+        console.error(error);
+
+        $("authError").textContent =
+            getAuthError(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+async function registerUser(){
+
+    const name =
+        $("registerName")
+        .value
+        .trim();
+
+    const email =
+        $("registerEmail")
+        .value
+        .trim();
+
+    const password =
+        $("registerPassword")
+        .value;
+
+
+    if(!name ||
+       !email ||
+       !password){
+
+        $("authError").textContent =
+            "Please fill all fields.";
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        $("authError").textContent =
+            "Password must be at least 6 characters.";
+
+        return;
+
+    }
+
+
+    try{
+
+        const result =
+            await auth
+            .createUserWithEmailAndPassword(
+                email,
+                password
+            );
+
+
+        await db
+            .collection("users")
+            .doc(result.user.uid)
+            .set({
+
+                uid:
+                    result.user.uid,
+
+                name:
+                    name,
+
+                email:
+                    email,
+
+                about:
+                    "",
+
+                photoURL:
+                    "",
+
+                online:
+                    true,
+
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp(),
+
+                createdAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            });
+
+    }catch(error){
+
+        console.error(error);
+
+        $("authError").textContent =
+            getAuthError(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   AUTH ERROR
+===================================================== */
+
+function getAuthError(error){
+
+    const code =
+        error.code || "";
+
+
+    if(code.includes(
+        "email-already-in-use"
+    ))
+        return "This email is already registered.";
+
+
+    if(code.includes(
+        "invalid-email"
+    ))
+        return "Invalid email address.";
+
+
+    if(code.includes(
+        "wrong-password"
+    ))
+        return "Wrong password.";
+
+
+    if(code.includes(
+        "user-not-found"
+    ))
+        return "Account not found.";
+
+
+    if(code.includes(
+        "weak-password"
+    ))
+        return "Password is too weak.";
+
+
+    if(code.includes(
+        "operation-not-allowed"
+    ))
+        return "Enable Email/Password Authentication in Firebase.";
+
+
+    return error.message ||
+        "Something went wrong.";
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.setPersistence(
+    firebase.auth.Auth.Persistence.LOCAL
+);
+
+
+auth.onAuthStateChanged(
+async user => {
+
+    if(user){
+
+        currentUser =
+            user;
+
+
+        $("authScreen")
+            .style
+            .display =
+            "none";
+
+
+        $("app")
+            .style
+            .display =
+            "flex";
+
+
+        await loadMyProfile();
+
+        await setMyOnline(true);
+
+        await loadUsers();
+
+        await loadFriends();
+
+        await loadRequests();
+
+        listenForIncomingCalls();
+
+        showTab("people");
+
+
+    }else{
+
+        currentUser =
+            null;
+
+        currentProfile =
+            null;
+
+        $("app")
+            .style
+            .display =
+            "none";
+
+
+        $("authScreen")
+            .style
+            .display =
+            "flex";
+
+    }
+
+});
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logoutUser(){
+
+    try{
+
+        if(currentUser){
+
+            await setMyOnline(false);
+
+        }
+
+
+        stopRingtone();
+
+        cleanupCall();
+
+
+        await auth.signOut();
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   MY PROFILE
+===================================================== */
+
+async function loadMyProfile(){
+
+    if(!currentUser)
+        return;
+
+
+    const ref =
+        db
+        .collection("users")
+        .doc(currentUser.uid);
+
+
+    const snap =
+        await ref.get();
+
+
+    if(snap.exists){
+
+        currentProfile =
+            snap.data();
+
+    }else{
+
+        currentProfile = {
+
+            uid:
+                currentUser.uid,
+
+            name:
+                currentUser.displayName ||
+                currentUser.email
+                    .split("@")[0],
+
+            email:
+                currentUser.email,
+
+            about:
+                "",
+
+            photoURL:
+                ""
+
+        };
+
+
+        await ref.set(
+            {
+                ...currentProfile,
+
+                online:
+                    true,
+
+                createdAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            },
+            {
+                merge:true
+            }
+        );
+
+    }
+
+
+    renderMyProfile();
+
+}
+
+
+function renderMyProfile(){
+
+    if(!currentProfile)
+        return;
+
+
+    $("myName").textContent =
+        currentProfile.name ||
+        "User";
+
+
+    $("myAvatar").src =
+        currentProfile.photoURL ||
+        defaultAvatar;
+
+}
+
+
+/* =====================================================
+   ONLINE
+===================================================== */
+
+async function setMyOnline(status){
+
+    if(!currentUser)
+        return;
+
+
+    try{
+
+        await db
+            .collection("users")
+            .doc(currentUser.uid)
+            .set({
+
+                online:
+                    status,
+
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            },{
+                merge:true
+            });
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if(!currentUser)
+            return;
+
+
+        setMyOnline(
+            document.visibilityState ===
+            "visible"
+        );
+
+    }
+);
+
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        if(currentUser){
+
+            db
+            .collection("users")
+            .doc(currentUser.uid)
+            .set({
+
+                online:false,
+
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            },{
+                merge:true
+            });
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOAD USERS
+===================================================== */
+
+async function loadUsers(){
+
+    if(!currentUser)
+        return;
+
+
+    const snap =
+        await db
+        .collection("users")
+        .get();
+
+
+    allUsers = [];
+
+
+    snap.forEach(doc => {
+
+        const data =
+            doc.data();
+
+
+        if(doc.id !==
+           currentUser.uid){
+
+            allUsers.push({
+
+                id:
+                    doc.id,
+
+                ...data
+
+            });
+
+        }
+
+    });
+
+
+    renderCurrentTab();
+
+}
+
+
+/* =====================================================
+   FRIEND DOC ID
+===================================================== */
+
+function friendDocId(a,b){
+
+    return [
+        a,
+        b
+    ]
+    .sort()
+    .join("_");
+
+}
+
+
+/* =====================================================
+   LOAD FRIENDS
+===================================================== */
+
+async function loadFriends(){
+
+    if(!currentUser)
+        return;
+
+
+    const snap =
+        await db
+        .collection("friends")
+        .where(
+            "users",
+            "array-contains",
+            currentUser.uid
+        )
+        .get();
+
+
+    friends = [];
+
+    friendIds =
+        new Set();
+
+
+    snap.forEach(doc => {
+
+        const data =
+            doc.data();
+
+
+        const otherUid =
+            data.users.find(
+                uid =>
+                    uid !==
+                    currentUser.uid
+            );
+
+
+        if(otherUid){
+
+            friendIds.add(
+                otherUid
+            );
+
+
+            const user =
+                allUsers.find(
+                    u =>
+                        u.id ===
+                        otherUid
+                );
+
+
+            if(user){
+
+                friends.push(
+                    user
+                );
+
+            }
+
+        }
+
+    });
+
+
+    renderCurrentTab();
+
+}
+
+
+/* =====================================================
+   LOAD REQUESTS
+===================================================== */
+
+async function loadRequests(){
+
+    if(!currentUser)
+        return;
+
+
+    const incomingSnap =
+        await db
+        .collection("friendRequests")
+        .where(
+            "toUid",
+            "==",
+            currentUser.uid
+        )
+        .get();
+
+
+    incomingRequests = [];
+
+
+    incomingSnap.forEach(doc => {
+
+        const data =
+            doc.data();
+
+
+        if(
+            data.status ===
+            "pending"
+        ){
+
+            incomingRequests.push({
+
+                id:
+                    doc.id,
+
+                ...data
+
+            });
+
+        }
+
+    });
+
+
+    const outgoingSnap =
+        await db
+        .collection("friendRequests")
+        .where(
+            "fromUid",
+            "==",
+            currentUser.uid
+        )
+        .get();
+
+
+    outgoingRequests = [];
+
+
+    outgoingSnap.forEach(doc => {
+
+        const data =
+            doc.data();
+
+
+        if(
+            data.status ===
+            "pending"
+        ){
+
+            outgoingRequests.push({
+
+                id:
+                    doc.id,
+
+                ...data
+
+            });
+
+        }
+
+    });
+
+
+    updateRequestBadge();
+
+    renderCurrentTab();
+
+}
+
+
+/* =====================================================
+   REQUEST BADGE
+===================================================== */
+
+function updateRequestBadge(){
+
+    const badge =
+        $("requestBadge");
+
+
+    if(
+        incomingRequests.length >
+        0
+    ){
+
+        badge.style.display =
+            "block";
+
+        badge.textContent =
+            incomingRequests.length;
+
+    }else{
+
+        badge.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   TAB
+===================================================== */
+
+function showTab(tab){
+
+    currentTab =
+        tab;
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            btn =>
+                btn.classList
+                   .remove("active")
+        );
+
+
+    if(tab === "people")
+        $("peopleTab")
+            .classList
+            .add("active");
+
+
+    if(tab === "friends")
+        $("friendsTab")
+            .classList
+            .add("active");
+
+
+    if(tab === "requests")
+        $("requestsTab")
+            .classList
+            .add("active");
+
+
+    $("searchInput").value =
+        "";
+
+
+    renderCurrentTab();
+
+}
+
+
+function renderCurrentTab(){
+
+    if(currentTab ===
+       "people"){
+
+        renderPeople(
+            allUsers
+        );
+
+    }
+
+    else if(
+        currentTab ===
+        "friends"
+    ){
+
+        renderFriends();
+
+    }
+
+    else if(
+        currentTab ===
+        "requests"
+    ){
+
+        renderRequests();
+
+    }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchPeople(){
+
+    currentTab =
+        "people";
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            btn =>
+                btn.classList
+                   .remove("active")
+        );
+
+
+    $("peopleTab")
+        .classList
+        .add("active");
+
+
+    const value =
+        $("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    if(!value){
+
+        renderPeople(
+            allUsers
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        allUsers.filter(
+            user =>
+
+                (user.name || "")
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                (user.email || "")
+                    .toLowerCase()
+                    .includes(value)
+
+                ||
+
+                (user.about || "")
+                    .toLowerCase()
+                    .includes(value)
+        );
+
+
+    renderPeople(
+        filtered
+    );
+
+}
+
+
+/* =====================================================
+   RENDER PEOPLE
+===================================================== */
+
+function renderPeople(users){
+
+    const list =
+        $("userList");
+
+
+    list.innerHTML =
+        "";
+
+
+    if(users.length === 0){
+
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
+                No users found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    users.forEach(user => {
+
+        list.appendChild(
+            createUserRow(
+                user,
+                "people"
+            )
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   RENDER FRIENDS
+===================================================== */
+
+function renderFriends(){
+
+    const list =
+        $("userList");
+
+
+    list.innerHTML =
+        "";
+
+
+    if(friends.length === 0){
+
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
+                No friends yet.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    friends.forEach(user => {
+
+        list.appendChild(
+            createUserRow(
+                user,
+                "friends"
+            )
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   RENDER REQUESTS
+===================================================== */
+
+function renderRequests(){
+
+    const list =
+        $("userList");
+
+
+    list.innerHTML =
+        "";
+
+
+    if(
+        incomingRequests.length === 0 &&
+        outgoingRequests.length === 0
+    ){
+
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
+                No friend requests.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(incomingRequests.length){
+
+        const title =
+            document.createElement(
+                "div"
+            );
+
+
+        title.style.padding =
+            "12px";
+
+        title.style.fontWeight =
+            "700";
+
+        title.style.color =
+            "#555";
+
+        title.textContent =
+            "Friend Requests";
+
+
+        list.appendChild(
+            title
+        );
+
+
+        incomingRequests.forEach(
+            req => {
+
+                const user =
+                    allUsers.find(
+                        u =>
+                            u.id ===
+                            req.fromUid
+                    );
+
+
+                if(user){
+
+                    list.appendChild(
+                        createUserRow(
+                            user,
+                            "incoming-request"
+                        )
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if(outgoingRequests.length){
+
+        const title =
+            document.createElement(
+                "div"
+            );
+
+
+        title.style.padding =
+            "12px";
+
+        title.style.fontWeight =
+            "700";
+
+        title.style.color =
+            "#555";
+
+        title.textContent =
+            "Sent Requests";
+
+
+        list.appendChild(
+            title
+        );
+
+
+        outgoingRequests.forEach(
+            req => {
+
+                const user =
+                    allUsers.find(
+                        u =>
+                            u.id ===
+                            req.toUid
+                    );
+
+
+                if(user){
+
+                    list.appendChild(
+                        createUserRow(
+                            user,
+                            "outgoing-request"
+                        )
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE USER ROW
+===================================================== */
+
+function createUserRow(
+    user,
+    type
+){
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "user-row";
+
+
+    const img =
+        document.createElement(
+            "img"
+        );
+
+    img.src =
+        user.photoURL ||
+        defaultAvatar;
+
+
+    img.onerror = () => {
+
+        img.src =
+            defaultAvatar;
+
+    };
+
+
+    const details =
+        document.createElement(
+            "div"
+        );
+
+    details.className =
+        "user-details";
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "user-name";
+
+    name.textContent =
+        user.name ||
+        "User";
+
+
+    const about =
+        document.createElement(
+            "div"
+        );
+
+    about.className =
+        "user-about";
+
+
+    if(user.online){
+
+        about.innerHTML =
+            `<span class="online-dot"></span>Online`;
+
+    }else{
+
+        about.textContent =
+            user.about ||
+            "Offline";
+
+        about.classList.add(
+            "offline-text"
+        );
+
+    }
+
+
+    details.appendChild(
+        name
+    );
+
+    details.appendChild(
+        about
+    );
+
+
+    const actions =
+        document.createElement(
+            "div"
+        );
+
+    actions.className =
+        "row-actions";
+
+
+    if(type === "friends"){
+
+        const btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.className =
+            "small-btn add-btn";
+
+        btn.textContent =
+            "Chat";
+
+
+        btn.onclick =
+            event => {
+
+                event.stopPropagation();
+
+                selectUser(
+                    user
+                );
+
+            };
+
+
+        actions.appendChild(
+            btn
+        );
+
+
+        row.onclick = () =>
+            selectUser(user);
+
+    }
+
+
+    else if(type === "people"){
+
+        if(friendIds.has(
+            user.id
+        )){
+
+            const btn =
+                document.createElement(
+                    "button"
+                );
+
+            btn.className =
+                "small-btn add-btn";
+
+            btn.textContent =
+                "Chat";
+
+
+            btn.onclick =
+                event => {
+
+                    event.stopPropagation();
+
+                    selectUser(
+                        user
+                    );
+
+                };
+
+
+            actions.appendChild(
+                btn
+            );
+
+
+            row.onclick = () =>
+                selectUser(user);
+
+        }
+
+        else{
+
+            const outgoing =
+                outgoingRequests.find(
+                    r =>
+                        r.toUid ===
+                        user.id
+                );
+
+
+            const incoming =
+                incomingRequests.find(
+                    r =>
+                        r.fromUid ===
+                        user.id
+                );
+
+
+            if(outgoing){
+
+                const btn =
+                    document.createElement(
+                        "button"
+                    );
+
+                btn.className =
+                    "small-btn cancel-btn";
+
+                btn.textContent =
+                    "Sent";
+
+
+                btn.onclick =
+                    event => {
+
+                        event.stopPropagation();
+
+                        cancelFriendRequest(
+                            outgoing.id
+                        );
+
+                    };
+
+
+                actions.appendChild(
+                    btn
+                );
+
+            }
+
+            else if(incoming){
+
+                const accept =
+                    document.createElement(
+                        "button"
+                    );
+
+                accept.className =
+                    "small-btn accept-btn";
+
+                accept.textContent =
+                    "Accept";
+
+
+                accept.onclick =
+                    event => {
+
+                        event.stopPropagation();
+
+                        acceptFriendRequest(
+                            incoming
+                        );
+
+                    };
+
+
+                const reject =
+                    document.createElement(
+                        "button"
+                    );
+
+                reject.className =
+                    "small-btn reject-btn";
+
+                reject.textContent =
+                    "Reject";
+
+
+                reject.onclick =
+                    event => {
+
+                        event.stopPropagation();
+
+                        rejectFriendRequest(
+                            incoming.id
+                        );
+
+                    };
+
+
+                actions.appendChild(
+                    accept
+                );
+
+                actions.appendChild(
+                    reject
+                );
+
+            }
+
+            else{
+
+                const btn =
+                    document.createElement(
+                        "button"
+                    );
+
+                btn.className =
+                    "small-btn add-btn";
+
+                btn.textContent =
+                    "Add";
+
+
+                btn.onclick =
+                    event => {
+
+                        event.stopPropagation();
+
+                        sendFriendRequest(
+                            user.id
+                        );
+
+                    };
+
+
+                actions.appendChild(
+                    btn
+                );
+
+            }
+
+        }
+
+    }
+
+
+    else if(
+        type ===
+        "incoming-request"
+    ){
+
+        const accept =
+            document.createElement(
+                "button"
+            );
+
+        accept.className =
+            "small-btn accept-btn";
+
+        accept.textContent =
+            "Accept";
+
+
+        accept.onclick =
+            event => {
+
+                event.stopPropagation();
+
+                const req =
+                    incomingRequests.find(
+                        r =>
+                            r.fromUid ===
+                            user.id
+                    );
+
+
+                if(req){
+
+                    acceptFriendRequest(
+                        req
+                    );
+
+                }
+
+            };
+
+
+        const reject =
+            document.createElement(
+                "button"
+            );
+
+        reject.className =
+            "small-btn reject-btn";
+
+        reject.textContent =
+            "Reject";
+
+
+        reject.onclick =
+            event => {
+
+                event.stopPropagation();
+
+                const req =
+                    incomingRequests.find(
+                        r =>
+                            r.fromUid ===
+                            user.id
+                    );
+
+
+                if(req){
+
+                    rejectFriendRequest(
+                        req.id
+                    );
+
+                }
+
+            };
+
+
+        actions.appendChild(
+            accept
+        );
+
+        actions.appendChild(
+            reject
+        );
+
+    }
+
+
+    else if(
+        type ===
+        "outgoing-request"
+    ){
+
+        const btn =
+            document.createElement(
+                "button"
+            );
+
+        btn.className =
+            "small-btn cancel-btn";
+
+        btn.textContent =
+            "Cancel";
+
+
+        btn.onclick =
+            event => {
+
+                event.stopPropagation();
+
+                const req =
+                    outgoingRequests.find(
+                        r =>
+                            r.toUid ===
+                            user.id
+                    );
+
+
+                if(req){
+
+                    cancelFriendRequest(
+                        req.id
+                    );
+
+                }
+
+            };
+
+
+        actions.appendChild(
+            btn
+        );
+
+    }
+
+
+    row.appendChild(
+        img
+    );
+
+    row.appendChild(
+        details
+    );
+
+    row.appendChild(
+        actions
+    );
+
+
+    return row;
+
+}
+
+
+/* =====================================================
+   SEND FRIEND REQUEST
+===================================================== */
+
+async function sendFriendRequest(
+    toUid
+){
+
+    if(!currentUser ||
+       !toUid)
+        return;
+
+
+    if(friendIds.has(
+        toUid
+    )){
+
+        alert(
+            "Already friends."
+        );
+
+        return;
+
+    }
+
+
+    const id =
+        currentUser.uid +
+        "_" +
+        toUid;
+
+
+    const ref =
+        db
+        .collection("friendRequests")
+        .doc(id);
+
+
+    const existing =
+        await ref.get();
+
+
+    if(
+        existing.exists &&
+        existing.data().status ===
+        "pending"
+    ){
+
+        return;
+
+    }
+
+
+    await ref.set({
+
+        fromUid:
+            currentUser.uid,
+
+        toUid:
+            toUid,
+
+        status:
+            "pending",
+
+        createdAt:
+            firebase.firestore.FieldValue
+            .serverTimestamp(),
+
+        updatedAt:
+            firebase.firestore.FieldValue
+            .serverTimestamp()
+
+    });
+
+
+    await loadRequests();
+
+}
+
+
+/* =====================================================
+   CANCEL FRIEND REQUEST
+===================================================== */
+
+async function cancelFriendRequest(
+    requestId
+){
+
+    if(!requestId)
+        return;
+
+
+    await db
+        .collection("friendRequests")
+        .doc(requestId)
+        .update({
+
+            status:
+                "cancelled",
+
+            updatedAt:
+                firebase.firestore.FieldValue
+                .serverTimestamp()
+
+        });
+
+
+    await loadRequests();
+
+}
+
+
+/* =====================================================
+   ACCEPT FRIEND
+===================================================== */
+
+async function acceptFriendRequest(
+    request
+){
+
+    if(!currentUser ||
+       !request)
+        return;
+
+
+    const friendId =
+        friendDocId(
+            currentUser.uid,
+            request.fromUid
+        );
+
+
+    await db.runTransaction(
+        async transaction => {
+
+            const requestRef =
+                db
+                .collection("friendRequests")
+                .doc(request.id);
+
+
+            const friendRef =
+                db
+                .collection("friends")
+                .doc(friendId);
+
+
+            const reqSnap =
+                await transaction.get(
+                    requestRef
+                );
+
+
+            if(!reqSnap.exists){
+
+                throw new Error(
+                    "Request not found."
+                );
+
+            }
+
+
+            transaction.set(
+                friendRef,
+                {
+
+                    users:[
+                        currentUser.uid,
+                        request.fromUid
+                    ],
+
+                    createdAt:
+                        firebase.firestore
+                        .FieldValue
+                        .serverTimestamp()
+
+                },
+                {
+                    merge:true
+                }
+            );
+
+
+            transaction.update(
+                requestRef,
+                {
+
+                    status:
+                        "accepted",
+
+                    updatedAt:
+                        firebase.firestore
+                        .FieldValue
+                        .serverTimestamp()
+
+                }
+            );
+
+        }
+    );
+
+
+    await loadFriends();
+
+    await loadRequests();
+
+}
+
+
+/* =====================================================
+   REJECT FRIEND
+===================================================== */
+
+async function rejectFriendRequest(
+    requestId
+){
+
+    if(!requestId)
+        return;
+
+
+    await db
+        .collection("friendRequests")
+        .doc(requestId)
+        .update({
+
+            status:
+                "rejected",
+
+            updatedAt:
+                firebase.firestore.FieldValue
+                .serverTimestamp()
+
+        });
+
+
+    await loadRequests();
+
+}
+
+
+/* =====================================================
+   SELECT USER
+===================================================== */
+
+function selectUser(user){
+
+    if(!friendIds.has(
+        user.id
+    )){
+
+        alert(
+            "You can chat only with friends."
+        );
+
+        return;
+
+    }
+
+
+    selectedUser =
+        user;
+
+
+    $("chatEmpty")
+        .style
+        .display =
+        "none";
+
+
+    $("chatArea")
+        .style
+        .display =
+        "flex";
+
+
+    $("chatAvatar").src =
+        user.photoURL ||
+        defaultAvatar;
+
+
+    $("chatUserName").textContent =
+        user.name ||
+        "User";
+
+
+    updateChatStatus(
+        user
+    );
+
+
+    $("app")
+        .classList
+        .add("chat-open");
+
+
+    loadMessages();
+
+}
+
+
+/* =====================================================
+   CLOSE CHAT
+===================================================== */
+
+function closeChat(){
+
+    $("app")
+        .classList
+        .remove("chat-open");
+
+
+    selectedUser =
+        null;
+
+
+    if(unsubscribeMessages){
+
+        unsubscribeMessages();
+
+        unsubscribeMessages =
+            null;
+
+    }
+
+
+    if(unsubscribeTyping){
+
+        unsubscribeTyping();
+
+        unsubscribeTyping =
+            null;
+
+    }
+
+
+    $("messages")
+        .innerHTML =
+        "";
+
+
+    $("typing")
+        .textContent =
+        "";
+
+}
+
+
+/* =====================================================
+   CHAT STATUS
+===================================================== */
+
+function updateChatStatus(
+    user
+){
+
+    if(user.online){
+
+        $("chatUserStatus")
+            .innerHTML =
+            `<span class="online-dot"></span>Online`;
+
+    }else{
+
+        $("chatUserStatus")
+            .textContent =
+            "Offline";
+
+    }
+
+}
+
+
+/* =====================================================
+   CHAT ID
+===================================================== */
+
+function chatId(a,b){
+
+    return [
+        a,
+        b
+    ]
+    .sort()
+    .join("_");
+
+}
+
+
+/* =====================================================
+   LOAD MESSAGES
+===================================================== */
+
+function loadMessages(){
+
+    if(!currentUser ||
+       !selectedUser)
+        return;
+
+
+    if(unsubscribeMessages){
+
+        unsubscribeMessages();
+
+    }
+
+
+    const id =
+        chatId(
+            currentUser.uid,
+            selectedUser.id
+        );
+
+
+    $("messages")
+        .innerHTML =
+        "";
+
+
+    unsubscribeMessages =
+        db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .orderBy(
+            "createdAt",
+            "asc"
+        )
+        .onSnapshot(
+            snapshot => {
+
+                $("messages")
+                    .innerHTML =
+                    "";
+
+
+                snapshot.forEach(
+                    doc => {
+
+                        renderMessage(
+                            doc.id,
+                            doc.data()
+                        );
+
+                    }
+                );
+
+
+                scrollMessages();
+
+            },
+            error => {
+
+                console.error(
+                    error
+                );
+
+            }
+        );
+
+
+    listenTyping();
+
+}
+
+
+/* =====================================================
+   RENDER MESSAGE
+===================================================== */
+
+function renderMessage(
+    id,
+    data
+){
+
+    const wrap =
+        document.createElement(
+            "div"
+        );
+
+
+    wrap.className =
+        "message-wrap " +
+        (
+            data.senderId ===
+            currentUser.uid
+                ? "mine"
+                : ""
+        );
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+
+    bubble.className =
+        "message";
+
+
+    if(data.type === "image"){
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src =
+            data.fileUrl;
+
+        bubble.appendChild(
+            img
+        );
+
+
+        if(data.text){
+
+            const text =
+                document.createElement(
+                    "div"
+                );
+
+            text.textContent =
+                data.text;
+
+            bubble.appendChild(
+                text
+            );
+
+        }
+
+    }
+
+    else if(
+        data.type ===
+        "video"
+    ){
+
+        const video =
+            document.createElement(
+                "video"
+            );
+
+        video.src =
+            data.fileUrl;
+
+        video.controls =
+            true;
+
+        video.playsInline =
+            true;
+
+        bubble.appendChild(
+            video
+        );
+
+    }
+
+    else if(
+        data.type ===
+        "audio"
+    ){
+
+        const audio =
+            document.createElement(
+                "audio"
+            );
+
+        audio.src =
+            data.fileUrl;
+
+        audio.controls =
+            true;
+
+        bubble.appendChild(
+            audio
+        );
+
+    }
+
+    else{
+
+        const text =
+            document.createElement(
+                "div"
+            );
+
+        text.textContent =
+            data.text ||
+            "";
+
+        bubble.appendChild(
+            text
+        );
+
+    }
+
+
+    const time =
+        document.createElement(
+            "span"
+        );
+
+    time.className =
+        "message-time";
+
+    time.textContent =
+        formatTime(
+            data.createdAt
+        );
+
+
+    bubble.appendChild(
+        time
+    );
+
+
+    if(
+        data.senderId ===
+        currentUser.uid
+    ){
+
+        const del =
+            document.createElement(
+                "span"
+            );
+
+        del.className =
+            "message-delete";
+
+        del.textContent =
+            "Delete";
+
+
+        del.onclick =
+            () =>
+                deleteMessage(
+                    id
+                );
+
+
+        bubble.appendChild(
+            del
+        );
+
+    }
+
+
+    wrap.appendChild(
+        bubble
+    );
+
+
+    $("messages")
+        .appendChild(
+            wrap
+        );
+
+}
+
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(
+    timestamp
+){
+
+    if(!timestamp)
+        return "";
+
+
+    const date =
+        timestamp.toDate
+            ? timestamp.toDate()
+            : new Date(timestamp);
+
+
+    return date.toLocaleTimeString(
+        [],
+        {
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SEND MESSAGE
+===================================================== */
+
+async function sendMessage(){
+
+    if(!currentUser ||
+       !selectedUser)
+        return;
+
+
+    const input =
+        $("messageInput");
+
+
+    const text =
+        input.value
+        .trim();
+
+
+    if(!text)
+        return;
+
+
+    const id =
+        chatId(
+            currentUser.uid,
+            selectedUser.id
+        );
+
+
+    try{
+
+        await db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .add({
+
+            senderId:
+                currentUser.uid,
+
+            receiverId:
+                selectedUser.id,
+
+            text:
+                text,
+
+            type:
+                "text",
+
+            createdAt:
+                firebase.firestore.FieldValue
+                .serverTimestamp()
+
+        });
+
+
+        input.value =
+            "";
+
+
+        await setTyping(
+            false
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Message send failed."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ENTER SEND
+===================================================== */
+
+function handleMessageKey(
+    event
+){
+
+    if(
+        event.key ===
+        "Enter"
+    ){
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE MESSAGE
+===================================================== */
+
+async function deleteMessage(
+    messageId
+){
+
+    if(!selectedUser)
+        return;
+
+
+    if(!confirm(
+        "Delete this message?"
+    ))
+        return;
+
+
+    const id =
+        chatId(
+            currentUser.uid,
+            selectedUser.id
+        );
+
+
+    await db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .doc(messageId)
+        .delete();
+
+}
+
+
+/* =====================================================
+   SEND FILE
+===================================================== */
+
+async function sendFile(
+    event
+){
+
+    const file =
+        event.target.files[0];
+
+
+    if(
+        !file ||
+        !currentUser ||
+        !selectedUser
+    )
+        return;
+
+
+    if(
+        file.size >
+        100 *
+        1024 *
+        1024
+    ){
+
+        alert(
+            "File must be smaller than 100MB."
+        );
+
+        event.target.value =
+            "";
+
+        return;
+
+    }
+
+
+    try{
+
+        const path =
+            "chatFiles/" +
+            currentUser.uid +
+            "/" +
+            Date.now() +
+            "_" +
+            file.name;
+
+
+        const storageRef =
+            storage
+            .ref()
+            .child(path);
+
+
+        const upload =
+            await storageRef
+            .put(file);
+
+
+        const url =
+            await upload.ref
+            .getDownloadURL();
+
+
+        const type =
+            file.type
+                .startsWith("image/")
+                    ? "image"
+                    : "video";
+
+
+        const id =
+            chatId(
+                currentUser.uid,
+                selectedUser.id
+            );
+
+
+        await db
+            .collection("chats")
+            .doc(id)
+            .collection("messages")
+            .add({
+
+                senderId:
+                    currentUser.uid,
+
+                receiverId:
+                    selectedUser.id,
+
+                fileUrl:
+                    url,
+
+                fileName:
+                    file.name,
+
+                type:
+                    type,
+
+                createdAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            });
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "File upload failed."
+        );
+
+    }
+
+
+    event.target.value =
+        "";
+
+}
+
+
+/* =====================================================
+   TYPING
+===================================================== */
+
+function handleTyping(){
+
+    if(!selectedUser)
+        return;
+
+
+    setTyping(true);
+
+
+    clearTimeout(
+        typingTimer
+    );
+
+
+    typingTimer =
+        setTimeout(
+            () => {
+
+                setTyping(
+                    false
+                );
+
+            },
+            1200
+        );
+
+}
+
+
+async function setTyping(
+    status
+){
+
+    if(!currentUser ||
+       !selectedUser)
+        return;
+
+
+    const id =
+        chatId(
+            currentUser.uid,
+            selectedUser.id
+        );
+
+
+    try{
+
+        await db
+            .collection("typing")
+            .doc(id)
+            .set({
+
+                uid:
+                    currentUser.uid,
+
+                typing:
+                    status,
+
+                updatedAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            });
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+function listenTyping(){
+
+    if(unsubscribeTyping){
+
+        unsubscribeTyping();
+
+    }
+
+
+    if(!currentUser ||
+       !selectedUser)
+        return;
+
+
+    const id =
+        chatId(
+            currentUser.uid,
+            selectedUser.id
+        );
+
+
+    unsubscribeTyping =
+        db
+        .collection("typing")
+        .doc(id)
+        .onSnapshot(
+            snapshot => {
+
+                if(!snapshot.exists){
+
+                    $("typing")
+                        .textContent =
+                        "";
+
+                    return;
+
+                }
+
+
+                const data =
+                    snapshot.data();
+
+
+                if(
+                    data.typing &&
+                    data.uid !==
+                    currentUser.uid
+                ){
+
+                    $("typing")
+                        .textContent =
+                        selectedUser.name +
+                        " is typing...";
+
+                }else{
+
+                    $("typing")
+                        .textContent =
+                        "";
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   SCROLL
+===================================================== */
+
+function scrollMessages(){
+
+    const box =
+        $("messages");
+
+
+    setTimeout(
+        () => {
+
+            box.scrollTop =
+                box.scrollHeight;
+
+        },
+        50
+    );
+
+}
+
+
+/* =====================================================
+   VOICE RECORDING
+===================================================== */
+
+async function toggleRecording(){
+
+    if(recording){
+
+        stopRecording();
+
+    }else{
+
+        await startRecording();
+
+    }
+
+}
+
+
+async function startRecording(){
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices
+            .getUserMedia
+    ){
+
+        alert(
+            "Microphone is not supported."
+        );
+
+        return;
+
+    }
+
+
+    if(!selectedUser){
+
+        alert(
+            "Select a friend first."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const stream =
+            await navigator.mediaDevices
+            .getUserMedia({
+                audio:true
+            });
+
+
+        recordedChunks =
+            [];
+
+
+        mediaRecorder =
+            new MediaRecorder(
+                stream
+            );
+
+
+        mediaRecorder.ondataavailable =
+            event => {
+
+                if(
+                    event.data.size >
+                    0
+                ){
+
+                    recordedChunks.push(
+                        event.data
+                    );
+
+                }
+
+            };
+
+
+        mediaRecorder.onstop =
+            async () => {
+
+                stream
+                    .getTracks()
+                    .forEach(
+                        track =>
+                            track.stop()
+                    );
+
+
+                const blob =
+                    new Blob(
+                        recordedChunks,
+                        {
+                            type:
+                                mediaRecorder.mimeType ||
+                                "audio/webm"
+                        }
+                    );
+
+
+                await uploadVoice(
+                    blob
+                );
+
+            };
+
+
+        mediaRecorder.start();
+
+
+        recording =
+            true;
+
+
+        $("voiceBtn")
+            .textContent =
+            "⏹";
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Microphone permission denied."
+        );
+
+    }
+
+}
+
+
+function stopRecording(){
+
+    if(
+        mediaRecorder &&
+        recording
+    ){
+
+        mediaRecorder.stop();
+
+        recording =
+            false;
+
+        $("voiceBtn")
+            .textContent =
+            "🎤";
+
+    }
+
+}
+
+
+/* =====================================================
+   UPLOAD VOICE
+===================================================== */
+
+async function uploadVoice(
+    blob
+){
+
+    if(!selectedUser)
+        return;
+
+
+    try{
+
+        const path =
+            "voice/" +
+            currentUser.uid +
+            "/" +
+            Date.now() +
+            ".webm";
+
+
+        const ref =
+            storage
+            .ref()
+            .child(path);
+
+
+        const upload =
+            await ref
+            .put(blob);
+
+
+        const url =
+            await upload.ref
+            .getDownloadURL();
+
+
+        const id =
+            chatId(
+                currentUser.uid,
+                selectedUser.id
+            );
+
+
+        await db
+            .collection("chats")
+            .doc(id)
+            .collection("messages")
+            .add({
+
+                senderId:
+                    currentUser.uid,
+
+                receiverId:
+                    selectedUser.id,
+
+                fileUrl:
+                    url,
+
+                type:
+                    "audio",
+
+                createdAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            });
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Voice message failed."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PROFILE MODAL
+===================================================== */
+
+function openProfileModal(){
+
+    if(!currentProfile)
+        return;
+
+
+    $("profileNameInput")
+        .value =
+        currentProfile.name ||
+        "";
+
+
+    $("profileAboutInput")
+        .value =
+        currentProfile.about ||
+        "";
+
+
+    $("profilePhotoInput")
+        .value =
+        "";
+
+
+    $("profileModal")
+        .style
+        .display =
+        "flex";
+
+}
+
+
+function closeProfileModal(){
+
+    $("profileModal")
+        .style
+        .display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SAVE PROFILE
+===================================================== */
+
+async function saveProfile(){
+
+    if(!currentUser)
+        return;
+
+
+    const name =
+        $("profileNameInput")
+        .value
+        .trim();
+
+
+    const about =
+        $("profileAboutInput")
+        .value
+        .trim();
+
+
+    if(!name){
+
+        alert(
+            "Name is required."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        let photoURL =
+            currentProfile.photoURL ||
+            "";
+
+
+        const file =
+            $("profilePhotoInput")
+            .files[0];
+
+
+        if(file){
+
+            if(
+                file.size >
+                5 *
+                1024 *
+                1024
+            ){
+
+                alert(
+                    "Profile photo must be under 5MB."
+                );
+
+                return;
+
+            }
+
+
+            const path =
+                "profilePhotos/" +
+                currentUser.uid +
+                "/" +
+                Date.now() +
+                "_" +
+                file.name;
+
+
+            const ref =
+                storage
+                .ref()
+                .child(path);
+
+
+            const upload =
+                await ref.put(
+                    file
+                );
+
+
+            photoURL =
+                await upload.ref
+                .getDownloadURL();
+
+        }
+
+
+        await db
+            .collection("users")
+            .doc(currentUser.uid)
+            .set({
+
+                name:
+                    name,
+
+                about:
+                    about,
+
+                photoURL:
+                    photoURL
+
+            },{
+                merge:true
+            });
+
+
+        currentProfile.name =
+            name;
+
+        currentProfile.about =
+            about;
+
+        currentProfile.photoURL =
+            photoURL;
+
+
+        renderMyProfile();
+
+        await loadUsers();
+
+        await loadFriends();
+
+        closeProfileModal();
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Profile update failed."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   WEBRTC CONFIG
+===================================================== */
+
+const rtcConfig = {
+
+    iceServers:[
+
+        {
+            urls:
+                "stun:stun.l.google.com:19302"
+        },
+
+        {
+            urls:
+                "stun:stun1.l.google.com:19302"
+        }
+
+    ]
+
+};
+
+
+/* =====================================================
+   START CALL
+===================================================== */
+
+async function startCall(
+    type
+){
+
+    if(!currentUser ||
+       !selectedUser)
+        return;
+
+
+    if(!friendIds.has(
+        selectedUser.id
+    )){
+
+        alert(
+            "You can call only friends."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        stopRingtone();
+
+
+        localStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                audio:true,
+
+                video:
+                    type ===
+                    "video"
+
+            });
+
+
+        peerConnection =
+            new RTCPeerConnection(
+                rtcConfig
+            );
+
+
+        localStream
+            .getTracks()
+            .forEach(
+                track => {
+
+                    peerConnection
+                        .addTrack(
+                            track,
+                            localStream
+                        );
+
+                }
+            );
+
+
+        peerConnection.ontrack =
+            event => {
+
+                remoteStream =
+                    event.streams[0];
+
+                $("remoteVideo")
+                    .srcObject =
+                    remoteStream;
+
+            };
+
+
+        currentCallId =
+            db
+            .collection("calls")
+            .doc()
+            .id;
+
+
+        peerConnection.onicecandidate =
+            async event => {
+
+                if(
+                    event.candidate
+                ){
+
+                    await db
+                        .collection("calls")
+                        .doc(
+                            currentCallId
+                        )
+                        .collection(
+                            "callerCandidates"
+                        )
+                        .add(
+                            event.candidate
+                            .toJSON()
+                        );
+
+                }
+
+            };
+
+
+        const offer =
+            await peerConnection
+            .createOffer();
+
+
+        await peerConnection
+            .setLocalDescription(
+                offer
+            );
+
+
+        await db
+            .collection("calls")
+            .doc(
+                currentCallId
+            )
+            .set({
+
+                callerId:
+                    currentUser.uid,
+
+                receiverId:
+                    selectedUser.id,
+
+                type:
+                    type,
+
+                offer:{
+
+                    type:
+                        offer.type,
+
+                    sdp:
+                        offer.sdp
+
+                },
+
+                status:
+                    "ringing",
+
+                createdAt:
+                    firebase.firestore
+                    .FieldValue
+                    .serverTimestamp()
+
+            });
+
+
+        showOutgoingCallStatus(
+            type
+        );
+
+
+        listenCallerAnswer(
+            currentCallId
+        );
+
+
+        listenReceiverCandidates(
+            currentCallId
+        );
+
+
+        $("localVideo")
+            .srcObject =
+            localStream;
+
+
+        $("videoModal")
+            .style
+            .display =
+            "block";
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Call failed: " +
+            error.message
+        );
+
+
+        cleanupCall();
+
+    }
+
+}
+
+
+/* =====================================================
+   OUTGOING CALL DISPLAY
+===================================================== */
+
+function showOutgoingCallStatus(
+    type
+){
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
+
+
+    $("chatCallStatus")
+        .textContent =
+        type === "video"
+            ? "📹 Calling " +
+              (
+                selectedUser?.name ||
+                "User"
+              ) +
+              "..."
+            : "📞 Calling " +
+              (
+                selectedUser?.name ||
+                "User"
+              ) +
+              "...";
+
+}
+
+
+/* =====================================================
+   CALLER ANSWER
+===================================================== */
+
+function listenCallerAnswer(
+    callId
+){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .onSnapshot(
+            async snapshot => {
+
+                const data =
+                    snapshot.data();
+
+
+                if(!data)
+                    return;
+
+
+                if(
+                    data.answer &&
+                    peerConnection &&
+                    !peerConnection
+                        .currentRemoteDescription
+                ){
+
+                    await peerConnection
+                        .setRemoteDescription(
+                            new RTCSessionDescription(
+                                data.answer
+                            )
+                        );
+
+
+                    $("chatCallStatus")
+                        .textContent =
+                        "🔵 Call connected";
+
+                }
+
+
+                if(
+                    data.status ===
+                    "rejected"
+                ){
+
+                    alert(
+                        "Call rejected."
+                    );
+
+                    cleanupCall();
+
+                }
+
+
+                if(
+                    data.status ===
+                    "ended"
+                ){
+
+                    cleanupCall();
+
+                }
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
+
+}
+
+
+/* =====================================================
+   RECEIVER ICE
+===================================================== */
+
+function listenReceiverCandidates(
+    callId
+){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .collection(
+            "receiverCandidates"
+        )
+        .onSnapshot(
+            snapshot => {
+
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        async change => {
+
+                            if(
+                                change.type ===
+                                "added" &&
+                                peerConnection
+                            ){
+
+                                try{
+
+                                    await peerConnection
+                                        .addIceCandidate(
+                                            new RTCIceCandidate(
+                                                change.doc.data()
+                                            )
+                                        );
+
+                                }catch(error){
+
+                                    console.error(
+                                        error
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
+
+}
+
+
+/* =====================================================
+   INCOMING CALL LISTENER
+===================================================== */
+
+function listenForIncomingCalls(){
+
+    if(unsubscribeIncomingCalls){
+
+        unsubscribeIncomingCalls();
+
+    }
+
+
+    unsubscribeIncomingCalls =
+        db
+        .collection("calls")
+        .where(
+            "receiverId",
+            "==",
+            currentUser.uid
+        )
+        .onSnapshot(
+            snapshot => {
+
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        change => {
+
+                            if(
+                                change.type !==
+                                "added"
+                            )
+                                return;
+
+
+                            const data =
+                                change.doc.data();
+
+
+                            if(
+                                data.status ===
+                                "ringing"
+                            ){
+
+                                showIncomingCall(
+                                    change.doc.id,
+                                    data
+                                );
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   INCOMING CALL DISPLAY + RING
+===================================================== */
+
+function showIncomingCall(
+    callId,
+    data
+){
+
+    /*
+       Save incoming call
+    */
+
+    incomingCallData = {
+
+        callId:
+            callId,
+
+        ...data
+
+    };
+
+
+    currentCallId =
+        callId;
+
+
+    const caller =
+        allUsers.find(
+            u =>
+                u.id ===
+                data.callerId
+        );
+
+
+    const callerName =
+        caller?.name ||
+        "Someone";
+
+
+    const callerPhoto =
+        caller?.photoURL ||
+        defaultAvatar;
+
+
+    /*
+       ==========================
+       POPUP DISPLAY
+       ==========================
+    */
+
+    $("incomingCallAvatar")
+        .src =
+        callerPhoto;
+
+
+    $("incomingCallName")
+        .textContent =
+        callerName;
+
+
+    $("incomingCallType")
+        .textContent =
+        data.type === "video"
+            ? "📹 Incoming video call"
+            : "📞 Incoming voice call";
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "flex";
+
+
+    /*
+       ==========================
+       CHAT DISPLAY
+       ==========================
+    */
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
+
+
+    $("chatCallStatus")
+        .textContent =
+        data.type === "video"
+            ? "📹 " +
+              callerName +
+              " is calling you..."
+            : "📞 " +
+              callerName +
+              " is calling you...";
+
+
+    /*
+       ==========================
+       OPEN CHAT AUTOMATICALLY
+       ==========================
+    */
+
+    if(caller){
+
+        selectedUser =
+            caller;
+
+
+        $("chatEmpty")
+            .style
+            .display =
+            "none";
+
+
+        $("chatArea")
+            .style
+            .display =
+            "flex";
+
+
+        $("chatAvatar")
+            .src =
+            callerPhoto;
+
+
+        $("chatUserName")
+            .textContent =
+            callerName;
+
+
+        updateChatStatus(
+            caller
+        );
+
+
+        $("app")
+            .classList
+            .add("chat-open");
+
+
+        loadMessages();
+
+    }
+
+
+    /*
+       ==========================
+       RING
+       ==========================
+    */
+
+    startRingtone();
+
+}
+
+
+/* =====================================================
+   START RINGTONE
+===================================================== */
+
+function startRingtone(){
+
+    const ringtone =
+        $("callRingtone");
+
+
+    if(!ringtone)
+        return;
+
+
+    ringtone.currentTime =
+        0;
+
+
+    const playPromise =
+        ringtone.play();
+
+
+    if(
+        playPromise &&
+        typeof playPromise.catch ===
+        "function"
+    ){
+
+        playPromise.catch(
+            error => {
+
+                console.log(
+                    "Browser blocked autoplay:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   STOP RINGTONE
+===================================================== */
+
+function stopRingtone(){
+
+    const ringtone =
+        $("callRingtone");
+
+
+    if(!ringtone)
+        return;
+
+
+    ringtone.pause();
+
+    ringtone.currentTime =
+        0;
+
+}
+
+
+/* =====================================================
+   ACCEPT INCOMING CALL
+===================================================== */
+
+async function acceptIncomingCall(){
+
+    if(!incomingCallData)
+        return;
+
+
+    const call =
+        incomingCallData;
+
+
+    /*
+       STOP RING
+    */
+
+    stopRingtone();
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
+
+
+    $("chatCallStatus")
+        .textContent =
+        "🔵 Connecting call...";
+
+
+    try{
+
+        const caller =
+            allUsers.find(
+                u =>
+                    u.id ===
+                    call.callerId
+            );
+
+
+        if(caller){
+
+            selectedUser =
+                caller;
+
+
+            $("chatEmpty")
+                .style
+                .display =
+                "none";
+
+
+            $("chatArea")
+                .style
+                .display =
+                "flex";
+
+
+            $("chatAvatar")
+                .src =
+                caller.photoURL ||
+                defaultAvatar;
+
+
+            $("chatUserName")
+                .textContent =
+                caller.name ||
+                "User";
+
+
+            $("app")
+                .classList
+                .add("chat-open");
+
+        }
+
+
+        localStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                audio:true,
+
+                video:
+                    call.type ===
+                    "video"
+
+            });
+
+
+        peerConnection =
+            new RTCPeerConnection(
+                rtcConfig
+            );
+
+
+        localStream
+            .getTracks()
+            .forEach(
+                track => {
+
+                    peerConnection
+                        .addTrack(
+                            track,
+                            localStream
+                        );
+
+                }
+            );
+
+
+        peerConnection.ontrack =
+            event => {
+
+                remoteStream =
+                    event.streams[0];
+
+                $("remoteVideo")
+                    .srcObject =
+                    remoteStream;
+
+            };
+
+
+        peerConnection.onicecandidate =
+            async event => {
+
+                if(
+                    event.candidate
+                ){
+
+                    await db
+                        .collection("calls")
+                        .doc(
+                            call.callId
+                        )
+                        .collection(
+                            "receiverCandidates"
+                        )
+                        .add(
+                            event.candidate
+                            .toJSON()
+                        );
+
+                }
+
+            };
+
+
+        await peerConnection
+            .setRemoteDescription(
+                new RTCSessionDescription(
+                    call.offer
+                )
+            );
+
+
+        const answer =
+            await peerConnection
+            .createAnswer();
+
+
+        await peerConnection
+            .setLocalDescription(
+                answer
+            );
+
+
+        await db
+            .collection("calls")
+            .doc(
+                call.callId
+            )
+            .update({
+
+                answer:{
+
+                    type:
+                        answer.type,
+
+                    sdp:
+                        answer.sdp
+
+                },
+
+                status:
+                    "connected"
+
+            });
+
+
+        listenCallerCandidates(
+            call.callId
+        );
+
+
+        $("localVideo")
+            .srcObject =
+            localStream;
+
+
+        $("videoModal")
+            .style
+            .display =
+            "block";
+
+
+        $("chatCallStatus")
+            .textContent =
+            "🔵 Call connected";
+
+
+        incomingCallData =
+            null;
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Could not answer call: " +
+            error.message
+        );
+
+
+        cleanupCall();
+
+    }
+
+}
+
+
+/* =====================================================
+   LISTEN CALLER CANDIDATES
+===================================================== */
+
+function listenCallerCandidates(
+    callId
+){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .collection(
+            "callerCandidates"
+        )
+        .onSnapshot(
+            snapshot => {
+
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        async change => {
+
+                            if(
+                                change.type ===
+                                "added" &&
+                                peerConnection
+                            ){
+
+                                try{
+
+                                    await peerConnection
+                                        .addIceCandidate(
+                                            new RTCIceCandidate(
+                                                change.doc.data()
+                                            )
+                                        );
+
+                                }catch(error){
+
+                                    console.error(
+                                        error
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
+
+}
+
+
+/* =====================================================
+   REJECT INCOMING CALL
+===================================================== */
+
+async function rejectIncomingCall(){
+
+    stopRingtone();
+
+
+    if(!incomingCallData)
+        return;
+
+
+    try{
+
+        await db
+            .collection("calls")
+            .doc(
+                incomingCallData.callId
+            )
+            .update({
+
+                status:
+                    "rejected"
+
+            });
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    incomingCallData =
+        null;
+
+
+    currentCallId =
+        null;
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "none";
+
+}
+
+
+/* =====================================================
+   END CALL
+===================================================== */
+
+async function endCall(){
+
+    stopRingtone();
+
+
+    try{
+
+        if(currentCallId){
+
+            await db
+                .collection("calls")
+                .doc(
+                    currentCallId
+                )
+                .update({
+
+                    status:
+                        "ended"
+
+                });
+
+        }
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    cleanupCall();
+
+}
+
+
+/* =====================================================
+   CLEANUP CALL
+===================================================== */
+
+function cleanupCall(){
+
+    stopRingtone();
+
+
+    callUnsubscribers
+        .forEach(
+            unsubscribe => {
+
+                try{
+
+                    unsubscribe();
+
+                }catch(e){}
+
+            }
+        );
+
+
+    callUnsubscribers =
+        [];
+
+
+    if(localStream){
+
+        localStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+    }
+
+
+    if(peerConnection){
+
+        try{
+
+            peerConnection.close();
+
+        }catch(e){}
+
+    }
+
+
+    localStream =
+        null;
+
+    remoteStream =
+        null;
+
+    peerConnection =
+        null;
+
+    currentCallId =
+        null;
+
+    incomingCallData =
+        null;
+
+
+    $("localVideo")
+        .srcObject =
+        null;
+
+
+    $("remoteVideo")
+        .srcObject =
+        null;
+
+
+    $("videoModal")
+        .style
+        .display =
+        "none";
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "none";
+
+}
+
+
+/* =====================================================
+   MOBILE KEYBOARD
+===================================================== */
+
+if(window.visualViewport){
+
+    window.visualViewport.addEventListener(
+        "resize",
+        () => {
+
+            document.documentElement
+                .style
+                .setProperty(
+                    "--keyboard-height",
+                    Math.max(
+                        0,
+                        window.innerHeight -
+                        window.visualViewport.height
+                    ) +
+                    "px"
+                );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   INITIAL
+===================================================== */
+
+showLogin();
+
+</script>
+
+</body>
+ <!-- =====================================================
+     SMART MESSENGER CALL + VOICE + AUDIO FIX
+     PASTE BEFORE </body>
+===================================================== -->
+
+<script>
+
+(function(){
+
+"use strict";
+
+/* =====================================================
+   AUDIO FILE SUPPORT
+===================================================== */
+
+const fileInput = document.getElementById("fileInput");
+
+if(fileInput){
+    fileInput.accept =
+        "image/*,video/*,audio/*";
+}
+
+
+/* =====================================================
+   CALL AUDIO ENGINE
+   No external ringtone required
+===================================================== */
+
+let ringAudioContext = null;
+let ringTimer = null;
+let ringMode = null;
+
+function getAudioContext(){
+
+    if(!ringAudioContext){
+
+        const AudioCtx =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if(!AudioCtx)
+            return null;
+
+        ringAudioContext =
+            new AudioCtx();
+
+    }
+
+    if(
+        ringAudioContext.state ===
+        "suspended"
+    ){
+
+        ringAudioContext.resume()
+        .catch(()=>{});
+
+    }
+
+    return ringAudioContext;
+
+}
+
+
+function playRingTone(){
+
+    const ctx =
+        getAudioContext();
+
+    if(!ctx)
+        return;
+
+    const now =
+        ctx.currentTime;
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.type =
+        "sine";
+
+    osc.frequency.setValueAtTime(
+        440,
+        now
+    );
+
+    osc.frequency.setValueAtTime(
+        660,
+        now + .18
+    );
+
+    gain.gain.setValueAtTime(
+        .0001,
+        now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .18,
+        now + .03
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        now + .38
+    );
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + .4);
+
+}
+
+
+function startRingtone(){
+
+    stopRingtone();
+
+    ringMode =
+        "incoming";
+
+    playRingTone();
+
+    ringTimer =
+        setInterval(
+            function(){
+
+                if(
+                    ringMode
+                ){
+
+                    playRingTone();
+
+                }
+
+            },
+            900
+        );
+
+}
+
+
+function startOutgoingRingtone(){
+
+    stopRingtone();
+
+    ringMode =
+        "outgoing";
+
+    playRingTone();
+
+    ringTimer =
+        setInterval(
+            function(){
+
+                if(
+                    ringMode
+                ){
+
+                    playRingTone();
+
+                }
+
+            },
+            1800
+        );
+
+}
+
+
+function stopRingtone(){
+
+    ringMode =
+        null;
+
+    if(ringTimer){
+
+        clearInterval(
+            ringTimer
+        );
+
+        ringTimer =
+            null;
+
+    }
+
+    const old =
+        document.getElementById(
+            "callRingtone"
+        );
+
+    if(old){
+
+        try{
+
+            old.pause();
+            old.currentTime = 0;
+
+        }catch(e){}
+
+    }
+
+}
+
+
+/* =====================================================
+   USER GESTURE UNLOCK AUDIO
+===================================================== */
+
+[
+    "click",
+    "touchstart",
+    "pointerdown"
+].forEach(
+    function(eventName){
+
+        document.addEventListener(
+            eventName,
+            function(){
+
+                const ctx =
+                    getAudioContext();
+
+                if(ctx){
+
+                    ctx.resume()
+                    .catch(()=>{});
+
+                }
+
+            },
+            {
+                passive:true,
+                once:false
+            }
+        );
+
+    }
+);
+
+
+/* =====================================================
+   MEDIARECORDER MIME
+===================================================== */
+
+function getBestAudioMime(){
+
+    if(
+        typeof MediaRecorder ===
+        "undefined"
+    ){
+
+        return "";
+
+    }
+
+    const types = [
+
+        "audio/webm;codecs=opus",
+        "audio/webm",
+        "audio/ogg;codecs=opus",
+        "audio/ogg",
+        "audio/mp4"
+
+    ];
+
+    for(
+        const type of types
+    ){
+
+        try{
+
+            if(
+                MediaRecorder
+                .isTypeSupported(type)
+            ){
+
+                return type;
+
+            }
+
+        }catch(e){}
+
+    }
+
+    return "";
+
+}
+
+
+/* =====================================================
+   FIX VOICE RECORDING
+===================================================== */
+
+window.startRecording =
+async function(){
+
+    if(!selectedUser){
+
+        alert(
+            "Select a friend first."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices
+        .getUserMedia
+    ){
+
+        alert(
+            "Microphone is not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        typeof MediaRecorder ===
+        "undefined"
+    ){
+
+        alert(
+            "Voice recording is not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const stream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                audio:{
+                    echoCancellation:true,
+                    noiseSuppression:true,
+                    autoGainControl:true
+                }
+
+            });
+
+
+        recordedChunks = [];
+
+
+        const mime =
+            getBestAudioMime();
+
+
+        mediaRecorder =
+            mime
+                ? new MediaRecorder(
+                    stream,
+                    {
+                        mimeType:mime
+                    }
+                )
+                : new MediaRecorder(
+                    stream
+                );
+
+
+        mediaRecorder.ondataavailable =
+            function(event){
+
+                if(
+                    event.data &&
+                    event.data.size > 0
+                ){
+
+                    recordedChunks.push(
+                        event.data
+                    );
+
+                }
+
+            };
+
+
+        mediaRecorder.onerror =
+            function(event){
+
+                console.error(
+                    "Recorder error:",
+                    event
+                );
+
+            };
+
+
+        mediaRecorder.onstop =
+            async function(){
+
+                try{
+
+                    stream
+                    .getTracks()
+                    .forEach(
+                        function(track){
+                            track.stop();
+                        }
+                    );
+
+
+                    if(
+                        !recordedChunks.length
+                    ){
+
+                        alert(
+                            "No voice recorded."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const actualType =
+                        mediaRecorder.mimeType ||
+                        mime ||
+                        "audio/webm";
+
+
+                    const blob =
+                        new Blob(
+                            recordedChunks,
+                            {
+                                type:
+                                    actualType
+                            }
+                        );
+
+
+                    await uploadVoice(
+                        blob,
+                        actualType
+                    );
+
+                }catch(error){
+
+                    console.error(error);
+
+                    alert(
+                        "Voice message failed: " +
+                        (
+                            error.message ||
+                            error
+                        )
+                    );
+
+                }
+
+            };
+
+
+        mediaRecorder.start(
+            250
+        );
+
+
+        recording =
+            true;
+
+
+        $("voiceBtn").textContent =
+            "⏹";
+
+
+        $("voiceBtn").style.background =
+            "#e41e3f";
+
+        $("voiceBtn").style.color =
+            "#fff";
+
+
+    }catch(error){
+
+        console.error(
+            "Microphone error:",
+            error
+        );
+
+
+        if(
+            error.name ===
+            "NotAllowedError"
+        ){
+
+            alert(
+                "Microphone permission denied. Please allow microphone access."
+            );
+
+        }else{
+
+            alert(
+                "Microphone error: " +
+                (
+                    error.message ||
+                    error
+                )
+            );
+
+        }
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX STOP RECORDING
+===================================================== */
+
+window.stopRecording =
+function(){
+
+    if(
+        mediaRecorder &&
+        recording
+    ){
+
+        try{
+
+            mediaRecorder.stop();
+
+        }catch(e){
+
+            console.error(e);
+
+        }
+
+
+        recording =
+            false;
+
+
+        $("voiceBtn").textContent =
+            "🎤";
+
+        $("voiceBtn").style.background =
+            "";
+
+        $("voiceBtn").style.color =
+            "";
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX VOICE UPLOAD
+===================================================== */
+
+window.uploadVoice =
+async function(
+    blob,
+    contentType
+){
+
+    if(
+        !currentUser ||
+        !selectedUser ||
+        !blob
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        let extension =
+            "webm";
+
+
+        if(
+            contentType.includes(
+                "ogg"
+            )
+        ){
+
+            extension =
+                "ogg";
+
+        }
+
+        else if(
+            contentType.includes(
+                "mp4"
+            )
+        ){
+
+            extension =
+                "m4a";
+
+        }
+
+
+        const fileName =
+            "voice_" +
+            Date.now() +
+            "." +
+            extension;
+
+
+        const path =
+            "voice/" +
+            currentUser.uid +
+            "/" +
+            fileName;
+
+
+        const ref =
+            storage
+            .ref()
+            .child(path);
+
+
+        const metadata = {
+
+            contentType:
+                contentType ||
+                "audio/webm",
+
+            cacheControl:
+                "public,max-age=31536000"
+
+        };
+
+
+        const upload =
+            await ref.put(
+                blob,
+                metadata
+            );
+
+
+        const url =
+            await upload.ref
+            .getDownloadURL();
+
+
+        const id =
+            chatId(
+                currentUser.uid,
+                selectedUser.id
+            );
+
+
+        await db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .add({
+
+            senderId:
+                currentUser.uid,
+
+            receiverId:
+                selectedUser.id,
+
+            fileUrl:
+                url,
+
+            fileName:
+                fileName,
+
+            type:
+                "audio",
+
+            contentType:
+                contentType ||
+                "audio/webm",
+
+            duration:
+                0,
+
+            createdAt:
+                firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "Voice upload error:",
+            error
+        );
+
+
+        alert(
+            "Voice upload failed: " +
+            (
+                error.message ||
+                error
+            )
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX SEND FILE
+===================================================== */
+
+window.sendFile =
+async function(event){
+
+    const file =
+        event.target.files &&
+        event.target.files[0];
+
+
+    if(
+        !file ||
+        !currentUser ||
+        !selectedUser
+    ){
+
+        event.target.value =
+            "";
+
+        return;
+
+    }
+
+
+    if(
+        file.size >
+        100 * 1024 * 1024
+    ){
+
+        alert(
+            "File must be smaller than 100MB."
+        );
+
+        event.target.value =
+            "";
+
+        return;
+
+    }
+
+
+    try{
+
+        let type;
+
+
+        if(
+            file.type.startsWith(
+                "image/"
+            )
+        ){
+
+            type =
+                "image";
+
+        }
+
+        else if(
+            file.type.startsWith(
+                "video/"
+            )
+        ){
+
+            type =
+                "video";
+
+        }
+
+        else if(
+            file.type.startsWith(
+                "audio/"
+            )
+        ){
+
+            type =
+                "audio";
+
+        }
+
+        else{
+
+            alert(
+                "Only image, video and audio files are supported."
+            );
+
+            event.target.value =
+                "";
+
+            return;
+
+        }
+
+
+        const safeName =
+            file.name.replace(
+                /[^a-zA-Z0-9._-]/g,
+                "_"
+            );
+
+
+        const path =
+            "chatFiles/" +
+            currentUser.uid +
+            "/" +
+            Date.now() +
+            "_" +
+            safeName;
+
+
+        const ref =
+            storage
+            .ref()
+            .child(path);
+
+
+        const metadata = {
+
+            contentType:
+                file.type
+
+        };
+
+
+        const upload =
+            await ref.put(
+                file,
+                metadata
+            );
+
+
+        const url =
+            await upload.ref
+            .getDownloadURL();
+
+
+        const id =
+            chatId(
+                currentUser.uid,
+                selectedUser.id
+            );
+
+
+        await db
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .add({
+
+            senderId:
+                currentUser.uid,
+
+            receiverId:
+                selectedUser.id,
+
+            fileUrl:
+                url,
+
+            fileName:
+                file.name,
+
+            type:
+                type,
+
+            contentType:
+                file.type,
+
+            createdAt:
+                firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "File upload error:",
+            error
+        );
+
+
+        alert(
+            "File upload failed: " +
+            (
+                error.message ||
+                error
+            )
+        );
+
+    }
+
+
+    event.target.value =
+        "";
+
+};
+
+
+/* =====================================================
+   FIX MESSAGE RENDER
+===================================================== */
+
+window.renderMessage =
+function(
+    id,
+    data
+){
+
+    const wrap =
+        document.createElement(
+            "div"
+        );
+
+
+    wrap.className =
+        "message-wrap " +
+        (
+            data.senderId ===
+            currentUser.uid
+                ? "mine"
+                : ""
+        );
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+
+    bubble.className =
+        "message";
+
+
+    if(
+        data.type ===
+        "image"
+    ){
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src =
+            data.fileUrl;
+
+        img.alt =
+            data.fileName ||
+            "Image";
+
+        img.loading =
+            "lazy";
+
+        img.onerror =
+            function(){
+
+                img.style.display =
+                    "none";
+
+            };
+
+
+        bubble.appendChild(
+            img
+        );
+
+
+        if(data.text){
+
+            const text =
+                document.createElement(
+                    "div"
+                );
+
+            text.textContent =
+                data.text;
+
+            bubble.appendChild(
+                text
+            );
+
+        }
+
+    }
+
+
+    else if(
+        data.type ===
+        "video"
+    ){
+
+        const video =
+            document.createElement(
+                "video"
+            );
+
+        video.src =
+            data.fileUrl;
+
+        video.controls =
+            true;
+
+        video.playsInline =
+            true;
+
+        video.preload =
+            "metadata";
+
+        bubble.appendChild(
+            video
+        );
+
+    }
+
+
+    else if(
+        data.type ===
+        "audio"
+    ){
+
+        const audio =
+            document.createElement(
+                "audio"
+            );
+
+        audio.src =
+            data.fileUrl;
+
+        audio.controls =
+            true;
+
+        audio.preload =
+            "metadata";
+
+        audio.setAttribute(
+            "playsinline",
+            ""
+        );
+
+        audio.style.width =
+            "230px";
+
+        audio.style.maxWidth =
+            "100%";
+
+        bubble.appendChild(
+            audio
+        );
+
+
+        if(data.fileName){
+
+            const fileLabel =
+                document.createElement(
+                    "div"
+                );
+
+            fileLabel.textContent =
+                "🎵 " +
+                data.fileName;
+
+            fileLabel.style.fontSize =
+                "11px";
+
+            fileLabel.style.marginTop =
+                "4px";
+
+            fileLabel.style.opacity =
+                ".75";
+
+            bubble.appendChild(
+                fileLabel
+            );
+
+        }
+
+    }
+
+
+    else{
+
+        const text =
+            document.createElement(
+                "div"
+            );
+
+        text.textContent =
+            data.text ||
+            "";
+
+        bubble.appendChild(
+            text
+        );
+
+    }
+
+
+    const time =
+        document.createElement(
+            "span"
+        );
+
+    time.className =
+        "message-time";
+
+    time.textContent =
+        formatTime(
+            data.createdAt
+        );
+
+
+    bubble.appendChild(
+        time
+    );
+
+
+    if(
+        data.senderId ===
+        currentUser.uid
+    ){
+
+        const del =
+            document.createElement(
+                "span"
+            );
+
+        del.className =
+            "message-delete";
+
+        del.textContent =
+            "Delete";
+
+
+        del.onclick =
+            function(){
+
+                deleteMessage(
+                    id
+                );
+
+            };
+
+
+        bubble.appendChild(
+            del
+        );
+
+    }
+
+
+    wrap.appendChild(
+        bubble
+    );
+
+
+    $("messages")
+    .appendChild(
+        wrap
+    );
+
+};
+
+
+/* =====================================================
+   CALL STATE
+===================================================== */
+
+let fixRemoteDescriptionSet =
+    false;
+
+let pendingIceCandidates = [];
+
+
+/* =====================================================
+   CREATE PEER CONNECTION
+===================================================== */
+
+function createFixedPeerConnection(){
+
+    const pc =
+        new RTCPeerConnection(
+            rtcConfig
+        );
+
+
+    pc.onconnectionstatechange =
+        function(){
+
+            console.log(
+                "Connection:",
+                pc.connectionState
+            );
+
+
+            if(
+                pc.connectionState ===
+                "connected"
+            ){
+
+                $("chatCallStatus")
+                    .style
+                    .display =
+                    "block";
+
+                $("chatCallStatus")
+                    .textContent =
+                    "🔵 Call connected";
+
+
+                stopRingtone();
+
+            }
+
+
+            if(
+                pc.connectionState ===
+                    "failed" ||
+                pc.connectionState ===
+                    "disconnected" ||
+                pc.connectionState ===
+                    "closed"
+            ){
+
+                if(
+                    pc.connectionState !==
+                    "closed"
+                ){
+
+                    setTimeout(
+                        function(){
+
+                            if(
+                                peerConnection ===
+                                pc
+                            ){
+
+                                cleanupCall();
+
+                            }
+
+                        },
+                        1500
+                    );
+
+                }
+
+            }
+
+        };
+
+
+    pc.oniceconnectionstatechange =
+        function(){
+
+            console.log(
+                "ICE:",
+                pc.iceConnectionState
+            );
+
+        };
+
+
+    return pc;
+
+}
+
+
+/* =====================================================
+   FIX START CALL
+===================================================== */
+
+window.startCall =
+async function(type){
+
+    if(
+        !currentUser ||
+        !selectedUser
+    )
+        return;
+
+
+    if(
+        !friendIds.has(
+            selectedUser.id
+        )
+    ){
+
+        alert(
+            "You can call only friends."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        cleanupCall();
+
+
+        currentCallId =
+            db
+            .collection("calls")
+            .doc()
+            .id;
+
+
+        const callId =
+            currentCallId;
+
+
+        localStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                audio:{
+                    echoCancellation:true,
+                    noiseSuppression:true,
+                    autoGainControl:true
+                },
+
+                video:
+                    type === "video"
+                    ? {
+                        width:{
+                            ideal:1280
+                        },
+                        height:{
+                            ideal:720
+                        },
+                        facingMode:
+                            "user"
+                    }
+                    : false
+
+            });
+
+
+        peerConnection =
+            createFixedPeerConnection();
+
+
+        localStream
+        .getTracks()
+        .forEach(
+            function(track){
+
+                peerConnection
+                .addTrack(
+                    track,
+                    localStream
+                );
+
+            }
+        );
+
+
+        peerConnection.ontrack =
+            function(event){
+
+                if(
+                    event.streams &&
+                    event.streams[0]
+                ){
+
+                    remoteStream =
+                        event.streams[0];
+
+                    $("remoteVideo")
+                        .srcObject =
+                        remoteStream;
+
+                    $("remoteVideo")
+                        .play()
+                        .catch(()=>{});
+
+                }
+
+            };
+
+
+        peerConnection.onicecandidate =
+            async function(event){
+
+                if(
+                    !event.candidate
+                )
+                    return;
+
+
+                try{
+
+                    await db
+                    .collection("calls")
+                    .doc(callId)
+                    .collection(
+                        "callerCandidates"
+                    )
+                    .add(
+                        event.candidate
+                        .toJSON()
+                    );
+
+                }catch(error){
+
+                    console.error(
+                        error
+                    );
+
+                }
+
+            };
+
+
+        const offer =
+            await peerConnection
+            .createOffer({
+
+                offerToReceiveAudio:true,
+
+                offerToReceiveVideo:
+                    type === "video"
+
+            });
+
+
+        await peerConnection
+        .setLocalDescription(
+            offer
+        );
+
+
+        await db
+        .collection("calls")
+        .doc(callId)
+        .set({
+
+            callerId:
+                currentUser.uid,
+
+            receiverId:
+                selectedUser.id,
+
+            type:
+                type,
+
+            offer:{
+                type:
+                    offer.type,
+
+                sdp:
+                    offer.sdp
+            },
+
+            status:
+                "ringing",
+
+            createdAt:
+                firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+        });
+
+
+        $("localVideo")
+            .srcObject =
+            localStream;
+
+
+        if(type === "video"){
+
+            $("videoModal")
+                .style
+                .display =
+                "block";
+
+        }
+
+
+        showOutgoingCallStatus(
+            type
+        );
+
+
+        startOutgoingRingtone();
+
+
+        listenCallerAnswer(
+            callId
+        );
+
+
+        listenReceiverCandidates(
+            callId
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "CALL ERROR:",
+            error
+        );
+
+
+        stopRingtone();
+
+
+        alert(
+            "Call failed: " +
+            (
+                error.message ||
+                error
+            )
+        );
+
+
+        cleanupCall();
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX ANSWER
+===================================================== */
+
+window.acceptIncomingCall =
+async function(){
+
+    if(!incomingCallData)
+        return;
+
+
+    const call =
+        incomingCallData;
+
+
+    stopRingtone();
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    try{
+
+        currentCallId =
+            call.callId;
+
+
+        const caller =
+            allUsers.find(
+                function(u){
+                    return u.id ===
+                        call.callerId;
+                }
+            );
+
+
+        if(caller){
+
+            selectedUser =
+                caller;
+
+            $("chatEmpty")
+                .style
+                .display =
+                "none";
+
+            $("chatArea")
+                .style
+                .display =
+                "flex";
+
+            $("chatAvatar")
+                .src =
+                caller.photoURL ||
+                defaultAvatar;
+
+            $("chatUserName")
+                .textContent =
+                caller.name ||
+                "User";
+
+            updateChatStatus(
+                caller
+            );
+
+            $("app")
+                .classList
+                .add("chat-open");
+
+        }
+
+
+        $("chatCallStatus")
+            .style
+            .display =
+            "block";
+
+        $("chatCallStatus")
+            .textContent =
+            "🔵 Connecting call...";
+
+
+        localStream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                audio:{
+                    echoCancellation:true,
+                    noiseSuppression:true,
+                    autoGainControl:true
+                },
+
+                video:
+                    call.type === "video"
+                    ? {
+                        width:{
+                            ideal:1280
+                        },
+                        height:{
+                            ideal:720
+                        },
+                        facingMode:
+                            "user"
+                    }
+                    : false
+
+            });
+
+
+        peerConnection =
+            createFixedPeerConnection();
+
+
+        pendingIceCandidates =
+            [];
+
+
+        peerConnection
+        .getSenders();
+
+
+        localStream
+        .getTracks()
+        .forEach(
+            function(track){
+
+                peerConnection
+                .addTrack(
+                    track,
+                    localStream
+                );
+
+            }
+        );
+
+
+        peerConnection.ontrack =
+            function(event){
+
+                if(
+                    event.streams &&
+                    event.streams[0]
+                ){
+
+                    remoteStream =
+                        event.streams[0];
+
+                    $("remoteVideo")
+                        .srcObject =
+                        remoteStream;
+
+                    $("remoteVideo")
+                        .play()
+                        .catch(()=>{});
+
+                }
+
+            };
+
+
+        peerConnection.onicecandidate =
+            async function(event){
+
+                if(
+                    !event.candidate
+                )
+                    return;
+
+
+                try{
+
+                    await db
+                    .collection("calls")
+                    .doc(call.callId)
+                    .collection(
+                        "receiverCandidates"
+                    )
+                    .add(
+                        event.candidate
+                        .toJSON()
+                    );
+
+                }catch(error){
+
+                    console.error(
+                        error
+                    );
+
+                }
+
+            };
+
+
+        await peerConnection
+        .setRemoteDescription(
+            new RTCSessionDescription(
+                call.offer
+            )
+        );
+
+
+        fixRemoteDescriptionSet =
+            true;
+
+
+        const answer =
+            await peerConnection
+            .createAnswer();
+
+
+        await peerConnection
+        .setLocalDescription(
+            answer
+        );
+
+
+        await db
+        .collection("calls")
+        .doc(call.callId)
+        .update({
+
+            answer:{
+                type:
+                    answer.type,
+
+                sdp:
+                    answer.sdp
+            },
+
+            status:
+                "connected"
+
+        });
+
+
+        listenCallerCandidates(
+            call.callId
+        );
+
+
+        $("localVideo")
+            .srcObject =
+            localStream;
+
+
+        if(
+            call.type ===
+            "video"
+        ){
+
+            $("videoModal")
+                .style
+                .display =
+                "block";
+
+        }
+
+
+        $("chatCallStatus")
+            .textContent =
+            "🔵 Call connected";
+
+
+        incomingCallData =
+            null;
+
+
+    }catch(error){
+
+        console.error(
+            "ANSWER ERROR:",
+            error
+        );
+
+
+        alert(
+            "Could not answer call: " +
+            (
+                error.message ||
+                error
+            )
+        );
+
+
+        cleanupCall();
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX CALLER ANSWER
+===================================================== */
+
+window.listenCallerAnswer =
+function(callId){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .onSnapshot(
+            async function(snapshot){
+
+                const data =
+                    snapshot.data();
+
+
+                if(!data)
+                    return;
+
+
+                if(
+                    data.answer &&
+                    peerConnection
+                ){
+
+                    try{
+
+                        if(
+                            !peerConnection
+                            .currentRemoteDescription
+                        ){
+
+                            await peerConnection
+                            .setRemoteDescription(
+                                new RTCSessionDescription(
+                                    data.answer
+                                )
+                            );
+
+
+                            $("chatCallStatus")
+                                .textContent =
+                                "🔵 Call connected";
+
+
+                            stopRingtone();
+
+                        }
+
+                    }catch(error){
+
+                        console.error(
+                            "Remote description error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                if(
+                    data.status ===
+                    "rejected"
+                ){
+
+                    stopRingtone();
+
+                    alert(
+                        "Call rejected."
+                    );
+
+                    cleanupCall();
+
+                }
+
+
+                if(
+                    data.status ===
+                    "ended"
+                ){
+
+                    cleanupCall();
+
+                }
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
+
+};
+
+
+/* =====================================================
+   FIX INCOMING CALL DUPLICATE
+===================================================== */
+
+const handledCalls =
+    new Set();
+
+
+window.listenForIncomingCalls =
+function(){
+
+    if(unsubscribeIncomingCalls){
+
+        unsubscribeIncomingCalls();
+
+    }
+
+
+    unsubscribeIncomingCalls =
+        db
+        .collection("calls")
+        .where(
+            "receiverId",
+            "==",
+            currentUser.uid
+        )
+        .onSnapshot(
+            function(snapshot){
+
+                snapshot
+                .docChanges()
+                .forEach(
+                    function(change){
+
+                        if(
+                            change.type !==
+                            "added"
+                        )
+                            return;
+
+
+                        const data =
+                            change.doc.data();
+
+
+                        if(
+                            data.status !==
+                            "ringing"
+                        )
+                            return;
+
+
+                        if(
+                            handledCalls.has(
+                                change.doc.id
+                            )
+                        )
+                            return;
+
+
+                        handledCalls.add(
+                            change.doc.id
+                        );
+
+
+                        showIncomingCall(
+                            change.doc.id,
+                            data
+                        );
+
+                    }
+                );
+
+            },
+            function(error){
+
+                console.error(
+                    "Incoming call listener:",
+                    error
+                );
+
+            }
+        );
+
+};
+
+
+/* =====================================================
+   FIX SHOW INCOMING CALL
+===================================================== */
+
+window.showIncomingCall =
+function(
+    callId,
+    data
+){
+
+    if(
+        !data ||
+        data.status !==
+        "ringing"
+    )
+        return;
+
+
+    incomingCallData = {
+
+        callId:
+            callId,
+
+        ...data
+
+    };
+
+
+    currentCallId =
+        callId;
+
+
+    const caller =
+        allUsers.find(
+            function(u){
+
+                return u.id ===
+                    data.callerId;
+
+            }
+        );
+
+
+    const name =
+        caller?.name ||
+        "Someone";
+
+
+    const photo =
+        caller?.photoURL ||
+        defaultAvatar;
+
+
+    $("incomingCallAvatar")
+        .src =
+        photo;
+
+
+    $("incomingCallName")
+        .textContent =
+        name;
+
+
+    $("incomingCallType")
+        .textContent =
+        data.type ===
+            "video"
+            ? "📹 Incoming video call"
+            : "📞 Incoming voice call";
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "flex";
+
+
+    startRingtone();
+
+
+    if(caller){
+
+        selectedUser =
+            caller;
+
+
+        $("chatEmpty")
+            .style
+            .display =
+            "none";
+
+        $("chatArea")
+            .style
+            .display =
+            "flex";
+
+        $("chatAvatar")
+            .src =
+            photo;
+
+        $("chatUserName")
+            .textContent =
+            name;
+
+        updateChatStatus(
+            caller
+        );
+
+        $("app")
+            .classList
+            .add("chat-open");
+
+    }
+
+};
+
+
+/* =====================================================
+   FIX REJECT
+===================================================== */
+
+window.rejectIncomingCall =
+async function(){
+
+    stopRingtone();
+
+
+    const call =
+        incomingCallData;
+
+
+    if(call){
+
+        try{
+
+            await db
+            .collection("calls")
+            .doc(call.callId)
+            .update({
+
+                status:
+                    "rejected"
+
+            });
+
+        }catch(error){
+
+            console.error(error);
+
+        }
+
+    }
+
+
+    incomingCallData =
+        null;
+
+    currentCallId =
+        null;
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "none";
+
+};
+
+
+/* =====================================================
+   FIX END CALL
+===================================================== */
+
+window.endCall =
+async function(){
+
+    stopRingtone();
+
+
+    try{
+
+        if(currentCallId){
+
+            await db
+            .collection("calls")
+            .doc(currentCallId)
+            .update({
+
+                status:
+                    "ended",
+
+                endedAt:
+                    firebase.firestore
+                    .FieldValue
+                    .serverTimestamp()
+
+            });
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+
+    cleanupCall();
+
+};
+
+
+/* =====================================================
+   FIX CLEANUP
+===================================================== */
+
+window.cleanupCall =
+function(){
+
+    stopRingtone();
+
+
+    callUnsubscribers
+    .forEach(
+        function(unsubscribe){
+
+            try{
+
+                unsubscribe();
+
+            }catch(e){}
+
+        }
+    );
+
+
+    callUnsubscribers =
+        [];
+
+
+    if(localStream){
+
+        localStream
+        .getTracks()
+        .forEach(
+            function(track){
+
+                try{
+
+                    track.stop();
+
+                }catch(e){}
+
+            }
+        );
+
+    }
+
+
+    if(peerConnection){
+
+        try{
+
+            peerConnection.ontrack =
+                null;
+
+            peerConnection.onicecandidate =
+                null;
+
+            peerConnection.close();
+
+        }catch(e){}
+
+    }
+
+
+    localStream =
+        null;
+
+    remoteStream =
+        null;
+
+    peerConnection =
+        null;
+
+    currentCallId =
+        null;
+
+    incomingCallData =
+        null;
+
+    fixRemoteDescriptionSet =
+        false;
+
+    pendingIceCandidates =
+        [];
+
+
+    const local =
+        $("localVideo");
+
+    const remote =
+        $("remoteVideo");
+
+
+    if(local)
+        local.srcObject =
+            null;
+
+    if(remote)
+        remote.srcObject =
+            null;
+
+
+    $("videoModal")
+        .style
+        .display =
+        "none";
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "none";
+
+};
+
+
+/* =====================================================
+   AUDIO CALL UI
+===================================================== */
+
+function createAudioCallUI(){
+
+    let box =
+        document.getElementById(
+            "audioCallOverlay"
+        );
+
+
+    if(box)
+        return box;
+
+
+    box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.id =
+        "audioCallOverlay";
+
+
+    box.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:290;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        background:
+            linear-gradient(
+                160deg,
+                #111,
+                #1877f2
+            );
+        color:white;
+        text-align:center;
+    `;
+
+
+    box.innerHTML = `
+
+        <div style="
+            width:100%;
+            max-width:400px;
+            padding:30px;
+        ">
+
+            <img
+                id="audioCallAvatar"
+                src=""
+                style="
+                    width:120px;
+                    height:120px;
+                    border-radius:50%;
+                    object-fit:cover;
+                    border:4px solid #fff;
+                    margin-bottom:20px;
+                "
+            >
+
+            <div
+                id="audioCallName"
+                style="
+                    font-size:24px;
+                    font-weight:700;
+                "
+            >
+                User
+            </div>
+
+            <div
+                id="audioCallStatus"
+                style="
+                    margin-top:10px;
+                    opacity:.85;
+                "
+            >
+                Calling...
+            </div>
+
+            <button
+                onclick="endCall()"
+                style="
+                    margin-top:55px;
+                    width:68px;
+                    height:68px;
+                    border:0;
+                    border-radius:50%;
+                    background:#e41e3f;
+                    color:white;
+                    font-size:25px;
+                    cursor:pointer;
+                "
+            >
+                ☎
+            </button>
+
+        </div>
+    `;
+
+
+    document.body.appendChild(
+        box
+    );
+
+
+    return box;
+
+}
+
+
+const oldStartCall =
+    window.startCall;
+
+
+window.showOutgoingCallStatus =
+function(type){
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
+
+
+    $("chatCallStatus")
+        .textContent =
+        type === "video"
+            ? "📹 Calling " +
+              (
+                  selectedUser?.name ||
+                  "User"
+              ) +
+              "..."
+            : "📞 Calling " +
+              (
+                  selectedUser?.name ||
+                  "User"
+              ) +
+              "...";
+
+
+    if(type === "audio"){
+
+        const box =
+            createAudioCallUI();
+
+
+        $("audioCallAvatar")
+            .src =
+            selectedUser?.photoURL ||
+            defaultAvatar;
+
+
+        $("audioCallName")
+            .textContent =
+            selectedUser?.name ||
+            "User";
+
+
+        $("audioCallStatus")
+            .textContent =
+            "📞 Calling...";
+
+
+        box.style.display =
+            "flex";
+
+    }
+
+};
+
+
+/* =====================================================
+   OVERRIDE CLEANUP FOR AUDIO UI
+===================================================== */
+
+const originalCleanup =
+    window.cleanupCall;
+
+
+window.cleanupCall =
+function(){
+
+    try{
+
+        originalCleanup();
+
+    }catch(e){}
+
+
+    const box =
+        document.getElementById(
+            "audioCallOverlay"
+        );
+
+
+    if(box){
+
+        box.style.display =
+            "none";
+
+    }
+
+};
+
+
+/* =====================================================
+   WHEN CALL CONNECTS
+===================================================== */
+
+const originalStartCall =
+    window.startCall;
+
+
+window.startCall =
+async function(type){
+
+    await originalStartCall(
+        type
+    );
+
+
+    if(
+        type === "audio" &&
+        peerConnection
+    ){
+
+        const box =
+            createAudioCallUI();
+
+
+        box.style.display =
+            "flex";
+
+
+        $("audioCallAvatar")
+            .src =
+            selectedUser?.photoURL ||
+            defaultAvatar;
+
+
+        $("audioCallName")
+            .textContent =
+            selectedUser?.name ||
+            "User";
+
+
+        $("audioCallStatus")
+            .textContent =
+            "📞 Calling...";
+
+    }
+
+};
+
+
+/* =====================================================
+   AUTO HIDE AUDIO CALL WHEN CONNECTED
+===================================================== */
+
+setInterval(
+    function(){
+
+        if(
+            peerConnection &&
+            peerConnection.connectionState ===
+            "connected"
+        ){
+
+            const status =
+                document.getElementById(
+                    "audioCallStatus"
+                );
+
+
+            if(status){
+
+                status.textContent =
+                    "🔵 Connected";
+
+            }
+
+        }
+
+    },
+    500
+);
+
+
+/* =====================================================
+   FIX OLD RINGTONE ELEMENT
+===================================================== */
+
+const oldRingtone =
+    document.getElementById(
+        "callRingtone"
+    );
+
+
+if(oldRingtone){
+
+    oldRingtone.pause();
+
+    oldRingtone.removeAttribute(
+        "src"
+    );
+
+}
+
+
+/* =====================================================
+   INITIAL FILE ACCEPT FIX
+===================================================== */
+
+setTimeout(
+    function(){
+
+        const input =
+            $("fileInput");
+
+        if(input){
+
+            input.accept =
+                "image/*,video/*,audio/*";
+
+        }
+
+    },
+    500
+);
+
+
+})();
+
+</script>
+
+<!-- =========================================================
+     SMART MESSENGER UPGRADE LAYER
+     Adds: app icon, profile center, activity feed,
+     media preview, attachments, reactions, message status,
+     install button and richer Messenger-like UI.
+     Existing Firebase/auth/friends/calls systems remain intact.
+========================================================= -->
+<style>
+.sm-extra-tools{
+    display:flex;
+    gap:6px;
+    padding:8px 10px;
+    border-bottom:1px solid #eee;
+}
+.sm-extra-btn{
+    flex:1;
+    height:38px;
+    border:0;
+    border-radius:10px;
+    background:#f0f2f5;
+    font-weight:700;
+    cursor:pointer;
+    font-size:12px;
+}
+.sm-extra-btn:active{transform:scale(.98)}
+.sm-activity-panel{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.48);
+    z-index:500;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+}
+.sm-activity-box{
+    width:min(620px,100%);
+    max-height:82dvh;
+    background:#fff;
+    border-radius:22px 22px 0 0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+.sm-panel-head{
+    min-height:62px;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid #eee;
+}
+.sm-panel-head strong{flex:1;font-size:18px}
+.sm-close{
+    width:38px;height:38px;border:0;border-radius:50%;
+    background:#f0f2f5;cursor:pointer;font-size:18px;
+}
+.sm-activity-list{
+    flex:1;overflow:auto;padding:10px 14px 25px;
+}
+.sm-activity-item{
+    display:flex;gap:10px;padding:11px 4px;
+    border-bottom:1px solid #f2f2f2;
+}
+.sm-activity-avatar{
+    width:40px;height:40px;border-radius:50%;object-fit:cover;
+}
+.sm-activity-text{font-size:13px;line-height:1.4}
+.sm-activity-time{font-size:10px;color:#999;margin-top:3px}
+.sm-profile-card{
+    text-align:center;
+    padding:8px 0 16px;
+}
+.sm-profile-card img{
+    width:90px;height:90px;border-radius:50%;
+    object-fit:cover;border:3px solid #1877f2;
+}
+.sm-profile-card h3{margin-top:8px;font-size:20px}
+.sm-profile-card p{margin-top:4px;color:#777;font-size:13px}
+.sm-profile-actions{display:flex;gap:8px;margin-top:12px}
+.sm-profile-actions button{
+    flex:1;height:42px;border:0;border-radius:10px;
+    background:#f0f2f5;cursor:pointer;font-weight:700;
+}
+.sm-profile-actions .primary{background:#1877f2;color:#fff}
+.sm-media-preview{
+    display:none;
+    padding:8px 10px;
+    background:#fff;
+    border-top:1px solid #eee;
+}
+.sm-media-preview-inner{
+    display:flex;align-items:center;gap:8px;
+    background:#f0f2f5;border-radius:12px;padding:7px;
+}
+.sm-media-preview img,.sm-media-preview video{
+    width:58px;height:58px;border-radius:9px;object-fit:cover;
+}
+.sm-media-preview-info{flex:1;min-width:0;font-size:12px}
+.sm-media-preview-info b{
+    display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sm-remove-preview{
+    border:0;background:#fff;width:34px;height:34px;
+    border-radius:50%;cursor:pointer;
+}
+.sm-install{
+    display:none;
+    width:100%;height:40px;margin-top:9px;border:0;
+    border-radius:10px;background:#1877f2;color:#fff;
+    font-weight:700;cursor:pointer;
+}
+.sm-message-meta{
+    display:flex;align-items:center;gap:5px;justify-content:flex-end;
+    margin-top:3px;font-size:9px;opacity:.7;
+}
+.sm-status{font-weight:700}
+.sm-react-row{display:flex;gap:4px;margin-top:4px}
+.sm-react{
+    border:0;background:rgba(0,0,0,.06);border-radius:12px;
+    padding:2px 6px;cursor:pointer;font-size:12px;
+}
+.message-wrap.mine .sm-react{background:rgba(255,255,255,.18)}
+.sm-reply-preview{
+    font-size:11px;opacity:.75;border-left:3px solid currentColor;
+    padding-left:7px;margin-bottom:5px;
+}
+.sm-file-card{
+    display:flex;align-items:center;gap:8px;padding:9px;
+    border-radius:10px;background:rgba(0,0,0,.06);
+}
+.message-wrap.mine .sm-file-card{background:rgba(255,255,255,.15)}
+.sm-file-icon{font-size:24px}
+.sm-file-name{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sm-profile-view .modal-box{max-width:430px}
+@media(max-width:700px){
+    .sm-extra-tools{padding:7px 9px}
+    .sm-extra-btn{font-size:11px}
+    .sm-activity-box{max-height:88dvh}
+}
+</style>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- APP ICON / FAVICON ---------- */
+const smIconSvg =
+`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+ <rect width="512" height="512" rx="120" fill="#1877f2"/>
+ <path fill="#fff" d="M256 92c-92 0-166 64-166 143 0 48 28 91 72 117l-17 68 78-43c11 2 22 3 33 3 92 0 166-64 166-145S348 92 256 92zm-73 145a25 25 0 1 1 0 -50 25 25 0 0 1 0 50zm73 0a25 25 0 1 1 0-50 25 25 0 0 1 0 50zm73 0a25 25 0 1 1 0-50 25 25 0 0 1 0 50z"/>
+</svg>`;
+const smIconData = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(smIconSvg);
+const favicon = document.getElementById("dynamicFavicon");
+if(favicon) favicon.href = smIconData;
+
+try{
+    const manifest = {
+        name:"Smart Messenger",
+        short_name:"Messenger",
+        start_url:location.href.split("#")[0],
+        display:"standalone",
+        background_color:"#ffffff",
+        theme_color:"#1877f2",
+        icons:[
+            {src:smIconData,sizes:"192x192",type:"image/svg+xml"},
+            {src:smIconData,sizes:"512x512",type:"image/svg+xml"}
+        ]
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifest)],{type:"application/manifest+json"});
+    const manifestURL = URL.createObjectURL(manifestBlob);
+    const manifestEl = document.getElementById("dynamicManifest");
+    if(manifestEl) manifestEl.href = manifestURL;
+}catch(e){}
+
+/* ---------- EXTRA SIDEBAR TOOLS ---------- */
+function addSidebarTools(){
+    const sidebar = document.querySelector(".sidebar");
+    const tabs = document.querySelector(".tabs");
+    if(!sidebar || !tabs || document.getElementById("smExtraTools")) return;
+
+    const tools = document.createElement("div");
+    tools.id = "smExtraTools";
+    tools.className = "sm-extra-tools";
+    tools.innerHTML = `
+        <button class="sm-extra-btn" onclick="openMyProfileCenter()">👤 Profile</button>
+        <button class="sm-extra-btn" onclick="openActivityPanel()">🕘 Activity</button>
+        <button class="sm-extra-btn" onclick="openInstallHelp()">📱 App</button>
+    `;
+    tabs.parentNode.insertBefore(tools, tabs);
+}
+addSidebarTools();
+
+/* ---------- ACTIVITY LOG ---------- */
+window.smActivity = window.smActivity || [];
+
+function smActivityText(action, extra){
+    const name = (currentProfile && currentProfile.name) || "You";
+    return extra ? `${name} ${action} ${extra}` : `${name} ${action}`;
+}
+
+window.logActivity = async function(action, extra, targetUid){
+    const text = smActivityText(action, extra);
+    const item = {
+        uid: currentUser ? currentUser.uid : "",
+        name: (currentProfile && currentProfile.name) || "User",
+        photoURL: (currentProfile && currentProfile.photoURL) || "",
+        text,
+        action: action || "",
+        extra: extra || "",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    smActivity.unshift({...item, createdAt:new Date()});
+    if(smActivity.length > 80) smActivity.length = 80;
+
+    if(!currentUser) return;
+    try{
+        await db.collection("activity").add(item);
+    }catch(e){
+        console.log("Activity log:",e);
+    }
+};
+
+window.loadActivity = async function(){
+    if(!currentUser) return;
+    try{
+        const snap = await db.collection("activity")
+            .orderBy("createdAt","desc").limit(50).get();
+        smActivity = [];
+        snap.forEach(doc=>{
+            const d = doc.data();
+            smActivity.push({id:doc.id,...d});
+        });
+    }catch(e){
+        console.log("Activity load:",e);
+    }
+};
+
+window.openActivityPanel = async function(){
+    let panel = document.getElementById("smActivityPanel");
+    if(!panel){
+        panel = document.createElement("div");
+        panel.id = "smActivityPanel";
+        panel.className = "sm-activity-panel";
+        panel.innerHTML = `
+          <div class="sm-activity-box">
+            <div class="sm-panel-head">
+              <strong>Activity</strong>
+              <button class="sm-close" onclick="closeActivityPanel()">✕</button>
+            </div>
+            <div id="smActivityList" class="sm-activity-list"></div>
+          </div>`;
+        panel.addEventListener("click",e=>{
+            if(e.target===panel) closeActivityPanel();
+        });
+        document.body.appendChild(panel);
+    }
+    await loadActivity();
+    renderActivityPanel();
+    panel.style.display="flex";
+};
+
+window.closeActivityPanel = function(){
+    const p=document.getElementById("smActivityPanel");
+    if(p) p.style.display="none";
+};
+
+function renderActivityPanel(){
+    const box=document.getElementById("smActivityList");
+    if(!box) return;
+    if(!smActivity.length){
+        box.innerHTML=`<div style="padding:30px;text-align:center;color:#888">No activity yet.</div>`;
+        return;
+    }
+    box.innerHTML="";
+    smActivity.forEach(a=>{
+        const row=document.createElement("div");
+        row.className="sm-activity-item";
+        const img=document.createElement("img");
+        img.className="sm-activity-avatar";
+        img.src=a.photoURL||defaultAvatar;
+        const body=document.createElement("div");
+        body.className="sm-activity-text";
+        const t=document.createElement("div");
+        t.textContent=a.text||"Activity";
+        const tm=document.createElement("div");
+        tm.className="sm-activity-time";
+        tm.textContent=formatTime(a.createdAt)||"Just now";
+        body.appendChild(t); body.appendChild(tm);
+        row.appendChild(img); row.appendChild(body); box.appendChild(row);
+    });
+}
+
+/* ---------- INSTALL / APP HELP ---------- */
+window.openInstallHelp = async function(){
+    if(window.smInstallPrompt){
+        try{
+            await window.smInstallPrompt.prompt();
+            await window.smInstallPrompt.userChoice;
+            window.smInstallPrompt=null;
+            return;
+        }catch(e){}
+    }
+    alert("App icon system is enabled. For full app installation, open this website through HTTPS or localhost, then use your browser's Install App / Add to Home Screen option.");
+};
+
+window.addEventListener("beforeinstallprompt",e=>{
+    e.preventDefault();
+    window.smInstallPrompt=e;
+});
+
+/* ---------- PROFILE CENTER ---------- */
+window.openMyProfileCenter = function(){
+    if(!currentProfile) return;
+    let panel=document.getElementById("smProfileView");
+    if(!panel){
+        panel=document.createElement("div");
+        panel.id="smProfileView";
+        panel.className="modal sm-profile-view";
+        panel.innerHTML=`
+          <div class="modal-box">
+            <div class="modal-title">My Profile</div>
+            <div class="sm-profile-card">
+              <img id="smPVAvatar" src="">
+              <h3 id="smPVName"></h3>
+              <p id="smPVAbout"></p>
+              <p id="smPVEmail" style="margin-top:5px;font-size:11px"></p>
+              <div class="sm-profile-actions">
+                <button class="primary" onclick="closeMyProfileCenter();openProfileModal()">✏️ Edit Profile</button>
+                <button onclick="closeMyProfileCenter()">Close</button>
+              </div>
+            </div>
+          </div>`;
+        panel.addEventListener("click",e=>{
+            if(e.target===panel) closeMyProfileCenter();
+        });
+        document.body.appendChild(panel);
+    }
+    document.getElementById("smPVAvatar").src=currentProfile.photoURL||defaultAvatar;
+    document.getElementById("smPVName").textContent=currentProfile.name||"User";
+    document.getElementById("smPVAbout").textContent=currentProfile.about||"No bio added";
+    document.getElementById("smPVEmail").textContent=currentProfile.email||"";
+    panel.style.display="flex";
+};
+
+window.closeMyProfileCenter=function(){
+    const p=document.getElementById("smProfileView");
+    if(p) p.style.display="none";
+};
+
+/* ---------- MEDIA PREVIEW ---------- */
+let smSelectedFile=null;
+
+function addMediaPreview(){
+    const composer=document.querySelector(".composer");
+    if(!composer || document.getElementById("smMediaPreview")) return;
+    const preview=document.createElement("div");
+    preview.id="smMediaPreview";
+    preview.className="sm-media-preview";
+    preview.innerHTML=`
+      <div class="sm-media-preview-inner">
+        <div id="smPreviewMedia"></div>
+        <div class="sm-media-preview-info">
+          <b id="smPreviewName">Selected file</b>
+          <span id="smPreviewType"></span>
+        </div>
+        <button class="sm-remove-preview" onclick="clearMediaPreview()">✕</button>
+      </div>`;
+    composer.parentNode.insertBefore(preview,composer);
+}
+addMediaPreview();
+
+window.clearMediaPreview=function(){
+    smSelectedFile=null;
+    const p=document.getElementById("smMediaPreview");
+    const input=document.getElementById("fileInput");
+    if(p) p.style.display="none";
+    if(input) input.value="";
+};
+
+function showMediaPreview(file){
+    addMediaPreview();
+    smSelectedFile=file;
+    const p=document.getElementById("smMediaPreview");
+    const media=document.getElementById("smPreviewMedia");
+    const name=document.getElementById("smPreviewName");
+    const type=document.getElementById("smPreviewType");
+    media.innerHTML="";
+    name.textContent=file.name;
+    type.textContent=(file.type||"file")+" • "+Math.round(file.size/1024)+" KB";
+    if(file.type.startsWith("image/")){
+        const img=document.createElement("img");
+        img.src=URL.createObjectURL(file);
+        media.appendChild(img);
+    }else if(file.type.startsWith("video/")){
+        const v=document.createElement("video");
+        v.src=URL.createObjectURL(file); v.muted=true;
+        media.appendChild(v);
+    }else{
+        const icon=document.createElement("div");
+        icon.style.cssText="font-size:32px;padding:8px";
+        icon.textContent=file.type.startsWith("audio/")?"🎵":"📎";
+        media.appendChild(icon);
+    }
+    p.style.display="block";
+}
+
+/* File picker preview: non-invasive; original sendFile remains untouched. */
+const smFileInput=document.getElementById("fileInput");
+if(smFileInput){
+    smFileInput.addEventListener("change",function(){
+        const file=this.files && this.files[0];
+        if(file) showMediaPreview(file);
+    });
+}
+
+/* ---------- RICH MESSAGE RENDER ---------- */
+const originalRenderMessage = window.renderMessage;
+window.renderMessage = function(id,data){
+    const wrap=document.createElement("div");
+    wrap.className="message-wrap "+(data.senderId===currentUser.uid?"mine":"");
+    const bubble=document.createElement("div");
+    bubble.className="message";
+
+    if(data.replyToText){
+        const rp=document.createElement("div");
+        rp.className="sm-reply-preview";
+        rp.textContent="↩ "+data.replyToText;
+        bubble.appendChild(rp);
+    }
+
+    if(data.type==="image"){
+        const img=document.createElement("img");
+        img.src=data.fileUrl; img.alt=data.fileName||"Image";
+        img.loading="lazy";
+        img.style.cursor="pointer";
+        img.onclick=()=>window.open(data.fileUrl,"_blank");
+        bubble.appendChild(img);
+        if(data.text){
+            const t=document.createElement("div");
+            t.textContent=data.text; bubble.appendChild(t);
+        }
+    }else if(data.type==="video"){
+        const v=document.createElement("video");
+        v.src=data.fileUrl; v.controls=true; v.playsInline=true;
+        v.preload="metadata"; bubble.appendChild(v);
+    }else if(data.type==="audio"){
+        const a=document.createElement("audio");
+        a.src=data.fileUrl; a.controls=true; a.preload="metadata";
+        a.style.width="230px"; a.style.maxWidth="100%";
+        bubble.appendChild(a);
+    }else if(data.type==="file"){
+        const card=document.createElement("a");
+        card.className="sm-file-card";
+        card.href=data.fileUrl; card.target="_blank"; card.download=data.fileName||"file";
+        card.style.color="inherit"; card.style.textDecoration="none";
+        card.innerHTML=`<span class="sm-file-icon">📎</span><span class="sm-file-name"></span>`;
+        card.querySelector(".sm-file-name").textContent=data.fileName||"File";
+        bubble.appendChild(card);
+    }else{
+        const t=document.createElement("div");
+        t.textContent=data.text||""; bubble.appendChild(t);
+    }
+
+    const meta=document.createElement("div");
+    meta.className="sm-message-meta";
+    const tm=document.createElement("span");
+    tm.textContent=formatTime(data.createdAt);
+    meta.appendChild(tm);
+    if(data.senderId===currentUser.uid){
+        const st=document.createElement("span");
+        st.className="sm-status";
+        st.textContent=data.read ? "✓✓" : "✓";
+        meta.appendChild(st);
+    }
+    bubble.appendChild(meta);
+
+    if(data.senderId===currentUser.uid){
+        const del=document.createElement("span");
+        del.className="message-delete";
+        del.textContent="Delete";
+        del.onclick=()=>deleteMessage(id);
+        bubble.appendChild(del);
+    }
+
+    const react=document.createElement("div");
+    react.className="sm-react-row";
+    ["❤️","👍","😂","😮"].forEach(emoji=>{
+        const b=document.createElement("button");
+        b.className="sm-react";
+        b.textContent=emoji;
+        b.onclick=async()=>{
+            try{
+                const chat=chatId(currentUser.uid,selectedUser.id);
+                await db.collection("chats").doc(chat).collection("messages").doc(id)
+                    .set({reaction:emoji},{merge:true});
+            }catch(e){console.log(e);}
+        };
+        react.appendChild(b);
+    });
+    if(data.reaction){
+        const rr=document.createElement("span");
+        rr.textContent=data.reaction;
+        rr.style.marginLeft="4px";
+        react.appendChild(rr);
+    }
+    bubble.appendChild(react);
+
+    wrap.appendChild(bubble);
+    $("messages").appendChild(wrap);
+};
+
+/* ---------- ACTIVITY HOOKS (NON-BLOCKING) ----------
+   IMPORTANT: core functions are NOT overridden here.
+   This keeps Send, media upload, voice upload and profile Save reliable.
+*/
+
+function smSafeActivity(action,target){
+    try{
+        if(typeof logActivity !== "function") return;
+        Promise.resolve(logActivity(action,target)).catch(function(err){
+            console.warn("Activity log skipped:",err);
+        });
+    }catch(err){
+        console.warn("Activity log skipped:",err);
+    }
+}
+
+/* Profile rendering remains on the original function. */
+
+/* Load activity after authentication is ready. */
+const oldAuthStateHandlerMarker = setInterval(function(){
+    if(currentUser){
+        loadActivity().catch(()=>{});
+        clearInterval(oldAuthStateHandlerMarker);
+    }
+},1000);
+
+})();
+</script>
+
+
+<!-- =========================================================
+     SMART MESSENGER FINAL MEDIA + PROFILE FIX
+     Keeps the existing systems and replaces only the broken
+     media/profile handlers.
+========================================================= -->
+<script>
+(function () {
+    "use strict";
+
+    function smGet(id) {
+        return document.getElementById(id);
+    }
+
+    function smError(title, error) {
+        console.error(title, error);
+        const msg = error && error.message ? error.message : String(error || "Unknown error");
+        alert(title + "\n\n" + msg);
+    }
+
+    /* =====================================================
+       FINAL IMAGE / VIDEO / AUDIO SEND
+    ===================================================== */
+    window.sendFile = async function (event) {
+        const input = event && event.target;
+        const file = input && input.files && input.files[0];
+
+        if (!file) return;
+
+        if (!currentUser) {
+            alert("Please login first.");
+            input.value = "";
+            return;
+        }
+
+        if (!selectedUser) {
+            alert("Please open a chat first, then select the picture/video.");
+            input.value = "";
+            return;
+        }
+
+        const isImage = file.type && file.type.startsWith("image/");
+        const isVideo = file.type && file.type.startsWith("video/");
+        const isAudio = file.type && file.type.startsWith("audio/");
+
+        if (!isImage && !isVideo && !isAudio) {
+            alert("Only picture, video and audio files are supported.");
+            input.value = "";
+            return;
+        }
+
+        if (file.size > 100 * 1024 * 1024) {
+            alert("File must be smaller than 100MB.");
+            input.value = "";
+            return;
+        }
+
+        try {
+            const safeName = (file.name || "file")
+                .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+            const type = isImage ? "image" : (isVideo ? "video" : "audio");
+
+            const path =
+                "chatFiles/" +
+                currentUser.uid +
+                "/" +
+                Date.now() +
+                "_" +
+                safeName;
+
+            if (!storage || !db) {
+                throw new Error("Firebase Storage/Firestore is not initialized.");
+            }
+
+            const storageRef = storage.ref().child(path);
+
+            const metadata = {
+                contentType: file.type || "application/octet-stream"
+            };
+
+            const upload = await storageRef.put(file, metadata);
+            const url = await upload.ref.getDownloadURL();
+
+            const id = chatId(currentUser.uid, selectedUser.id);
+
+            await db
+                .collection("chats")
+                .doc(id)
+                .collection("messages")
+                .add({
+                    senderId: currentUser.uid,
+                    receiverId: selectedUser.id,
+                    fileUrl: url,
+                    fileName: file.name || "file",
+                    type: type,
+                    contentType: file.type || "",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+            input.value = "";
+
+            if (typeof clearMediaPreview === "function") {
+                clearMediaPreview();
+            }
+
+            if (typeof loadMessages === "function") {
+                try {
+                    await loadMessages();
+                } catch (e) {
+                    console.warn("Message refresh skipped:", e);
+                }
+            }
+
+        } catch (error) {
+            smError("Picture/Video upload failed.", error);
+            if (input) input.value = "";
+            if (typeof clearMediaPreview === "function") {
+                try { clearMediaPreview(); } catch (e) {}
+            }
+        }
+    };
+
+    /* =====================================================
+       FINAL PROFILE SAVE
+       - Works even if currentProfile is temporarily null
+       - Saves name/about without requiring a photo
+       - Uploads photo only when a new photo is selected
+       ===================================================== */
+    window.saveProfile = async function () {
+        if (!currentUser) {
+            alert("Please login first.");
+            return;
+        }
+
+        const nameInput = smGet("profileNameInput");
+        const aboutInput = smGet("profileAboutInput");
+        const photoInput = smGet("profilePhotoInput");
+
+        if (!nameInput || !aboutInput) {
+            alert("Profile form was not found. Please refresh the page.");
+            return;
+        }
+
+        const name = nameInput.value.trim();
+        const about = aboutInput.value.trim();
+
+        if (!name) {
+            alert("Name is required.");
+            nameInput.focus();
+            return;
+        }
+
+        try {
+            if (!currentProfile) {
+                currentProfile = {};
+            }
+
+            let photoURL = currentProfile.photoURL || "";
+            const file = photoInput && photoInput.files
+                ? photoInput.files[0]
+                : null;
+
+            if (file) {
+                if (!file.type || !file.type.startsWith("image/")) {
+                    alert("Please select an image for your profile photo.");
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("Profile photo must be under 5MB.");
+                    return;
+                }
+
+                const safeName = (file.name || "profile.jpg")
+                    .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+                const path =
+                    "profilePhotos/" +
+                    currentUser.uid +
+                    "/" +
+                    Date.now() +
+                    "_" +
+                    safeName;
+
+                const ref = storage.ref().child(path);
+
+                const upload = await ref.put(file, {
+                    contentType: file.type
+                });
+
+                photoURL = await upload.ref.getDownloadURL();
+            }
+
+            await db
+                .collection("users")
+                .doc(currentUser.uid)
+                .set({
+                    name: name,
+                    about: about,
+                    photoURL: photoURL
+                }, {
+                    merge: true
+                });
+
+            currentProfile.name = name;
+            currentProfile.about = about;
+            currentProfile.photoURL = photoURL;
+            currentProfile.email =
+                currentProfile.email ||
+                currentUser.email ||
+                "";
+
+            /* Update the visible profile immediately */
+            const myName = smGet("myName");
+            const myAvatar = smGet("myAvatar");
+
+            if (myName) myName.textContent = name;
+            if (myAvatar) myAvatar.src = photoURL || defaultAvatar;
+
+            /* Keep existing app functions working */
+            if (typeof renderMyProfile === "function") {
+                try { renderMyProfile(); } catch (e) {}
+            }
+
+            if (typeof loadUsers === "function") {
+                try { await loadUsers(); } catch (e) {}
+            }
+
+            if (typeof loadFriends === "function") {
+                try { await loadFriends(); } catch (e) {}
+            }
+
+            if (photoInput) photoInput.value = "";
+
+            if (typeof closeProfileModal === "function") {
+                closeProfileModal();
+            } else {
+                const modal = smGet("profileModal");
+                if (modal) modal.style.display = "none";
+            }
+
+            alert("Profile updated successfully.");
+
+        } catch (error) {
+            smError("Profile update failed.", error);
+        }
+    };
+
+})();
+</script>
+
+</html>
