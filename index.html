@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Smart Messenger</title>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -13,404 +12,430 @@
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+ font-family:Arial,sans-serif;
 }
 
 body{
-    background:#eef2f7;
-    color:#172033;
+ background:#eef2f7;
+ color:#172033;
 }
 
-/* LOGIN */
-
-.auth{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:linear-gradient(135deg,#4f46e5,#7c3aed,#06b6d4);
-}
-
-.auth-box{
-    width:400px;
-    max-width:100%;
-    background:white;
-    border-radius:24px;
-    padding:35px;
-    box-shadow:0 25px 70px rgba(0,0,0,.25);
-}
-
-.logo{
-    width:70px;
-    height:70px;
-    border-radius:20px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#4f46e5;
-    color:white;
-    font-size:32px;
-    font-weight:bold;
-}
-
-.auth-box h1{
-    text-align:center;
-    margin-top:15px;
-}
-
-.auth-box p{
-    text-align:center;
-    color:#718096;
-    margin:8px 0 25px;
-}
-
-input,button{
-    width:100%;
-    padding:13px;
-    border-radius:12px;
-    border:1px solid #d9deea;
-    margin-bottom:12px;
-    outline:none;
-}
-
-input:focus{
-    border-color:#4f46e5;
+button,input{
+ font-family:inherit;
 }
 
 button{
-    border:none;
-    background:#4f46e5;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
+ cursor:pointer;
 }
 
-button:hover{
-    opacity:.9;
+.auth{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:linear-gradient(135deg,#4f46e5,#7c3aed,#06b6d4);
+}
+
+.auth-box{
+ width:410px;
+ max-width:100%;
+ background:white;
+ padding:35px;
+ border-radius:25px;
+ box-shadow:0 25px 70px rgba(0,0,0,.25);
+}
+
+.logo{
+ width:70px;
+ height:70px;
+ margin:auto;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:20px;
+ background:#4f46e5;
+ color:white;
+ font-size:34px;
+ font-weight:bold;
+}
+
+.auth-box h1{
+ text-align:center;
+ margin-top:15px;
+}
+
+.auth-box p{
+ text-align:center;
+ color:#718096;
+ margin:8px 0 25px;
+}
+
+input{
+ width:100%;
+ padding:13px;
+ border:1px solid #d9deea;
+ border-radius:12px;
+ margin-bottom:12px;
+ outline:none;
+}
+
+input:focus{
+ border-color:#4f46e5;
+}
+
+button{
+ border:0;
+ padding:13px;
+ border-radius:12px;
+ background:#4f46e5;
+ color:white;
+ font-weight:bold;
+}
+
+.auth-box button{
+ width:100%;
 }
 
 .switch{
-    text-align:center;
-    color:#4f46e5;
-    cursor:pointer;
-    margin-top:8px;
+ text-align:center;
+ color:#4f46e5;
+ cursor:pointer;
+ margin-top:12px;
 }
 
-/* APP */
-
 .app{
-    display:none;
-    height:100vh;
-    overflow:hidden;
+ display:none;
+ height:100vh;
+ overflow:hidden;
 }
 
 .sidebar{
-    width:330px;
-    background:white;
-    border-right:1px solid #e4e8f0;
-    display:flex;
-    flex-direction:column;
+ width:330px;
+ background:white;
+ border-right:1px solid #e4e8f0;
+ display:flex;
+ flex-direction:column;
 }
 
 .top{
-    padding:18px;
-    border-bottom:1px solid #edf0f5;
+ padding:18px;
+ border-bottom:1px solid #edf0f5;
 }
 
 .my-profile{
-    display:flex;
-    align-items:center;
-    gap:12px;
+ display:flex;
+ align-items:center;
+ gap:12px;
 }
 
 .avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    object-fit:cover;
-    background:#ddd;
+ width:48px;
+ height:48px;
+ border-radius:50%;
+ object-fit:cover;
+ background:#ddd;
 }
 
 .profile-info{
-    flex:1;
+ flex:1;
 }
 
 .profile-info strong{
-    display:block;
+ display:block;
 }
 
 .online{
-    color:#16a34a;
-    font-size:12px;
+ color:#16a34a;
+ font-size:12px;
 }
 
 .search{
-    margin-top:15px;
+ margin-top:15px;
 }
 
 .search input{
-    margin:0;
-    background:#f4f6fa;
-    border:none;
+ margin:0;
+ background:#f4f6fa;
+ border:0;
 }
 
 .users{
-    overflow:auto;
-    flex:1;
+ flex:1;
+ overflow:auto;
 }
 
 .user{
-    padding:14px 18px;
-    display:flex;
-    gap:12px;
-    align-items:center;
-    cursor:pointer;
+ padding:14px 18px;
+ display:flex;
+ gap:12px;
+ align-items:center;
+ cursor:pointer;
 }
 
 .user:hover,
 .user.active{
-    background:#eef2ff;
+ background:#eef2ff;
 }
 
-.user .info{
-    flex:1;
+.info{
+ flex:1;
 }
 
-.user .info strong{
-    display:block;
+.info strong{
+ display:block;
 }
 
 .last{
-    font-size:12px;
-    color:#8a94a6;
+ font-size:12px;
+ color:#8a94a6;
 }
 
-/* CHAT */
-
 .chat{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-width:0;
+ flex:1;
+ display:flex;
+ flex-direction:column;
+ min-width:0;
 }
 
 .chat-header{
-    height:76px;
-    padding:12px 20px;
-    background:white;
-    border-bottom:1px solid #e5e9f0;
-    display:flex;
-    align-items:center;
-    gap:12px;
+ height:76px;
+ padding:12px 20px;
+ background:white;
+ border-bottom:1px solid #e5e9f0;
+ display:flex;
+ align-items:center;
+ gap:12px;
 }
 
 .chat-user{
-    flex:1;
+ flex:1;
 }
 
 .call-buttons{
-    display:flex;
-    gap:8px;
+ display:flex;
+ gap:8px;
 }
 
 .call-buttons button{
-    width:44px;
-    height:44px;
-    padding:0;
-    margin:0;
-    border-radius:50%;
+ width:44px;
+ height:44px;
+ padding:0;
+ border-radius:50%;
 }
 
 .messages{
-    flex:1;
-    padding:20px;
-    overflow:auto;
-    background:#f5f7fb;
+ flex:1;
+ padding:20px;
+ overflow:auto;
+ background:#f5f7fb;
 }
 
 .empty{
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#8993a5;
+ height:100%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#8993a5;
+ text-align:center;
 }
 
 .msg{
-    display:flex;
-    margin-bottom:12px;
+ display:flex;
+ margin-bottom:12px;
 }
 
 .msg.mine{
-    justify-content:flex-end;
+ justify-content:flex-end;
 }
 
 .bubble{
-    max-width:70%;
-    padding:11px 14px;
-    border-radius:17px;
-    background:white;
-    box-shadow:0 2px 8px rgba(0,0,0,.05);
+ max-width:70%;
+ padding:11px 14px;
+ border-radius:17px;
+ background:white;
+ box-shadow:0 2px 8px rgba(0,0,0,.05);
+ position:relative;
 }
 
 .mine .bubble{
-    background:#4f46e5;
-    color:white;
+ background:#4f46e5;
+ color:white;
 }
 
 .bubble img,
 .bubble video{
-    max-width:260px;
-    border-radius:12px;
-    display:block;
+ max-width:260px;
+ max-height:300px;
+ border-radius:12px;
+ display:block;
 }
 
 .time{
-    display:block;
-    font-size:10px;
-    opacity:.65;
-    margin-top:4px;
+ display:block;
+ font-size:10px;
+ opacity:.65;
+ margin-top:5px;
 }
 
-/* COMPOSER */
+.delete-btn{
+ background:transparent;
+ color:inherit;
+ padding:0;
+ margin:5px 0 0;
+ font-size:11px;
+}
 
 .composer{
-    background:white;
-    padding:12px;
-    display:flex;
-    gap:8px;
-    align-items:center;
+ background:white;
+ padding:12px;
+ display:flex;
+ gap:8px;
+ align-items:center;
 }
 
 .composer input{
-    margin:0;
-    flex:1;
+ flex:1;
+ margin:0;
 }
 
 .icon-btn{
-    width:44px;
-    height:44px;
-    padding:0;
-    margin:0;
-    border-radius:50%;
+ width:44px!important;
+ height:44px;
+ padding:0;
+ margin:0;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
 
 .send{
-    width:50px;
+ width:50px!important;
 }
 
-/* CALL */
-
-.call-screen{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:100;
-    background:#111827;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
+.recording{
+ background:#dc2626!important;
 }
-
-.call-screen video{
-    width:90%;
-    max-width:900px;
-    max-height:70vh;
-    background:black;
-    border-radius:20px;
-}
-
-.local-video{
-    position:absolute!important;
-    right:20px;
-    bottom:90px;
-    width:180px!important;
-    height:130px;
-    object-fit:cover;
-    border:2px solid white;
-}
-
-.call-controls{
-    position:absolute;
-    bottom:25px;
-    display:flex;
-    gap:10px;
-}
-
-.call-controls button{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    padding:0;
-}
-
-.end{
-    background:#dc2626!important;
-}
-
-/* PROFILE MODAL */
 
 .modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:90;
-    background:rgba(0,0,0,.5);
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:90;
+ background:rgba(0,0,0,.5);
+ align-items:center;
+ justify-content:center;
+ padding:20px;
 }
 
 .modal-box{
-    background:white;
-    width:400px;
-    max-width:100%;
-    border-radius:20px;
-    padding:25px;
+ background:white;
+ width:400px;
+ max-width:100%;
+ padding:25px;
+ border-radius:20px;
+}
+
+.modal-box button{
+ width:100%;
+ margin-top:5px;
 }
 
 .close{
-    background:#64748b;
+ background:#64748b!important;
 }
 
-/* MOBILE */
+.call-screen{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:#111827;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+}
 
-@media(max-width:700px){
+.call-screen video{
+ width:90%;
+ max-width:900px;
+ max-height:70vh;
+ background:black;
+ border-radius:20px;
+}
 
-    .sidebar{
-        width:100%;
-    }
+.local-video{
+ position:absolute!important;
+ right:20px;
+ bottom:90px;
+ width:180px!important;
+ height:130px;
+ object-fit:cover;
+ border:2px solid white;
+}
 
-    .chat{
-        display:none;
-    }
+.call-controls{
+ position:absolute;
+ bottom:25px;
+ display:flex;
+ gap:10px;
+}
 
-    .app.chat-open .sidebar{
-        display:none;
-    }
+.call-controls button{
+ width:55px;
+ height:55px;
+ border-radius:50%;
+ padding:0;
+}
 
-    .app.chat-open .chat{
-        display:flex;
-    }
-
-    .mobile-back{
-        display:block!important;
-    }
-
-    .bubble{
-        max-width:85%;
-    }
+.end{
+ background:#dc2626!important;
 }
 
 .mobile-back{
-    display:none;
-    width:40px;
-    margin:0;
+ display:none;
+ width:40px;
+}
+
+#typingStatus{
+ color:#4f46e5;
+ font-size:11px;
+}
+
+@media(max-width:700px){
+
+ .sidebar{
+  width:100%;
+ }
+
+ .chat{
+  display:none;
+ }
+
+ .app.chat-open .sidebar{
+  display:none;
+ }
+
+ .app.chat-open .chat{
+  display:flex;
+ }
+
+ .mobile-back{
+  display:block;
+ }
+
+ .bubble{
+  max-width:85%;
+ }
+
+ .call-buttons button{
+  width:40px;
+  height:40px;
+ }
 }
 </style>
 </head>
@@ -426,12 +451,11 @@ button:hover{
 <div class="logo">M</div>
 
 <h1>Smart Messenger</h1>
+
 <p id="authTitle">Create your account</p>
 
 <div id="registerFields">
-
 <input id="name" placeholder="Your name">
-
 </div>
 
 <input id="email" type="email" placeholder="Email">
@@ -442,14 +466,17 @@ button:hover{
 Create Account
 </button>
 
-<div class="switch" onclick="toggleAuth()" id="switchText">
+<div class="switch"
+onclick="toggleAuth()"
+id="switchText">
 Already have an account? Login
 </div>
 
-<div id="authError" style="color:#dc2626;text-align:center;margin-top:12px"></div>
-
+<div id="authError"
+style="color:#dc2626;text-align:center;margin-top:12px">
 </div>
 
+</div>
 </div>
 
 
@@ -457,15 +484,15 @@ Already have an account? Login
 
 <div class="app" id="app">
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
 
 <div class="top">
 
 <div class="my-profile">
 
-<img class="avatar" id="myAvatar">
+<img class="avatar"
+id="myAvatar"
+src="https://via.placeholder.com/100">
 
 <div class="profile-info">
 
@@ -476,7 +503,7 @@ Already have an account? Login
 </div>
 
 <button
-style="width:42px;margin:0"
+style="width:42px;padding:10px"
 onclick="openProfile()">
 ⚙
 </button>
@@ -492,6 +519,12 @@ oninput="searchUsers()">
 
 </div>
 
+<button
+onclick="logout()"
+style="width:100%;margin-top:10px;background:#dc2626">
+Logout
+</button>
+
 </div>
 
 <div class="users" id="users"></div>
@@ -499,7 +532,7 @@ oninput="searchUsers()">
 </div>
 
 
-<!-- CHAT -->
+<!-- ================= CHAT ================= -->
 
 <div class="chat">
 
@@ -511,13 +544,19 @@ onclick="closeChat()">
 ←
 </button>
 
-<img class="avatar" id="chatAvatar">
+<img class="avatar"
+id="chatAvatar"
+src="https://via.placeholder.com/100">
 
 <div class="chat-user">
 
-<strong id="chatName">Select a person</strong>
+<strong id="chatName">
+Select a person
+</strong>
 
 <div class="last" id="chatStatus"></div>
+
+<div id="typingStatus"></div>
 
 </div>
 
@@ -545,7 +584,8 @@ Select someone to start chatting
 
 <div class="composer">
 
-<label class="icon-btn" style="display:flex;align-items:center;justify-content:center;background:#4f46e5;color:white;cursor:pointer">
+<label class="icon-btn"
+style="background:#4f46e5;color:white">
 
 📎
 
@@ -558,24 +598,32 @@ onchange="sendFile(event)">
 
 </label>
 
+<button
+class="icon-btn"
+id="voiceButton"
+onclick="toggleRecording()">
+🎤
+</button>
+
 <input
 id="messageInput"
 placeholder="Write a message..."
 onkeydown="handleEnter(event)"
 oninput="typing()">
 
-<button class="icon-btn send" onclick="sendMessage()">
+<button
+class="icon-btn send"
+onclick="sendMessage()">
 ➤
 </button>
 
 </div>
 
 </div>
-
 </div>
 
 
-<!-- ================= PROFILE MODAL ================= -->
+<!-- ================= PROFILE ================= -->
 
 <div class="modal" id="profileModal">
 
@@ -588,17 +636,16 @@ oninput="typing()">
 <img
 class="avatar"
 id="profilePreview"
-style="width:90px;height:90px;display:block;margin:auto">
+style="width:90px;height:90px;display:block;margin:auto"
+src="https://via.placeholder.com/100">
 
 <br>
 
 <input
-type="text"
 id="profileName"
 placeholder="Name">
 
 <input
-type="text"
 id="profileAbout"
 placeholder="About">
 
@@ -611,20 +658,25 @@ accept="image/*">
 Save Profile
 </button>
 
-<button class="close" onclick="closeProfile()">
+<button
+class="close"
+onclick="closeProfile()">
 Close
 </button>
 
 </div>
-
 </div>
 
 
-<!-- ================= CALL SCREEN ================= -->
+<!-- ================= CALL ================= -->
 
 <div class="call-screen" id="callScreen">
 
-<video id="remoteVideo" autoplay playsinline></video>
+<video
+id="remoteVideo"
+autoplay
+playsinline>
+</video>
 
 <video
 id="localVideo"
@@ -650,12 +702,13 @@ Calling...
 📹
 </button>
 
-<button class="end" onclick="endCall()">
+<button
+class="end"
+onclick="endCall()">
 ☎
 </button>
 
 </div>
-
 </div>
 
 
@@ -663,22 +716,27 @@ Calling...
 
 /* =====================================================
    FIREBASE CONFIG
-   নিজের Firebase config এখানে বসাও
 ===================================================== */
 
 const firebaseConfig = {
 
-    apiKey: "YOUR_API_KEY",
+ apiKey:
+ "AIzaSyDjgt2oKenX2VokbpurU8DfSYKGLq7Wfuc",
 
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
+ authDomain:
+ "smart-store-2e455.firebaseapp.com",
 
-    projectId: "YOUR_PROJECT_ID",
+ projectId:
+ "smart-store-2e455",
 
-    storageBucket: "YOUR_PROJECT.appspot.com",
+ storageBucket:
+ "smart-store-2e455.firebasestorage.app",
 
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+ messagingSenderId:
+ "498458496108",
 
-    appId: "YOUR_APP_ID"
+ appId:
+ "1:498458496108:web:989851f4be63cbcc7a1c49"
 
 };
 
@@ -690,8 +748,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
+
 const db = firebase.firestore();
+
 const storage = firebase.storage();
+
+
+/*
+ IMPORTANT:
+ This is your Firebase Authentication UID.
+ It is NOT the API key and does not bypass login.
+*/
+
+const MY_UID =
+"KKowbhqUTDOhslyIwVxtxxK29fW2";
 
 
 /* =====================================================
@@ -704,7 +774,11 @@ let selectedUser = null;
 
 let unsubscribeMessages = null;
 
+let unsubscribeTyping = null;
+
 let isRegister = true;
+
+let allUsers = [];
 
 let localStream = null;
 
@@ -714,6 +788,12 @@ let currentCallId = null;
 
 let currentCallVideo = false;
 
+let mediaRecorder = null;
+
+let audioChunks = [];
+
+let typingTimer;
+
 
 /* =====================================================
    AUTH
@@ -721,102 +801,145 @@ let currentCallVideo = false;
 
 function toggleAuth(){
 
-    isRegister = !isRegister;
+ isRegister = !isRegister;
 
-    document.getElementById("registerFields").style.display =
-        isRegister ? "block" : "none";
+ document.getElementById("registerFields")
+ .style.display =
+ isRegister ? "block" : "none";
 
-    document.getElementById("authTitle").textContent =
-        isRegister
-        ? "Create your account"
-        : "Login to Smart Messenger";
+ document.getElementById("authTitle")
+ .textContent =
+ isRegister
+ ? "Create your account"
+ : "Login to Smart Messenger";
 
-    document.getElementById("authButton").textContent =
-        isRegister
-        ? "Create Account"
-        : "Login";
+ document.getElementById("authButton")
+ .textContent =
+ isRegister
+ ? "Create Account"
+ : "Login";
 
-    document.getElementById("switchText").textContent =
-        isRegister
-        ? "Already have an account? Login"
-        : "Don't have an account? Create one";
+ document.getElementById("switchText")
+ .textContent =
+ isRegister
+ ? "Already have an account? Login"
+ : "Don't have an account? Create one";
 
+ document.getElementById("authError")
+ .textContent="";
 }
 
 
 async function authAction(){
 
-    const email =
-        document.getElementById("email").value.trim();
+ const email =
+ document.getElementById("email")
+ .value.trim();
 
-    const password =
-        document.getElementById("password").value;
+ const password =
+ document.getElementById("password")
+ .value;
 
-    const error =
-        document.getElementById("authError");
+ const error =
+ document.getElementById("authError");
 
-    error.textContent = "";
+ error.textContent="";
 
-    try{
+ if(!email || !password){
 
-        if(isRegister){
+  error.textContent =
+  "Email and password required.";
 
-            const name =
-                document.getElementById("name").value.trim();
+  return;
+ }
 
-            if(!name){
+ try{
 
-                error.textContent = "Enter your name.";
+  if(isRegister){
 
-                return;
-            }
+   const name =
+   document.getElementById("name")
+   .value.trim();
 
-            const result =
-                await auth.createUserWithEmailAndPassword(
-                    email,
-                    password
-                );
+   if(!name){
 
-            await db
-            .collection("users")
-            .doc(result.user.uid)
-            .set({
+    error.textContent =
+    "Enter your name.";
 
-                uid: result.user.uid,
+    return;
+   }
 
-                name: name,
+   const result =
+   await auth
+   .createUserWithEmailAndPassword(
+    email,
+    password
+   );
 
-                email: email,
+   await db
+   .collection("users")
+   .doc(result.user.uid)
+   .set({
 
-                about: "Available",
+    uid:result.user.uid,
 
-                photoURL: "",
+    name:name,
 
-                online: true,
+    email:email,
 
-                lastSeen:
-                    firebase.firestore.FieldValue.serverTimestamp(),
+    about:"Available",
 
-                createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+    photoURL:"",
 
-            });
+    online:true,
 
-        }else{
+    lastSeen:
+    firebase.firestore.FieldValue
+    .serverTimestamp(),
 
-            await auth.signInWithEmailAndPassword(
-                email,
-                password
-            );
+    createdAt:
+    firebase.firestore.FieldValue
+    .serverTimestamp()
 
-        }
+   });
 
-    }catch(err){
+  }else{
 
-        error.textContent = err.message;
+   await auth
+   .signInWithEmailAndPassword(
+    email,
+    password
+   );
 
-    }
+  }
 
+ }catch(err){
+
+  error.textContent =
+  friendlyError(err);
+
+ }
+}
+
+
+function friendlyError(err){
+
+ if(err.code === "auth/email-already-in-use")
+  return "This email is already registered.";
+
+ if(err.code === "auth/invalid-email")
+  return "Invalid email address.";
+
+ if(err.code === "auth/weak-password")
+  return "Password should be at least 6 characters.";
+
+ if(err.code === "auth/invalid-credential")
+  return "Wrong email or password.";
+
+ if(err.code === "auth/api-key-not-valid")
+  return "Firebase API key is invalid.";
+
+ return err.message;
 }
 
 
@@ -826,63 +949,81 @@ async function authAction(){
 
 auth.onAuthStateChanged(async user=>{
 
-    if(user){
+ if(user){
 
-        currentUser = user;
+  currentUser=user;
 
-        document.getElementById("authScreen").style.display =
-            "none";
+  document.getElementById("authScreen")
+  .style.display="none";
 
-        document.getElementById("app").style.display =
-            "flex";
+  document.getElementById("app")
+  .style.display="flex";
 
-        await updateOnline(true);
+  await updateOnline(true);
 
-        loadMyProfile();
+  await loadMyProfile();
 
-        loadUsers();
+  loadUsers();
 
-        listenForCalls();
+  listenForCalls();
 
-    }else{
+ }else{
 
-        document.getElementById("authScreen").style.display =
-            "flex";
+  currentUser=null;
 
-        document.getElementById("app").style.display =
-            "none";
+  document.getElementById("authScreen")
+  .style.display="flex";
 
-    }
+  document.getElementById("app")
+  .style.display="none";
+
+ }
 
 });
 
 
 /* =====================================================
-   ONLINE
+   ONLINE / LAST SEEN
 ===================================================== */
 
 async function updateOnline(status){
 
-    if(!currentUser) return;
+ if(!currentUser) return;
 
-    await db
-    .collection("users")
-    .doc(currentUser.uid)
-    .set({
+ try{
 
-        online:status,
+  await db
+  .collection("users")
+  .doc(currentUser.uid)
+  .set({
 
-        lastSeen:
-            firebase.firestore.FieldValue.serverTimestamp()
+   online:status,
 
-    },{merge:true});
+   lastSeen:
+   firebase.firestore.FieldValue
+   .serverTimestamp()
 
+  },{merge:true});
+
+ }catch(e){
+
+  console.log(e);
+
+ }
 }
 
+
 window.addEventListener(
-    "beforeunload",
-    ()=>updateOnline(false)
-);
+"beforeunload",
+()=>{
+
+ if(currentUser){
+
+  updateOnline(false);
+
+ }
+
+});
 
 
 /* =====================================================
@@ -891,22 +1032,22 @@ window.addEventListener(
 
 async function loadMyProfile(){
 
-    const doc =
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
+ const doc =
+ await db
+ .collection("users")
+ .doc(currentUser.uid)
+ .get();
 
-    if(!doc.exists) return;
+ if(!doc.exists) return;
 
-    const data = doc.data();
+ const data=doc.data();
 
-    document.getElementById("myName").textContent =
-        data.name || "User";
+ document.getElementById("myName")
+ .textContent=data.name || "User";
 
-    document.getElementById("myAvatar").src =
-        data.photoURL ||
-        "https://via.placeholder.com/100";
+ document.getElementById("myAvatar")
+ .src=data.photoURL ||
+ "https://via.placeholder.com/100";
 
 }
 
@@ -915,109 +1056,109 @@ async function loadMyProfile(){
    USERS
 ===================================================== */
 
-let allUsers = [];
-
 function loadUsers(){
 
-    db.collection("users")
-    .orderBy("name")
-    .onSnapshot(snapshot=>{
+ db.collection("users")
+ .orderBy("name")
+ .onSnapshot(snapshot=>{
 
-        allUsers = [];
+  allUsers=[];
 
-        snapshot.forEach(doc=>{
+  snapshot.forEach(doc=>{
 
-            if(doc.id !== currentUser.uid){
+   if(doc.id !== currentUser.uid){
 
-                allUsers.push({
-                    id:doc.id,
-                    ...doc.data()
-                });
-
-            }
-
-        });
-
-        renderUsers(allUsers);
-
+    allUsers.push({
+     id:doc.id,
+     ...doc.data()
     });
+
+   }
+
+  });
+
+  renderUsers(allUsers);
+
+ },err=>{
+
+  console.log("Users error:",err);
+
+ });
 
 }
 
 
 function renderUsers(list){
 
-    const box =
-        document.getElementById("users");
+ const box =
+ document.getElementById("users");
 
-    box.innerHTML = "";
+ box.innerHTML="";
 
-    list.forEach(user=>{
+ list.forEach(user=>{
 
-        const div =
-            document.createElement("div");
+  const div =
+  document.createElement("div");
 
-        div.className =
-            "user" +
-            (
-                selectedUser &&
-                selectedUser.id === user.id
-                ? " active"
-                : ""
-            );
+  div.className="user";
 
-        div.innerHTML = `
+  if(
+   selectedUser &&
+   selectedUser.id===user.id
+  ){
+   div.classList.add("active");
+  }
 
-        <img
-            class="avatar"
-            src="${
-                user.photoURL ||
-                "https://via.placeholder.com/100"
-            }">
+  const avatar =
+  user.photoURL ||
+  "https://via.placeholder.com/100";
 
-        <div class="info">
+  const status =
+  user.online
+  ? "● Online"
+  : formatLastSeen(user.lastSeen);
 
-            <strong>${escapeHTML(user.name || "User")}</strong>
+  div.innerHTML=`
 
-            <span class="last">
+   <img class="avatar"
+   src="${escapeHTML(avatar)}">
 
-                ${
-                    user.online
-                    ? "● Online"
-                    : "Offline"
-                }
+   <div class="info">
 
-            </span>
+    <strong>
+    ${escapeHTML(user.name || "User")}
+    </strong>
 
-        </div>
+    <span class="last">
+    ${escapeHTML(status)}
+    </span>
 
-        `;
+   </div>
 
-        div.onclick =
-            ()=>selectUser(user);
+  `;
 
-        box.appendChild(div);
+  div.onclick=()=>selectUser(user);
 
-    });
+  box.appendChild(div);
+
+ });
 
 }
 
 
 function searchUsers(){
 
-    const q =
-        document
-        .getElementById("searchUsers")
-        .value
-        .toLowerCase();
+ const q =
+ document.getElementById("searchUsers")
+ .value.toLowerCase();
 
-    renderUsers(
-        allUsers.filter(user=>
-            (user.name || "")
-            .toLowerCase()
-            .includes(q)
-        )
-    );
+ renderUsers(
+  allUsers.filter(user=>
+   (user.name || "")
+   .toLowerCase()
+   .includes(q)
+  )
+ );
 
 }
 
@@ -1028,53 +1169,79 @@ function searchUsers(){
 
 function selectUser(user){
 
-    selectedUser = user;
+ selectedUser=user;
 
-    document
-    .getElementById("app")
-    .classList.add("chat-open");
+ document.getElementById("app")
+ .classList.add("chat-open");
 
-    document.getElementById("chatName").textContent =
-        user.name;
+ document.getElementById("chatName")
+ .textContent=user.name || "User";
 
-    document.getElementById("chatAvatar").src =
-        user.photoURL ||
-        "https://via.placeholder.com/100";
+ document.getElementById("chatAvatar")
+ .src=user.photoURL ||
+ "https://via.placeholder.com/100";
 
-    updateChatStatus();
+ updateChatStatus();
 
-    loadMessages();
+ listenTyping();
+
+ loadMessages();
+
+ renderUsers(
+  allUsers.filter(u=>
+   u.name
+   ?.toLowerCase()
+   .includes(
+    document.getElementById("searchUsers")
+    .value.toLowerCase()
+   )
+  )
+ );
 
 }
 
 
 async function updateChatStatus(){
 
-    if(!selectedUser) return;
+ if(!selectedUser) return;
 
-    const doc =
-        await db
-        .collection("users")
-        .doc(selectedUser.id)
-        .get();
+ const doc =
+ await db
+ .collection("users")
+ .doc(selectedUser.id)
+ .get();
 
-    if(!doc.exists) return;
+ if(!doc.exists) return;
 
-    const data = doc.data();
+ const data=doc.data();
 
-    document.getElementById("chatStatus").textContent =
-        data.online
-        ? "● Online"
-        : "Offline";
+ document.getElementById("chatStatus")
+ .textContent =
+ data.online
+ ? "● Online"
+ : formatLastSeen(data.lastSeen);
 
+}
+
+
+function formatLastSeen(timestamp){
+
+ if(!timestamp || !timestamp.toDate)
+  return "Offline";
+
+ return "Last seen " +
+ timestamp.toDate()
+ .toLocaleString([],{
+  dateStyle:"short",
+  timeStyle:"short"
+ });
 }
 
 
 function closeChat(){
 
-    document
-    .getElementById("app")
-    .classList.remove("chat-open");
+ document.getElementById("app")
+ .classList.remove("chat-open");
 
 }
 
@@ -1085,7 +1252,7 @@ function closeChat(){
 
 function chatId(a,b){
 
-    return [a,b].sort().join("_");
+ return [a,b].sort().join("_");
 
 }
 
@@ -1096,48 +1263,56 @@ function chatId(a,b){
 
 function loadMessages(){
 
-    if(!selectedUser) return;
+ if(!selectedUser) return;
 
-    if(unsubscribeMessages){
+ if(unsubscribeMessages)
+  unsubscribeMessages();
 
-        unsubscribeMessages();
+ const id =
+ chatId(
+  currentUser.uid,
+  selectedUser.id
+ );
 
-    }
+ unsubscribeMessages =
+ db.collection("chats")
+ .doc(id)
+ .collection("messages")
+ .orderBy("createdAt")
+ .onSnapshot(snapshot=>{
 
-    const id =
-        chatId(
-            currentUser.uid,
-            selectedUser.id
-        );
+  const box =
+  document.getElementById("messages");
 
-    unsubscribeMessages =
-        db.collection("chats")
-        .doc(id)
-        .collection("messages")
-        .orderBy("createdAt")
-        .onSnapshot(snapshot=>{
+  box.innerHTML="";
 
-            const box =
-                document.getElementById("messages");
+  if(snapshot.empty){
 
-            box.innerHTML = "";
+   box.innerHTML=
+   `<div class="empty">
+   No messages yet.<br>
+   Start chatting!
+   </div>`;
 
-            snapshot.forEach(doc=>{
+  }
 
-                const m = doc.data();
+  snapshot.forEach(doc=>{
 
-                renderMessage(
-                    m,
-                    doc.id,
-                    box
-                );
+   renderMessage(
+    doc.data(),
+    doc.id,
+    box
+   );
 
-            });
+  });
 
-            box.scrollTop =
-                box.scrollHeight;
+  box.scrollTop=box.scrollHeight;
 
-        });
+ },err=>{
+
+  console.log("Message error:",err);
+
+ });
 
 }
 
@@ -1148,64 +1323,89 @@ function loadMessages(){
 
 function renderMessage(m,id,box){
 
-    const div =
-        document.createElement("div");
+ const div =
+ document.createElement("div");
 
-    div.className =
-        "msg " +
-        (
-            m.senderId === currentUser.uid
-            ? "mine"
-            : ""
-        );
+ const mine =
+ m.senderId===currentUser.uid;
 
-    let content = "";
+ div.className=
+ "msg "+(mine ? "mine":"");
 
-    if(m.type === "text"){
+ let content="";
 
-        content =
-            `<div>${escapeHTML(m.text)}</div>`;
+ if(m.type==="text"){
 
-    }
+  content=
+  `<div>${escapeHTML(m.text)}</div>`;
 
-    if(m.type === "image"){
+ }
 
-        content =
-            `<img src="${m.url}">`;
+ if(m.type==="image"){
 
-    }
+  content=
+  `<img
+   src="${escapeHTML(m.url)}"
+   alt="image"
+   onclick="window.open(this.src,'_blank')">`;
 
-    if(m.type === "video"){
+ }
 
-        content =
-            `<video src="${m.url}" controls></video>`;
+ if(m.type==="video"){
 
-    }
+  content=
+  `<video
+   src="${escapeHTML(m.url)}"
+   controls>
+   </video>`;
 
-    const time =
-        m.createdAt &&
-        m.createdAt.toDate
-        ? m.createdAt.toDate().toLocaleTimeString([],{
-            hour:"2-digit",
-            minute:"2-digit"
-        })
-        : "";
+ }
 
-    div.innerHTML = `
+ if(m.type==="audio"){
 
-        <div class="bubble">
+  content=
+  `<audio
+   src="${escapeHTML(m.url)}"
+   controls>
+   </audio>`;
 
-            ${content}
+ }
 
-            <span class="time">
-                ${time}
-            </span>
+ const time =
+ m.createdAt &&
+ m.createdAt.toDate
+ ? m.createdAt.toDate()
+ .toLocaleTimeString([],{
+  hour:"2-digit",
+  minute:"2-digit"
+ })
+ : "";
 
-        </div>
+ div.innerHTML=`
 
-    `;
+  <div class="bubble">
 
-    box.appendChild(div);
+   ${content}
+
+   <span class="time">
+   ${time}
+   </span>
+
+   ${
+    mine
+    ? `<button
+       class="delete-btn"
+       onclick="deleteMessage('${id}')">
+       Delete
+       </button>`
+    : ""
+   }
+
+  </div>
+
+ `;
+
+ box.appendChild(div);
 
 }
 
@@ -1216,136 +1416,325 @@ function renderMessage(m,id,box){
 
 async function sendMessage(){
 
-    if(!selectedUser) return;
+ if(!selectedUser){
 
-    const input =
-        document.getElementById("messageInput");
+  alert("Select a person first.");
 
-    const text =
-        input.value.trim();
+  return;
+ }
 
-    if(!text) return;
+ const input =
+ document.getElementById("messageInput");
 
-    const id =
-        chatId(
-            currentUser.uid,
-            selectedUser.id
-        );
+ const text =
+ input.value.trim();
 
-    await db
-    .collection("chats")
-    .doc(id)
-    .collection("messages")
-    .add({
+ if(!text) return;
 
-        senderId:currentUser.uid,
+ const id =
+ chatId(
+  currentUser.uid,
+  selectedUser.id
+ );
 
-        receiverId:selectedUser.id,
+ try{
 
-        text:text,
+  await db
+  .collection("chats")
+  .doc(id)
+  .collection("messages")
+  .add({
 
-        type:"text",
+   senderId:currentUser.uid,
 
-        createdAt:
-            firebase.firestore.FieldValue.serverTimestamp()
+   receiverId:selectedUser.id,
 
-    });
+   text:text,
 
-    input.value = "";
+   type:"text",
+
+   createdAt:
+   firebase.firestore.FieldValue
+   .serverTimestamp()
+
+  });
+
+  input.value="";
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
 
 }
 
 
 function handleEnter(e){
 
-    if(e.key === "Enter"){
+ if(e.key==="Enter"){
 
-        sendMessage();
+  e.preventDefault();
 
-    }
+  sendMessage();
+
+ }
 
 }
 
 
 /* =====================================================
-   FILE SEND
+   DELETE MESSAGE
+===================================================== */
+
+async function deleteMessage(id){
+
+ if(!selectedUser) return;
+
+ if(!confirm("Delete this message?"))
+  return;
+
+ const chat =
+ chatId(
+  currentUser.uid,
+  selectedUser.id
+ );
+
+ try{
+
+  await db
+  .collection("chats")
+  .doc(chat)
+  .collection("messages")
+  .doc(id)
+  .delete();
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
+
+}
+
+
+/* =====================================================
+   IMAGE / VIDEO
 ===================================================== */
 
 async function sendFile(event){
 
-    if(!selectedUser){
+ if(!selectedUser){
 
-        alert("Select a person first.");
+  alert("Select a person first.");
 
-        return;
+  event.target.value="";
 
-    }
+  return;
+ }
 
-    const file =
-        event.target.files[0];
+ const file=event.target.files[0];
 
-    if(!file) return;
+ if(!file) return;
 
-    if(file.size > 100 * 1024 * 1024){
+ if(file.size>100*1024*1024){
 
-        alert("Maximum file size is 100MB.");
+  alert("Maximum file size is 100MB.");
 
-        return;
+  event.target.value="";
 
-    }
+  return;
+ }
 
-    try{
+ if(
+  !file.type.startsWith("image/") &&
+  !file.type.startsWith("video/")
+ ){
 
-        const path =
-            `chatFiles/${currentUser.uid}/${Date.now()}_${file.name}`;
+  alert("Only image or video allowed.");
 
-        const ref =
-            storage.ref(path);
+  event.target.value="";
 
-        await ref.put(file);
+  return;
+ }
 
-        const url =
-            await ref.getDownloadURL();
+ try{
 
-        const type =
-            file.type.startsWith("image/")
-            ? "image"
-            : "video";
+  const path =
+  `chatFiles/${currentUser.uid}/`
+  +Date.now()+"_"+file.name;
 
-        const id =
-            chatId(
-                currentUser.uid,
-                selectedUser.id
-            );
+  const ref=storage.ref(path);
 
-        await db
-        .collection("chats")
-        .doc(id)
-        .collection("messages")
-        .add({
+  await ref.put(file);
 
-            senderId:currentUser.uid,
+  const url=
+  await ref.getDownloadURL();
 
-            receiverId:selectedUser.id,
+  const type=
+  file.type.startsWith("image/")
+  ? "image"
+  : "video";
 
-            type:type,
+  const chat =
+  chatId(
+   currentUser.uid,
+   selectedUser.id
+  );
 
-            url:url,
+  await db
+  .collection("chats")
+  .doc(chat)
+  .collection("messages")
+  .add({
 
-            fileName:file.name,
+   senderId:currentUser.uid,
 
-            createdAt:
-                firebase.firestore.FieldValue.serverTimestamp()
+   receiverId:selectedUser.id,
 
-        });
+   type:type,
 
-    }catch(err){
+   url:url,
 
-        alert(err.message);
+   fileName:file.name,
 
-    }
+   createdAt:
+   firebase.firestore.FieldValue
+   .serverTimestamp()
 
-    event.target.value = "";
+  });
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
+
+ event.target.value="";
+
+}
+
+
+/* =====================================================
+   VOICE MESSAGE
+===================================================== */
+
+async function toggleRecording(){
+
+ if(!selectedUser){
+
+  alert("Select a person first.");
+
+  return;
+ }
+
+ if(mediaRecorder &&
+ mediaRecorder.state==="recording"){
+
+  mediaRecorder.stop();
+
+  document.getElementById("voiceButton")
+  .classList.remove("recording");
+
+  document.getElementById("voiceButton")
+  .textContent="🎤";
+
+  return;
+ }
+
+ try{
+
+  const stream =
+  await navigator.mediaDevices
+  .getUserMedia({audio:true});
+
+  audioChunks=[];
+
+  mediaRecorder =
+  new MediaRecorder(stream);
+
+  mediaRecorder.ondataavailable=e=>{
+
+   if(e.data.size>0)
+    audioChunks.push(e.data);
+
+  };
+
+  mediaRecorder.onstop=async()=>{
+
+   stream.getTracks().forEach(
+    track=>track.stop()
+   );
+
+   const blob =
+   new Blob(
+    audioChunks,
+    {type:"audio/webm"}
+   );
+
+   try{
+
+    const path=
+    `voice/${currentUser.uid}/`
+    +Date.now()+".webm";
+
+    const ref=
+    storage.ref(path);
+
+    await ref.put(blob);
+
+    const url=
+    await ref.getDownloadURL();
+
+    const chat=
+    chatId(
+     currentUser.uid,
+     selectedUser.id
+    );
+
+    await db
+    .collection("chats")
+    .doc(chat)
+    .collection("messages")
+    .add({
+
+     senderId:currentUser.uid,
+
+     receiverId:selectedUser.id,
+
+     type:"audio",
+
+     url:url,
+
+     createdAt:
+     firebase.firestore.FieldValue
+     .serverTimestamp()
+
+    });
+
+   }catch(err){
+
+    alert(err.message);
+
+   }
+
+  };
+
+  mediaRecorder.start();
+
+  document.getElementById("voiceButton")
+  .classList.add("recording");
+
+  document.getElementById("voiceButton")
+  .textContent="⏹";
+
+ }catch(err){
+
+  alert(
+   "Microphone permission required."
+  );
+
+ }
 
 }
 
@@ -1354,46 +1743,92 @@ async function sendFile(event){
    TYPING
 ===================================================== */
 
-let typingTimer;
-
 async function typing(){
 
-    if(!selectedUser) return;
+ if(!selectedUser) return;
 
-    const id =
-        chatId(
-            currentUser.uid,
-            selectedUser.id
-        );
+ const id =
+ chatId(
+  currentUser.uid,
+  selectedUser.id
+ );
 
-    await db
-    .collection("typing")
-    .doc(id)
-    .set({
+ await db
+ .collection("typing")
+ .doc(id)
+ .set({
 
-        uid:currentUser.uid,
+  uid:currentUser.uid,
 
-        typing:true
+  typing:true,
 
-    });
+  updatedAt:
+  firebase.firestore.FieldValue
+  .serverTimestamp()
 
-    clearTimeout(typingTimer);
+ });
 
-    typingTimer =
-        setTimeout(async()=>{
+ clearTimeout(typingTimer);
 
-            await db
-            .collection("typing")
-            .doc(id)
-            .set({
+ typingTimer =
+ setTimeout(async()=>{
 
-                uid:currentUser.uid,
+  await db
+  .collection("typing")
+  .doc(id)
+  .set({
 
-                typing:false
+   uid:currentUser.uid,
 
-            });
+   typing:false
 
-        },1200);
+  });
+
+ },1200);
+
+}
+
+
+function listenTyping(){
+
+ if(unsubscribeTyping)
+  unsubscribeTyping();
+
+ if(!selectedUser) return;
+
+ const id =
+ chatId(
+  currentUser.uid,
+  selectedUser.id
+ );
+
+ unsubscribeTyping =
+ db.collection("typing")
+ .doc(id)
+ .onSnapshot(doc=>{
+
+  if(!doc.exists) return;
+
+  const d=doc.data();
+
+  const box=
+  document.getElementById("typingStatus");
+
+  if(
+   d.uid===selectedUser.id &&
+   d.typing===true
+  ){
+
+   box.textContent=
+   "typing...";
+
+  }else{
+
+   box.textContent="";
+
+  }
+
+ });
 
 }
 
@@ -1404,103 +1839,129 @@ async function typing(){
 
 async function openProfile(){
 
-    const doc =
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
+ const doc =
+ await db
+ .collection("users")
+ .doc(currentUser.uid)
+ .get();
 
-    if(doc.exists){
+ if(doc.exists){
 
-        const d = doc.data();
+  const d=doc.data();
 
-        document.getElementById("profileName").value =
-            d.name || "";
+  document.getElementById("profileName")
+  .value=d.name || "";
 
-        document.getElementById("profileAbout").value =
-            d.about || "";
+  document.getElementById("profileAbout")
+  .value=d.about || "";
 
-        document.getElementById("profilePreview").src =
-            d.photoURL ||
-            "https://via.placeholder.com/100";
+  document.getElementById("profilePreview")
+  .src=d.photoURL ||
+  "https://via.placeholder.com/100";
 
-    }
+ }
 
-    document.getElementById("profileModal").style.display =
-        "flex";
+ document.getElementById("profileModal")
+ .style.display="flex";
 
 }
 
 
 function closeProfile(){
 
-    document.getElementById("profileModal").style.display =
-        "none";
+ document.getElementById("profileModal")
+ .style.display="none";
 
 }
 
 
 async function saveProfile(){
 
-    const name =
-        document.getElementById("profileName").value.trim();
+ const name =
+ document.getElementById("profileName")
+ .value.trim();
 
-    const about =
-        document.getElementById("profileAbout").value.trim();
+ const about =
+ document.getElementById("profileAbout")
+ .value.trim();
 
-    const file =
-        document.getElementById("profilePhoto").files[0];
+ if(!name){
 
-    let photoURL = "";
+  alert("Name required.");
 
-    const old =
-        await db
-        .collection("users")
-        .doc(currentUser.uid)
-        .get();
+  return;
+ }
 
-    if(old.exists){
+ const file =
+ document.getElementById("profilePhoto")
+ .files[0];
 
-        photoURL =
-            old.data().photoURL || "";
+ let photoURL="";
 
-    }
+ const old =
+ await db
+ .collection("users")
+ .doc(currentUser.uid)
+ .get();
 
-    if(file){
+ if(old.exists){
 
-        const ref =
-            storage.ref(
-                `profiles/${currentUser.uid}`
-            );
+  photoURL=
+  old.data().photoURL || "";
 
-        await ref.put(file);
+ }
 
-        photoURL =
-            await ref.getDownloadURL();
+ try{
 
-    }
+  if(file){
 
-    await db
-    .collection("users")
-    .doc(currentUser.uid)
-    .set({
+   if(file.size>5*1024*1024){
 
-        name:name,
+    alert("Profile image maximum 5MB.");
 
-        about:about,
+    return;
+   }
 
-        photoURL:photoURL
+   const ref=
+   storage.ref(
+    `profiles/${currentUser.uid}`
+   );
 
-    },{merge:true});
+   await ref.put(file);
 
-    document.getElementById("myName").textContent =
-        name;
+   photoURL=
+   await ref.getDownloadURL();
 
-    document.getElementById("myAvatar").src =
-        photoURL ||
-        "https://via.placeholder.com/100";
+  }
 
-    closeProfile();
+  await db
+  .collection("users")
+  .doc(currentUser.uid)
+  .set({
+
+   name:name,
+
+   about:about,
+
+   photoURL:photoURL
+
+  },{merge:true});
+
+  document.getElementById("myName")
+  .textContent=name;
+
+  document.getElementById("myAvatar")
+  .src=
+  photoURL ||
+  "https://via.placeholder.com/100";
+
+  closeProfile();
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
 
 }
 
@@ -1509,19 +1970,19 @@ async function saveProfile(){
    WEBRTC
 ===================================================== */
 
-const rtcConfig = {
+const rtcConfig={
 
-    iceServers:[
+ iceServers:[
 
-        {
-            urls:"stun:stun.l.google.com:19302"
-        },
+  {
+   urls:"stun:stun.l.google.com:19302"
+  },
 
-        {
-            urls:"stun:stun1.l.google.com:19302"
-        }
+  {
+   urls:"stun:stun1.l.google.com:19302"
+  }
 
-    ]
+ ]
 
 };
 
@@ -1532,353 +1993,366 @@ const rtcConfig = {
 
 async function startCall(video){
 
-    if(!selectedUser){
+ if(!selectedUser){
 
-        alert("Select a person first.");
+  alert("Select a person first.");
 
-        return;
+  return;
+ }
 
-    }
+ currentCallVideo=video;
 
-    currentCallVideo = video;
+ currentCallId=
+ db.collection("calls")
+ .doc().id;
 
-    currentCallId =
-        db.collection("calls").doc().id;
+ try{
 
-    try{
+  localStream=
+  await navigator.mediaDevices
+  .getUserMedia({
 
-        localStream =
-            await navigator.mediaDevices.getUserMedia({
+   audio:true,
 
-                audio:true,
+   video:video
 
-                video:video
+  });
 
-            });
+  document.getElementById("localVideo")
+  .srcObject=localStream;
 
-        document.getElementById("localVideo").srcObject =
-            localStream;
+  document.getElementById("localVideo")
+  .style.display=
+  video ? "block":"none";
 
-        if(!video){
+  peerConnection=
+  new RTCPeerConnection(rtcConfig);
 
-            document.getElementById("localVideo").style.display =
-                "none";
+  localStream
+  .getTracks()
+  .forEach(track=>{
 
-        }else{
+   peerConnection.addTrack(
+    track,
+    localStream
+   );
 
-            document.getElementById("localVideo").style.display =
-                "block";
+  });
 
-        }
+  peerConnection.ontrack=e=>{
 
-        peerConnection =
-            new RTCPeerConnection(rtcConfig);
+   document.getElementById("remoteVideo")
+   .srcObject=e.streams[0];
 
-        localStream.getTracks().forEach(track=>{
+  };
 
-            peerConnection.addTrack(
-                track,
-                localStream
-            );
+  const callRef=
+  db.collection("calls")
+  .doc(currentCallId);
 
-        });
+  const offerCandidates=
+  callRef.collection(
+   "offerCandidates"
+  );
 
-        peerConnection.ontrack = event=>{
+  const answerCandidates=
+  callRef.collection(
+   "answerCandidates"
+  );
 
-            document.getElementById("remoteVideo").srcObject =
-                event.streams[0];
+  peerConnection.onicecandidate=e=>{
 
-        };
+   if(e.candidate){
 
-        const callRef =
-            db.collection("calls")
-            .doc(currentCallId);
+    offerCandidates.add(
+     e.candidate.toJSON()
+    );
 
-        const offerCandidates =
-            callRef.collection("offerCandidates");
+   }
 
-        const answerCandidates =
-            callRef.collection("answerCandidates");
+  };
 
-        peerConnection.onicecandidate =
-            event=>{
+  const offer=
+  await peerConnection.createOffer();
 
-                if(event.candidate){
+  await peerConnection
+  .setLocalDescription(offer);
 
-                    offerCandidates.add(
-                        event.candidate.toJSON()
-                    );
+  await callRef.set({
 
-                }
+   callerId:currentUser.uid,
 
-            };
+   receiverId:selectedUser.id,
 
-        const offer =
-            await peerConnection.createOffer();
+   video:video,
 
-        await peerConnection.setLocalDescription(offer);
+   offer:{
+    type:offer.type,
+    sdp:offer.sdp
+   },
 
-        await callRef.set({
+   status:"calling",
 
-            callerId:currentUser.uid,
+   createdAt:
+   firebase.firestore.FieldValue
+   .serverTimestamp()
 
-            receiverId:selectedUser.id,
+  });
 
-            video:video,
+  answerCandidates
+  .onSnapshot(snapshot=>{
 
-            offer:{
-                type:offer.type,
-                sdp:offer.sdp
-            },
+   snapshot.docChanges()
+   .forEach(change=>{
 
-            status:"calling",
+    if(change.type==="added"){
 
-            createdAt:
-                firebase.firestore.FieldValue.serverTimestamp()
-
-        });
-
-        answerCandidates.onSnapshot(snapshot=>{
-
-            snapshot.docChanges().forEach(change=>{
-
-                if(change.type === "added"){
-
-                    peerConnection.addIceCandidate(
-                        new RTCIceCandidate(
-                            change.doc.data()
-                        )
-                    );
-
-                }
-
-            });
-
-        });
-
-        callRef.onSnapshot(async snapshot=>{
-
-            const data = snapshot.data();
-
-            if(!data) return;
-
-            if(
-                data.answer &&
-                !peerConnection.currentRemoteDescription
-            ){
-
-                await peerConnection.setRemoteDescription(
-                    new RTCSessionDescription(data.answer)
-                );
-
-            }
-
-            if(data.status === "ended"){
-
-                endCallLocal();
-
-            }
-
-        });
-
-        showCallScreen("Calling " + selectedUser.name);
-
-    }catch(err){
-
-        alert(err.message);
+     peerConnection
+     .addIceCandidate(
+      new RTCIceCandidate(
+       change.doc.data()
+      )
+     );
 
     }
+
+   });
+
+  });
+
+  callRef.onSnapshot(async snapshot=>{
+
+   const data=snapshot.data();
+
+   if(!data) return;
+
+   if(
+    data.answer &&
+    !peerConnection
+    .currentRemoteDescription
+   ){
+
+    await peerConnection
+    .setRemoteDescription(
+     new RTCSessionDescription(
+      data.answer
+     )
+    );
+
+   }
+
+   if(data.status==="ended"){
+
+    endCallLocal();
+
+   }
+
+  });
+
+  showCallScreen(
+   "Calling "+selectedUser.name
+  );
+
+ }catch(err){
+
+  alert(
+   "Camera/Microphone error: "
+   +err.message
+  );
+
+ }
 
 }
 
 
 /* =====================================================
-   LISTEN INCOMING CALL
+   INCOMING CALL
 ===================================================== */
 
 function listenForCalls(){
 
-    db.collection("calls")
-    .where(
-        "receiverId",
-        "==",
-        currentUser.uid
-    )
-    .where(
-        "status",
-        "==",
-        "calling"
-    )
-    .onSnapshot(snapshot=>{
+ db.collection("calls")
+ .where(
+  "receiverId",
+  "==",
+  currentUser.uid
+ )
+ .where(
+  "status",
+  "==",
+  "calling"
+ )
+ .onSnapshot(snapshot=>{
 
-        snapshot.docChanges().forEach(change=>{
+  snapshot.docChanges()
+  .forEach(change=>{
 
-            if(change.type === "added"){
+   if(change.type==="added"){
 
-                receiveCall(
-                    change.doc.id,
-                    change.doc.data()
-                );
+    receiveCall(
+     change.doc.id,
+     change.doc.data()
+    );
 
-            }
+   }
 
-        });
+  });
 
-    });
+ },err=>{
+
+  console.log("Call listener:",err);
+
+ });
 
 }
 
 
-/* =====================================================
-   RECEIVE CALL
-===================================================== */
-
 async function receiveCall(callId,data){
 
-    if(!confirm(
-        "Incoming " +
-        (data.video ? "video" : "voice") +
-        " call. Answer?"
-    )){
+ const answer=
+ confirm(
+  "Incoming "+
+  (data.video ? "video":"voice")+
+  " call. Answer?"
+ );
 
-        await db
-        .collection("calls")
-        .doc(callId)
-        .update({
+ if(!answer){
 
-            status:"ended"
+  await db
+  .collection("calls")
+  .doc(callId)
+  .update({
+   status:"ended"
+  });
 
-        });
+  return;
+ }
 
-        return;
+ currentCallId=callId;
 
-    }
+ currentCallVideo=data.video;
 
-    currentCallId = callId;
+ try{
 
-    currentCallVideo =
-        data.video;
+  localStream=
+  await navigator.mediaDevices
+  .getUserMedia({
 
-    const caller =
-        await db
-        .collection("users")
-        .doc(data.callerId)
-        .get();
+   audio:true,
 
-    try{
+   video:data.video
 
-        localStream =
-            await navigator.mediaDevices.getUserMedia({
+  });
 
-                audio:true,
+  document.getElementById("localVideo")
+  .srcObject=localStream;
 
-                video:data.video
+  document.getElementById("localVideo")
+  .style.display=
+  data.video ? "block":"none";
 
-            });
+  peerConnection=
+  new RTCPeerConnection(rtcConfig);
 
-        document.getElementById("localVideo").srcObject =
-            localStream;
+  localStream
+  .getTracks()
+  .forEach(track=>{
 
-        document.getElementById("localVideo").style.display =
-            data.video ? "block" : "none";
+   peerConnection.addTrack(
+    track,
+    localStream
+   );
 
-        peerConnection =
-            new RTCPeerConnection(rtcConfig);
+  });
 
-        localStream.getTracks().forEach(track=>{
+  peerConnection.ontrack=e=>{
 
-            peerConnection.addTrack(
-                track,
-                localStream
-            );
+   document.getElementById("remoteVideo")
+   .srcObject=e.streams[0];
 
-        });
+  };
 
-        peerConnection.ontrack = event=>{
+  const callRef=
+  db.collection("calls")
+  .doc(callId);
 
-            document.getElementById("remoteVideo").srcObject =
-                event.streams[0];
+  const offerCandidates=
+  callRef.collection(
+   "offerCandidates"
+  );
 
-        };
+  const answerCandidates=
+  callRef.collection(
+   "answerCandidates"
+  );
 
-        const callRef =
-            db.collection("calls")
-            .doc(callId);
+  peerConnection.onicecandidate=e=>{
 
-        const offerCandidates =
-            callRef.collection("offerCandidates");
+   if(e.candidate){
 
-        const answerCandidates =
-            callRef.collection("answerCandidates");
+    answerCandidates.add(
+     e.candidate.toJSON()
+    );
 
-        peerConnection.onicecandidate =
-            event=>{
+   }
 
-                if(event.candidate){
+  };
 
-                    answerCandidates.add(
-                        event.candidate.toJSON()
-                    );
+  await peerConnection
+  .setRemoteDescription(
+   new RTCSessionDescription(
+    data.offer
+   )
+  );
 
-                }
+  const answer=
+  await peerConnection
+  .createAnswer();
 
-            };
+  await peerConnection
+  .setLocalDescription(answer);
 
-        await peerConnection.setRemoteDescription(
+  await callRef.update({
 
-            new RTCSessionDescription(data.offer)
+   answer:{
+    type:answer.type,
+    sdp:answer.sdp
+   },
 
-        );
+   status:"connected"
 
-        const answer =
-            await peerConnection.createAnswer();
+  });
 
-        await peerConnection.setLocalDescription(answer);
+  offerCandidates
+  .onSnapshot(snapshot=>{
 
-        await callRef.update({
+   snapshot.docChanges()
+   .forEach(change=>{
 
-            answer:{
+    if(change.type==="added"){
 
-                type:answer.type,
-
-                sdp:answer.sdp
-
-            },
-
-            status:"connected"
-
-        });
-
-        offerCandidates.onSnapshot(snapshot=>{
-
-            snapshot.docChanges().forEach(change=>{
-
-                if(change.type === "added"){
-
-                    peerConnection.addIceCandidate(
-                        new RTCIceCandidate(
-                            change.doc.data()
-                        )
-                    );
-
-                }
-
-            });
-
-        });
-
-        showCallScreen(
-            "Connected with " +
-            (caller.exists
-            ? caller.data().name
-            : "User")
-        );
-
-    }catch(err){
-
-        alert(err.message);
+     peerConnection
+     .addIceCandidate(
+      new RTCIceCandidate(
+       change.doc.data()
+      )
+     );
 
     }
+
+   });
+
+  });
+
+  showCallScreen(
+   "Connected"
+  );
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
 
 }
 
@@ -1889,115 +2363,105 @@ async function receiveCall(callId,data){
 
 function showCallScreen(text){
 
-    document.getElementById("callText").textContent =
-        text;
+ document.getElementById("callText")
+ .textContent=text;
 
-    document.getElementById("callScreen").style.display =
-        "flex";
+ document.getElementById("callScreen")
+ .style.display="flex";
 
 }
 
 
 function toggleMic(){
 
-    if(!localStream) return;
+ if(!localStream) return;
 
-    localStream.getAudioTracks()
-    .forEach(track=>{
+ localStream
+ .getAudioTracks()
+ .forEach(track=>{
 
-        track.enabled =
-            !track.enabled;
+  track.enabled=
+  !track.enabled;
 
-    });
+ });
 
 }
 
 
 function toggleCamera(){
 
-    if(!localStream) return;
+ if(!localStream) return;
 
-    localStream.getVideoTracks()
-    .forEach(track=>{
+ localStream
+ .getVideoTracks()
+ .forEach(track=>{
 
-        track.enabled =
-            !track.enabled;
+  track.enabled=
+  !track.enabled;
 
-    });
+ });
 
 }
 
 
 async function endCall(){
 
-    if(currentCallId){
+ if(currentCallId){
 
-        await db
-        .collection("calls")
-        .doc(currentCallId)
-        .set({
+  try{
 
-            status:"ended"
+   await db
+   .collection("calls")
+   .doc(currentCallId)
+   .set({
 
-        },{merge:true});
+    status:"ended"
 
-    }
+   },{merge:true});
 
-    endCallLocal();
+  }catch(e){
+
+   console.log(e);
+
+  }
+
+ }
+
+ endCallLocal();
 
 }
 
 
 function endCallLocal(){
 
-    if(localStream){
+ if(localStream){
 
-        localStream.getTracks()
-        .forEach(track=>track.stop());
+  localStream
+  .getTracks()
+  .forEach(track=>track.stop());
 
-    }
+ }
 
-    if(peerConnection){
+ if(peerConnection){
 
-        peerConnection.close();
+  peerConnection.close();
 
-    }
+ }
 
-    localStream = null;
+ localStream=null;
 
-    peerConnection = null;
+ peerConnection=null;
 
-    currentCallId = null;
+ currentCallId=null;
 
-    document.getElementById("remoteVideo").srcObject =
-        null;
+ document.getElementById("remoteVideo")
+ .srcObject=null;
 
-    document.getElementById("localVideo").srcObject =
-        null;
+ document.getElementById("localVideo")
+ .srcObject=null;
 
-    document.getElementById("callScreen").style.display =
-        "none";
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(str){
-
-    return String(str)
-
-    .replaceAll("&","&amp;")
-
-    .replaceAll("<","&lt;")
-
-    .replaceAll(">","&gt;")
-
-    .replaceAll('"',"&quot;")
-
-    .replaceAll("'","&#039;");
+ document.getElementById("callScreen")
+ .style.display="none";
 
 }
 
@@ -2008,9 +2472,38 @@ function escapeHTML(str){
 
 async function logout(){
 
-    await updateOnline(false);
+ try{
 
-    await auth.signOut();
+  await updateOnline(false);
+
+  await auth.signOut();
+
+ }catch(err){
+
+  alert(err.message);
+
+ }
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(str){
+
+ return String(str)
+
+ .replaceAll("&","&amp;")
+
+ .replaceAll("<","&lt;")
+
+ .replaceAll(">","&gt;")
+
+ .replaceAll('"',"&quot;")
+
+ .replaceAll("'","&#039;");
 
 }
 
