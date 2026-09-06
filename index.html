@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
 
 <title>Smart Messenger</title>
 
@@ -13,7 +18,13 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
+
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -35,7 +46,10 @@ body{
     height:100dvh;
 }
 
-/* ================= AUTH ================= */
+
+/* =====================================================
+   AUTH
+===================================================== */
 
 .auth-screen{
     width:100%;
@@ -44,7 +58,12 @@ body{
     align-items:center;
     justify-content:center;
     padding:16px;
-    background:linear-gradient(135deg,#1877f2,#4f9cff,#00b894);
+    background:linear-gradient(
+        135deg,
+        #1877f2,
+        #4f9cff,
+        #00b894
+    );
 }
 
 .auth-box{
@@ -58,10 +77,10 @@ body{
 
 .logo{
     text-align:center;
-    font-size:32px;
+    font-size:31px;
     font-weight:800;
     color:#1877f2;
-    margin-bottom:8px;
+    margin-bottom:7px;
 }
 
 .logo-sub{
@@ -96,7 +115,6 @@ body{
     font-size:16px;
     font-weight:700;
     cursor:pointer;
-    margin-top:4px;
 }
 
 .auth-switch{
@@ -112,7 +130,6 @@ body{
     color:#1877f2;
     font-weight:700;
     cursor:pointer;
-    font-size:14px;
 }
 
 .auth-error{
@@ -122,7 +139,10 @@ body{
     text-align:center;
 }
 
-/* ================= APP ================= */
+
+/* =====================================================
+   APP
+===================================================== */
 
 .app{
     width:100%;
@@ -133,7 +153,10 @@ body{
     background:#fff;
 }
 
-/* ================= SIDEBAR ================= */
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
 .sidebar{
     width:350px;
@@ -159,11 +182,13 @@ body{
     height:44px;
     border-radius:50%;
     object-fit:cover;
+    cursor:pointer;
 }
 
 .profile-info{
     flex:1;
     min-width:0;
+    cursor:pointer;
 }
 
 .profile-name{
@@ -204,7 +229,7 @@ body{
     border-radius:22px;
     background:#f0f2f5;
     padding:0 16px;
-    font-size:15px;
+    font-size:16px;
 }
 
 .tabs{
@@ -251,7 +276,10 @@ body{
     overscroll-behavior:contain;
 }
 
-/* ================= USER ROW ================= */
+
+/* =====================================================
+   USER ROW
+===================================================== */
 
 .user-row{
     display:flex;
@@ -341,7 +369,10 @@ body{
     color:#333;
 }
 
-/* ================= CHAT ================= */
+
+/* =====================================================
+   CHAT
+===================================================== */
 
 .chat{
     flex:1;
@@ -422,6 +453,43 @@ body{
     font-size:17px;
 }
 
+
+/* =====================================================
+   CALL STATUS INSIDE CHAT
+===================================================== */
+
+.chat-call-status{
+    display:none;
+    background:#1877f2;
+    color:#fff;
+    padding:10px 14px;
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+    animation:callPulse 1.2s infinite;
+}
+
+@keyframes callPulse{
+
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.65;
+    }
+
+    100%{
+        opacity:1;
+    }
+
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
 .messages{
     flex:1;
     overflow-y:auto;
@@ -447,7 +515,6 @@ body{
     font-size:14px;
     line-height:1.4;
     word-break:break-word;
-    position:relative;
 }
 
 .message-wrap.mine .message{
@@ -490,14 +557,19 @@ body{
     background:#f7f8fa;
 }
 
-/* ================= COMPOSER ================= */
+
+/* =====================================================
+   COMPOSER
+===================================================== */
 
 .composer{
     display:flex;
     align-items:center;
     gap:6px;
     padding:8px 9px;
-    padding-bottom:calc(8px + env(safe-area-inset-bottom));
+    padding-bottom:calc(
+        8px + env(safe-area-inset-bottom)
+    );
     border-top:1px solid #ddd;
     background:#fff;
     flex:none;
@@ -542,7 +614,10 @@ body{
     display:none;
 }
 
-/* ================= PROFILE MODAL ================= */
+
+/* =====================================================
+   PROFILE MODAL
+===================================================== */
 
 .modal{
     position:fixed;
@@ -608,7 +683,10 @@ body{
     background:#f0f2f5;
 }
 
-/* ================= CALL MODAL ================= */
+
+/* =====================================================
+   INCOMING CALL
+===================================================== */
 
 .call-modal{
     position:fixed;
@@ -616,7 +694,7 @@ body{
     display:none;
     align-items:center;
     justify-content:center;
-    background:rgba(0,0,0,.75);
+    background:rgba(0,0,0,.72);
     z-index:200;
     padding:16px;
 }
@@ -626,41 +704,57 @@ body{
     max-width:380px;
     background:#fff;
     border-radius:22px;
-    padding:25px;
+    padding:27px 20px;
     text-align:center;
+    animation:callBox .25s ease;
+}
+
+@keyframes callBox{
+
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
 }
 
 .call-avatar{
-    width:90px;
-    height:90px;
+    width:95px;
+    height:95px;
     border-radius:50%;
     object-fit:cover;
     margin-bottom:15px;
+    border:4px solid #1877f2;
 }
 
 .call-title{
-    font-size:20px;
+    font-size:21px;
     font-weight:700;
 }
 
 .call-type{
     color:#777;
-    margin:7px 0 20px;
+    margin:7px 0 22px;
 }
 
 .call-actions{
     display:flex;
     justify-content:center;
-    gap:12px;
+    gap:18px;
 }
 
 .call-actions button{
-    width:55px;
-    height:55px;
+    width:58px;
+    height:58px;
     border:0;
     border-radius:50%;
     cursor:pointer;
-    font-size:20px;
+    font-size:22px;
 }
 
 .answer-call{
@@ -673,7 +767,10 @@ body{
     color:#fff;
 }
 
-/* ================= VIDEO AREA ================= */
+
+/* =====================================================
+   VIDEO CALL
+===================================================== */
 
 .video-modal{
     position:fixed;
@@ -707,8 +804,8 @@ body{
     bottom:35px;
     left:50%;
     transform:translateX(-50%);
-    width:60px;
-    height:60px;
+    width:62px;
+    height:62px;
     border:0;
     border-radius:50%;
     background:#e41e3f;
@@ -716,13 +813,12 @@ body{
     font-size:22px;
 }
 
-/* ================= MOBILE ================= */
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:700px){
-
-    body{
-        height:100dvh;
-    }
 
     .app{
         position:relative;
@@ -781,10 +877,6 @@ body{
         height:48px;
     }
 
-    .row-actions{
-        flex-shrink:0;
-    }
-
     .small-btn{
         min-height:38px;
         padding:0 8px;
@@ -793,7 +885,9 @@ body{
     .chat-header{
         min-height:62px;
         padding:8px 9px;
-        padding-top:calc(8px + env(safe-area-inset-top));
+        padding-top:calc(
+            8px + env(safe-area-inset-top)
+        );
     }
 
     .chat-header img{
@@ -859,9 +953,13 @@ body{
         border-radius:18px;
         padding:25px 18px;
     }
+
 }
 
-/* VERY SMALL PHONES */
+
+/* =====================================================
+   SMALL PHONE
+===================================================== */
 
 @media(max-width:380px){
 
@@ -892,11 +990,15 @@ body{
         min-width:44px;
         padding:0 8px;
     }
+
 }
+
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      AUTH SCREEN
@@ -906,13 +1008,19 @@ body{
 
     <div class="auth-box">
 
-        <div class="logo">Smart Messenger</div>
+        <div class="logo">
+            Smart Messenger
+        </div>
 
         <div class="logo-sub">
             Connect • Chat • Call
         </div>
 
-        <div id="authError" class="auth-error"></div>
+        <div id="authError"
+             class="auth-error"></div>
+
+
+        <!-- LOGIN -->
 
         <div id="loginForm">
 
@@ -930,12 +1038,16 @@ body{
                 autocomplete="current-password"
             >
 
-            <button class="auth-btn" onclick="loginUser()">
+            <button
+                class="auth-btn"
+                onclick="loginUser()"
+            >
                 Login
             </button>
 
             <div class="auth-switch">
                 Don't have an account?
+
                 <button onclick="showRegister()">
                     Create Account
                 </button>
@@ -944,7 +1056,10 @@ body{
         </div>
 
 
-        <div id="registerForm" style="display:none;">
+        <!-- REGISTER -->
+
+        <div id="registerForm"
+             style="display:none;">
 
             <input
                 id="registerName"
@@ -967,12 +1082,16 @@ body{
                 autocomplete="new-password"
             >
 
-            <button class="auth-btn" onclick="registerUser()">
+            <button
+                class="auth-btn"
+                onclick="registerUser()"
+            >
                 Create Account
             </button>
 
             <div class="auth-switch">
                 Already have an account?
+
                 <button onclick="showLogin()">
                     Login
                 </button>
@@ -989,9 +1108,14 @@ body{
      MAIN APP
 ===================================================== -->
 
-<div id="app" class="app" style="display:none;">
+<div id="app"
+     class="app"
+     style="display:none;">
 
-    <!-- ================= SIDEBAR ================= -->
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
 
     <aside class="sidebar">
 
@@ -1008,19 +1132,23 @@ body{
                 class="profile-info"
                 onclick="openProfileModal()"
             >
-                <div id="myName" class="profile-name">
+
+                <div
+                    id="myName"
+                    class="profile-name"
+                >
                     User
                 </div>
 
                 <div class="profile-status">
                     ● Online
                 </div>
+
             </div>
 
             <button
                 class="logout-btn"
                 onclick="logoutUser()"
-                title="Logout"
             >
                 ↪
             </button>
@@ -1064,36 +1192,75 @@ body{
                 onclick="showTab('requests')"
             >
                 Requests
-                <span id="requestBadge" class="badge">
+
+                <span
+                    id="requestBadge"
+                    class="badge"
+                >
                     0
                 </span>
+
             </button>
 
         </div>
 
 
-        <div id="userList" class="user-list"></div>
+        <div
+            id="userList"
+            class="user-list"
+        ></div>
 
     </aside>
 
 
-    <!-- ================= CHAT ================= -->
+    <!-- =================================================
+         CHAT
+    ================================================== -->
 
     <main class="chat">
 
-        <div id="chatEmpty" class="chat-empty">
+
+        <div
+            id="chatEmpty"
+            class="chat-empty"
+        >
 
             <div>
-                <h2>Smart Messenger</h2>
+
+                <h2>
+                    Smart Messenger
+                </h2>
+
                 <p style="margin-top:8px;">
-                    Select a friend to start chatting.
+                    Add a friend and start chatting.
                 </p>
+
             </div>
 
         </div>
 
 
-        <div id="chatArea" style="display:none; height:100%; flex-direction:column;">
+        <div
+            id="chatArea"
+            style="
+                display:none;
+                height:100%;
+                flex-direction:column;
+            "
+        >
+
+
+            <!-- CHAT CALL STATUS -->
+
+            <div
+                id="chatCallStatus"
+                class="chat-call-status"
+            >
+                📞 Calling...
+            </div>
+
+
+            <!-- CHAT HEADER -->
 
             <div class="chat-header">
 
@@ -1104,11 +1271,13 @@ body{
                     ←
                 </button>
 
+
                 <img
                     id="chatAvatar"
                     src=""
                     alt=""
                 >
+
 
                 <div class="chat-user-info">
 
@@ -1127,6 +1296,7 @@ body{
                     </div>
 
                 </div>
+
 
                 <div class="call-buttons">
 
@@ -1151,11 +1321,15 @@ body{
             </div>
 
 
+            <!-- MESSAGES -->
+
             <div
                 id="messages"
                 class="messages"
             ></div>
 
+
+            <!-- TYPING -->
 
             <div
                 id="typing"
@@ -1163,14 +1337,22 @@ body{
             ></div>
 
 
+            <!-- COMPOSER -->
+
             <div class="composer">
 
                 <label
                     class="composer-btn"
                     title="Send file"
-                    style="display:flex;align-items:center;justify-content:center;"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                    "
                 >
+
                     📎
+
                     <input
                         id="fileInput"
                         class="file-input"
@@ -1178,6 +1360,7 @@ body{
                         accept="image/*,video/*"
                         onchange="sendFile(event)"
                     >
+
                 </label>
 
 
@@ -1222,7 +1405,10 @@ body{
      PROFILE MODAL
 ===================================================== -->
 
-<div id="profileModal" class="modal">
+<div
+    id="profileModal"
+    class="modal"
+>
 
     <div class="modal-box">
 
@@ -1271,10 +1457,13 @@ body{
 
 
 <!-- =====================================================
-     INCOMING CALL
+     INCOMING CALL DISPLAY
 ===================================================== -->
 
-<div id="incomingCallModal" class="call-modal">
+<div
+    id="incomingCallModal"
+    class="call-modal"
+>
 
     <div class="call-box">
 
@@ -1296,7 +1485,7 @@ body{
             id="incomingCallType"
             class="call-type"
         >
-            Incoming voice call
+            📞 Incoming voice call
         </div>
 
         <div class="call-actions">
@@ -1326,7 +1515,10 @@ body{
      VIDEO CALL
 ===================================================== -->
 
-<div id="videoModal" class="video-modal">
+<div
+    id="videoModal"
+    class="video-modal"
+>
 
     <video
         id="remoteVideo"
@@ -1353,25 +1545,63 @@ body{
 </div>
 
 
+<!-- =====================================================
+     RINGTONE
+===================================================== -->
+
+<audio
+    id="callRingtone"
+    loop
+    preload="auto"
+>
+    <source
+        src="https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg"
+        type="audio/ogg"
+    >
+</audio>
+
+
+
 <script>
+
 /* =====================================================
-   FIREBASE
+   FIREBASE CONFIG
 ===================================================== */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDjgt2oKenX2VokbpurU8DfSYKGLq7Wfuc",
-    authDomain: "smart-store-2e455.firebaseapp.com",
-    projectId: "smart-store-2e455",
-    storageBucket: "smart-store-2e455.firebasestorage.app",
-    messagingSenderId: "498458496108",
-    appId: "1:498458496108:web:989851f4be63cbcc7a1c49"
+
+    apiKey:
+        "AIzaSyDjgt2oKenX2VokbpurU8DfSYKGLq7Wfuc",
+
+    authDomain:
+        "smart-store-2e455.firebaseapp.com",
+
+    projectId:
+        "smart-store-2e455",
+
+    storageBucket:
+        "smart-store-2e455.firebasestorage.app",
+
+    messagingSenderId:
+        "498458496108",
+
+    appId:
+        "1:498458496108:web:989851f4be63cbcc7a1c49"
+
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+
+const auth =
+    firebase.auth();
+
+const db =
+    firebase.firestore();
+
+const storage =
+    firebase.storage();
 
 
 /* =====================================================
@@ -1379,75 +1609,127 @@ const storage = firebase.storage();
 ===================================================== */
 
 let currentUser = null;
+
 let currentProfile = null;
 
 let allUsers = [];
+
 let friends = [];
-let friendIds = new Set();
+
+let friendIds =
+    new Set();
 
 let incomingRequests = [];
+
 let outgoingRequests = [];
 
-let currentTab = "people";
+let currentTab =
+    "people";
+
 let selectedUser = null;
 
 let unsubscribeMessages = null;
+
 let unsubscribeTyping = null;
+
 let unsubscribeIncomingCalls = null;
 
 let typingTimer = null;
 
 let mediaRecorder = null;
+
 let recordedChunks = [];
+
 let recording = false;
 
 let localStream = null;
+
 let remoteStream = null;
+
 let peerConnection = null;
 
+let currentCallId = null;
+
 let incomingCallData = null;
+
+let callUnsubscribers = [];
+
+
+/* =====================================================
+   DEFAULT AVATAR
+===================================================== */
 
 const defaultAvatar =
     "data:image/svg+xml;charset=UTF-8," +
     encodeURIComponent(`
+
         <svg xmlns="http://www.w3.org/2000/svg"
              width="200"
              height="200"
              viewBox="0 0 200 200">
-            <rect width="200" height="200" fill="#1877f2"/>
-            <circle cx="100" cy="78" r="38" fill="white"/>
-            <path d="M35 180c8-45 36-65 65-65s57 20 65 65"
-                  fill="white"/>
+
+            <rect
+                width="200"
+                height="200"
+                fill="#1877f2"
+            />
+
+            <circle
+                cx="100"
+                cy="78"
+                r="38"
+                fill="white"
+            />
+
+            <path
+                d="M35 180c8-45 36-65 65-65s57 20 65 65"
+                fill="white"
+            />
+
         </svg>
+
     `);
 
 
 /* =====================================================
-   DOM HELPER
+   HELPER
 ===================================================== */
 
 function $(id){
+
     return document.getElementById(id);
+
 }
 
 
 /* =====================================================
-   AUTH UI
+   LOGIN / REGISTER UI
 ===================================================== */
 
 function showLogin(){
 
-    $("loginForm").style.display = "block";
-    $("registerForm").style.display = "none";
-    $("authError").textContent = "";
+    $("loginForm").style.display =
+        "block";
+
+    $("registerForm").style.display =
+        "none";
+
+    $("authError").textContent =
+        "";
 
 }
 
+
 function showRegister(){
 
-    $("loginForm").style.display = "none";
-    $("registerForm").style.display = "block";
-    $("authError").textContent = "";
+    $("loginForm").style.display =
+        "none";
+
+    $("registerForm").style.display =
+        "block";
+
+    $("authError").textContent =
+        "";
 
 }
 
@@ -1458,8 +1740,15 @@ function showRegister(){
 
 async function loginUser(){
 
-    const email = $("loginEmail").value.trim();
-    const password = $("loginPassword").value;
+    const email =
+        $("loginEmail")
+        .value
+        .trim();
+
+    const password =
+        $("loginPassword")
+        .value;
+
 
     if(!email || !password){
 
@@ -1467,16 +1756,17 @@ async function loginUser(){
             "Please enter email and password.";
 
         return;
+
     }
+
 
     try{
 
-        $("authError").textContent = "";
-
-        await auth.signInWithEmailAndPassword(
-            email,
-            password
-        );
+        await auth
+            .signInWithEmailAndPassword(
+                email,
+                password
+            );
 
     }catch(error){
 
@@ -1496,17 +1786,32 @@ async function loginUser(){
 
 async function registerUser(){
 
-    const name = $("registerName").value.trim();
-    const email = $("registerEmail").value.trim();
-    const password = $("registerPassword").value;
+    const name =
+        $("registerName")
+        .value
+        .trim();
 
-    if(!name || !email || !password){
+    const email =
+        $("registerEmail")
+        .value
+        .trim();
+
+    const password =
+        $("registerPassword")
+        .value;
+
+
+    if(!name ||
+       !email ||
+       !password){
 
         $("authError").textContent =
             "Please fill all fields.";
 
         return;
+
     }
+
 
     if(password.length < 6){
 
@@ -1514,31 +1819,50 @@ async function registerUser(){
             "Password must be at least 6 characters.";
 
         return;
+
     }
+
 
     try{
 
-        $("authError").textContent = "";
-
         const result =
-            await auth.createUserWithEmailAndPassword(
+            await auth
+            .createUserWithEmailAndPassword(
                 email,
                 password
             );
+
 
         await db
             .collection("users")
             .doc(result.user.uid)
             .set({
 
-                uid: result.user.uid,
-                name: name,
-                email: email,
-                about: "",
-                photoURL: "",
-                online: true,
-                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                uid:
+                    result.user.uid,
+
+                name:
+                    name,
+
+                email:
+                    email,
+
+                about:
+                    "",
+
+                photoURL:
+                    "",
+
+                online:
+                    true,
+
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp(),
+
+                createdAt:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
 
             });
 
@@ -1560,27 +1884,48 @@ async function registerUser(){
 
 function getAuthError(error){
 
-    const code = error.code || "";
+    const code =
+        error.code || "";
 
-    if(code.includes("email-already-in-use"))
+
+    if(code.includes(
+        "email-already-in-use"
+    ))
         return "This email is already registered.";
 
-    if(code.includes("invalid-email"))
+
+    if(code.includes(
+        "invalid-email"
+    ))
         return "Invalid email address.";
 
-    if(code.includes("wrong-password"))
+
+    if(code.includes(
+        "wrong-password"
+    ))
         return "Wrong password.";
 
-    if(code.includes("user-not-found"))
+
+    if(code.includes(
+        "user-not-found"
+    ))
         return "Account not found.";
 
-    if(code.includes("weak-password"))
+
+    if(code.includes(
+        "weak-password"
+    ))
         return "Password is too weak.";
 
-    if(code.includes("operation-not-allowed"))
-        return "Email/Password Authentication is not enabled in Firebase.";
 
-    return error.message || "Something went wrong.";
+    if(code.includes(
+        "operation-not-allowed"
+    ))
+        return "Enable Email/Password Authentication in Firebase.";
+
+
+    return error.message ||
+        "Something went wrong.";
 
 }
 
@@ -1593,14 +1938,27 @@ auth.setPersistence(
     firebase.auth.Auth.Persistence.LOCAL
 );
 
-auth.onAuthStateChanged(async user => {
+
+auth.onAuthStateChanged(
+async user => {
 
     if(user){
 
-        currentUser = user;
+        currentUser =
+            user;
 
-        $("authScreen").style.display = "none";
-        $("app").style.display = "flex";
+
+        $("authScreen")
+            .style
+            .display =
+            "none";
+
+
+        $("app")
+            .style
+            .display =
+            "flex";
+
 
         await loadMyProfile();
 
@@ -1616,13 +1974,25 @@ auth.onAuthStateChanged(async user => {
 
         showTab("people");
 
+
     }else{
 
-        currentUser = null;
-        currentProfile = null;
+        currentUser =
+            null;
 
-        $("app").style.display = "none";
-        $("authScreen").style.display = "flex";
+        currentProfile =
+            null;
+
+        $("app")
+            .style
+            .display =
+            "none";
+
+
+        $("authScreen")
+            .style
+            .display =
+            "flex";
 
     }
 
@@ -1643,6 +2013,12 @@ async function logoutUser(){
 
         }
 
+
+        stopRingtone();
+
+        cleanupCall();
+
+
         await auth.signOut();
 
     }catch(error){
@@ -1660,41 +2036,68 @@ async function logoutUser(){
 
 async function loadMyProfile(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     const ref =
-        db.collection("users").doc(currentUser.uid);
+        db
+        .collection("users")
+        .doc(currentUser.uid);
 
-    const snap = await ref.get();
+
+    const snap =
+        await ref.get();
+
 
     if(snap.exists){
 
-        currentProfile = snap.data();
+        currentProfile =
+            snap.data();
 
     }else{
 
         currentProfile = {
 
-            uid: currentUser.uid,
-            name: currentUser.displayName ||
-                  currentUser.email.split("@")[0],
-            email: currentUser.email,
-            about: "",
-            photoURL: ""
+            uid:
+                currentUser.uid,
+
+            name:
+                currentUser.displayName ||
+                currentUser.email
+                    .split("@")[0],
+
+            email:
+                currentUser.email,
+
+            about:
+                "",
+
+            photoURL:
+                ""
 
         };
+
 
         await ref.set(
             {
                 ...currentProfile,
-                online:true,
+
+                online:
+                    true,
+
                 createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
             },
-            {merge:true}
+            {
+                merge:true
+            }
         );
 
     }
+
 
     renderMyProfile();
 
@@ -1703,24 +2106,31 @@ async function loadMyProfile(){
 
 function renderMyProfile(){
 
-    if(!currentProfile) return;
+    if(!currentProfile)
+        return;
+
 
     $("myName").textContent =
-        currentProfile.name || "User";
+        currentProfile.name ||
+        "User";
+
 
     $("myAvatar").src =
-        currentProfile.photoURL || defaultAvatar;
+        currentProfile.photoURL ||
+        defaultAvatar;
 
 }
 
 
 /* =====================================================
-   ONLINE STATUS
+   ONLINE
 ===================================================== */
 
 async function setMyOnline(status){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     try{
 
@@ -1729,11 +2139,16 @@ async function setMyOnline(status){
             .doc(currentUser.uid)
             .set({
 
-                online:status,
-                lastSeen:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                online:
+                    status,
 
-            },{merge:true});
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            },{
+                merge:true
+            });
 
     }catch(error){
 
@@ -1743,18 +2158,23 @@ async function setMyOnline(status){
 
 }
 
+
 document.addEventListener(
     "visibilitychange",
     () => {
 
-        if(!currentUser) return;
+        if(!currentUser)
+            return;
+
 
         setMyOnline(
-            document.visibilityState === "visible"
+            document.visibilityState ===
+            "visible"
         );
 
     }
 );
+
 
 window.addEventListener(
     "beforeunload",
@@ -1762,13 +2182,20 @@ window.addEventListener(
 
         if(currentUser){
 
-            db.collection("users")
-              .doc(currentUser.uid)
-              .set({
-                  online:false,
-                  lastSeen:
-                    firebase.firestore.FieldValue.serverTimestamp()
-              },{merge:true});
+            db
+            .collection("users")
+            .doc(currentUser.uid)
+            .set({
+
+                online:false,
+
+                lastSeen:
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
+
+            },{
+                merge:true
+            });
 
         }
 
@@ -1782,27 +2209,41 @@ window.addEventListener(
 
 async function loadUsers(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     const snap =
-        await db.collection("users").get();
+        await db
+        .collection("users")
+        .get();
+
 
     allUsers = [];
 
+
     snap.forEach(doc => {
 
-        const data = doc.data();
+        const data =
+            doc.data();
 
-        if(doc.id !== currentUser.uid){
+
+        if(doc.id !==
+           currentUser.uid){
 
             allUsers.push({
-                id:doc.id,
+
+                id:
+                    doc.id,
+
                 ...data
+
             });
 
         }
 
     });
+
 
     renderCurrentTab();
 
@@ -1810,12 +2251,17 @@ async function loadUsers(){
 
 
 /* =====================================================
-   FRIEND ID
+   FRIEND DOC ID
 ===================================================== */
 
 function friendDocId(a,b){
 
-    return [a,b].sort().join("_");
+    return [
+        a,
+        b
+    ]
+    .sort()
+    .join("_");
 
 }
 
@@ -1826,48 +2272,68 @@ function friendDocId(a,b){
 
 async function loadFriends(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     const snap =
         await db
-            .collection("friends")
-            .where(
-                "users",
-                "array-contains",
-                currentUser.uid
-            )
-            .get();
+        .collection("friends")
+        .where(
+            "users",
+            "array-contains",
+            currentUser.uid
+        )
+        .get();
+
 
     friends = [];
-    friendIds = new Set();
+
+    friendIds =
+        new Set();
+
 
     snap.forEach(doc => {
 
-        const data = doc.data();
+        const data =
+            doc.data();
+
 
         const otherUid =
             data.users.find(
-                uid => uid !== currentUser.uid
+                uid =>
+                    uid !==
+                    currentUser.uid
             );
+
 
         if(otherUid){
 
-            friendIds.add(otherUid);
+            friendIds.add(
+                otherUid
+            );
+
 
             const user =
                 allUsers.find(
-                    u => u.id === otherUid
+                    u =>
+                        u.id ===
+                        otherUid
                 );
+
 
             if(user){
 
-                friends.push(user);
+                friends.push(
+                    user
+                );
 
             }
 
         }
 
     });
+
 
     renderCurrentTab();
 
@@ -1880,29 +2346,42 @@ async function loadFriends(){
 
 async function loadRequests(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     const incomingSnap =
         await db
-            .collection("friendRequests")
-            .where(
-                "toUid",
-                "==",
-                currentUser.uid
-            )
-            .get();
+        .collection("friendRequests")
+        .where(
+            "toUid",
+            "==",
+            currentUser.uid
+        )
+        .get();
+
 
     incomingRequests = [];
 
+
     incomingSnap.forEach(doc => {
 
-        const data = doc.data();
+        const data =
+            doc.data();
 
-        if(data.status === "pending"){
+
+        if(
+            data.status ===
+            "pending"
+        ){
 
             incomingRequests.push({
-                id:doc.id,
+
+                id:
+                    doc.id,
+
                 ...data
+
             });
 
         }
@@ -1912,30 +2391,42 @@ async function loadRequests(){
 
     const outgoingSnap =
         await db
-            .collection("friendRequests")
-            .where(
-                "fromUid",
-                "==",
-                currentUser.uid
-            )
-            .get();
+        .collection("friendRequests")
+        .where(
+            "fromUid",
+            "==",
+            currentUser.uid
+        )
+        .get();
+
 
     outgoingRequests = [];
 
+
     outgoingSnap.forEach(doc => {
 
-        const data = doc.data();
+        const data =
+            doc.data();
 
-        if(data.status === "pending"){
+
+        if(
+            data.status ===
+            "pending"
+        ){
 
             outgoingRequests.push({
-                id:doc.id,
+
+                id:
+                    doc.id,
+
                 ...data
+
             });
 
         }
 
     });
+
 
     updateRequestBadge();
 
@@ -1950,17 +2441,25 @@ async function loadRequests(){
 
 function updateRequestBadge(){
 
-    const badge = $("requestBadge");
+    const badge =
+        $("requestBadge");
 
-    if(incomingRequests.length > 0){
 
-        badge.style.display = "block";
+    if(
+        incomingRequests.length >
+        0
+    ){
+
+        badge.style.display =
+            "block";
+
         badge.textContent =
             incomingRequests.length;
 
     }else{
 
-        badge.style.display = "none";
+        badge.style.display =
+            "none";
 
     }
 
@@ -1968,50 +2467,75 @@ function updateRequestBadge(){
 
 
 /* =====================================================
-   SHOW TAB
+   TAB
 ===================================================== */
 
 function showTab(tab){
 
-    currentTab = tab;
+    currentTab =
+        tab;
+
 
     document
         .querySelectorAll(".tab")
-        .forEach(btn =>
-            btn.classList.remove("active")
+        .forEach(
+            btn =>
+                btn.classList
+                   .remove("active")
         );
 
+
     if(tab === "people")
-        $("peopleTab").classList.add("active");
+        $("peopleTab")
+            .classList
+            .add("active");
+
 
     if(tab === "friends")
-        $("friendsTab").classList.add("active");
+        $("friendsTab")
+            .classList
+            .add("active");
+
 
     if(tab === "requests")
-        $("requestsTab").classList.add("active");
+        $("requestsTab")
+            .classList
+            .add("active");
 
-    $("searchInput").value = "";
+
+    $("searchInput").value =
+        "";
+
 
     renderCurrentTab();
 
 }
 
 
-/* =====================================================
-   RENDER CURRENT TAB
-===================================================== */
-
 function renderCurrentTab(){
 
-    if(currentTab === "people"){
+    if(currentTab ===
+       "people"){
 
-        renderPeople(allUsers);
+        renderPeople(
+            allUsers
+        );
 
-    }else if(currentTab === "friends"){
+    }
+
+    else if(
+        currentTab ===
+        "friends"
+    ){
 
         renderFriends();
 
-    }else if(currentTab === "requests"){
+    }
+
+    else if(
+        currentTab ===
+        "requests"
+    ){
 
         renderRequests();
 
@@ -2021,59 +2545,72 @@ function renderCurrentTab(){
 
 
 /* =====================================================
-   SEARCH PEOPLE
+   SEARCH
 ===================================================== */
 
 function searchPeople(){
 
-    if(currentTab !== "people"){
+    currentTab =
+        "people";
 
-        currentTab = "people";
 
-        document
-            .querySelectorAll(".tab")
-            .forEach(btn =>
-                btn.classList.remove("active")
-            );
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            btn =>
+                btn.classList
+                   .remove("active")
+        );
 
-        $("peopleTab").classList.add("active");
 
-    }
+    $("peopleTab")
+        .classList
+        .add("active");
+
 
     const value =
-        $("searchInput").value
-            .trim()
-            .toLowerCase();
+        $("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
 
     if(!value){
 
-        renderPeople(allUsers);
+        renderPeople(
+            allUsers
+        );
+
         return;
 
     }
 
+
     const filtered =
-        allUsers.filter(user =>
+        allUsers.filter(
+            user =>
 
-            (user.name || "")
-                .toLowerCase()
-                .includes(value)
+                (user.name || "")
+                    .toLowerCase()
+                    .includes(value)
 
-            ||
+                ||
 
-            (user.email || "")
-                .toLowerCase()
-                .includes(value)
+                (user.email || "")
+                    .toLowerCase()
+                    .includes(value)
 
-            ||
+                ||
 
-            (user.about || "")
-                .toLowerCase()
-                .includes(value)
-
+                (user.about || "")
+                    .toLowerCase()
+                    .includes(value)
         );
 
-    renderPeople(filtered);
+
+    renderPeople(
+        filtered
+    );
 
 }
 
@@ -2084,25 +2621,38 @@ function searchPeople(){
 
 function renderPeople(users){
 
-    const list = $("userList");
+    const list =
+        $("userList");
 
-    list.innerHTML = "";
+
+    list.innerHTML =
+        "";
+
 
     if(users.length === 0){
 
-        list.innerHTML =
-            `<div style="padding:30px;text-align:center;color:#888;">
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
                 No users found.
-             </div>`;
+            </div>
+        `;
 
         return;
 
     }
 
+
     users.forEach(user => {
 
         list.appendChild(
-            createUserRow(user,"people")
+            createUserRow(
+                user,
+                "people"
+            )
         );
 
     });
@@ -2116,25 +2666,38 @@ function renderPeople(users){
 
 function renderFriends(){
 
-    const list = $("userList");
+    const list =
+        $("userList");
 
-    list.innerHTML = "";
+
+    list.innerHTML =
+        "";
+
 
     if(friends.length === 0){
 
-        list.innerHTML =
-            `<div style="padding:30px;text-align:center;color:#888;">
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
                 No friends yet.
-             </div>`;
+            </div>
+        `;
 
         return;
 
     }
 
+
     friends.forEach(user => {
 
         list.appendChild(
-            createUserRow(user,"friends")
+            createUserRow(
+                user,
+                "friends"
+            )
         );
 
     });
@@ -2148,17 +2711,28 @@ function renderFriends(){
 
 function renderRequests(){
 
-    const list = $("userList");
+    const list =
+        $("userList");
 
-    list.innerHTML = "";
 
-    if(incomingRequests.length === 0 &&
-       outgoingRequests.length === 0){
+    list.innerHTML =
+        "";
 
-        list.innerHTML =
-            `<div style="padding:30px;text-align:center;color:#888;">
+
+    if(
+        incomingRequests.length === 0 &&
+        outgoingRequests.length === 0
+    ){
+
+        list.innerHTML = `
+            <div style="
+                padding:30px;
+                text-align:center;
+                color:#888;
+            ">
                 No friend requests.
-             </div>`;
+            </div>
+        `;
 
         return;
 
@@ -2168,35 +2742,53 @@ function renderRequests(){
     if(incomingRequests.length){
 
         const title =
-            document.createElement("div");
-
-        title.style.padding = "12px";
-        title.style.fontWeight = "700";
-        title.style.color = "#555";
-        title.textContent = "Friend Requests";
-
-        list.appendChild(title);
+            document.createElement(
+                "div"
+            );
 
 
-        incomingRequests.forEach(req => {
+        title.style.padding =
+            "12px";
 
-            const user =
-                allUsers.find(
-                    u => u.id === req.fromUid
-                );
+        title.style.fontWeight =
+            "700";
 
-            if(user){
+        title.style.color =
+            "#555";
 
-                list.appendChild(
-                    createUserRow(
-                        user,
-                        "incoming-request"
-                    )
-                );
+        title.textContent =
+            "Friend Requests";
+
+
+        list.appendChild(
+            title
+        );
+
+
+        incomingRequests.forEach(
+            req => {
+
+                const user =
+                    allUsers.find(
+                        u =>
+                            u.id ===
+                            req.fromUid
+                    );
+
+
+                if(user){
+
+                    list.appendChild(
+                        createUserRow(
+                            user,
+                            "incoming-request"
+                        )
+                    );
+
+                }
 
             }
-
-        });
+        );
 
     }
 
@@ -2204,35 +2796,53 @@ function renderRequests(){
     if(outgoingRequests.length){
 
         const title =
-            document.createElement("div");
-
-        title.style.padding = "12px";
-        title.style.fontWeight = "700";
-        title.style.color = "#555";
-        title.textContent = "Sent Requests";
-
-        list.appendChild(title);
+            document.createElement(
+                "div"
+            );
 
 
-        outgoingRequests.forEach(req => {
+        title.style.padding =
+            "12px";
 
-            const user =
-                allUsers.find(
-                    u => u.id === req.toUid
-                );
+        title.style.fontWeight =
+            "700";
 
-            if(user){
+        title.style.color =
+            "#555";
 
-                list.appendChild(
-                    createUserRow(
-                        user,
-                        "outgoing-request"
-                    )
-                );
+        title.textContent =
+            "Sent Requests";
+
+
+        list.appendChild(
+            title
+        );
+
+
+        outgoingRequests.forEach(
+            req => {
+
+                const user =
+                    allUsers.find(
+                        u =>
+                            u.id ===
+                            req.toUid
+                    );
+
+
+                if(user){
+
+                    list.appendChild(
+                        createUserRow(
+                            user,
+                            "outgoing-request"
+                        )
+                    );
+
+                }
 
             }
-
-        });
+        );
 
     }
 
@@ -2243,43 +2853,68 @@ function renderRequests(){
    CREATE USER ROW
 ===================================================== */
 
-function createUserRow(user,type){
+function createUserRow(
+    user,
+    type
+){
 
     const row =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    row.className = "user-row";
+    row.className =
+        "user-row";
+
 
     const img =
-        document.createElement("img");
+        document.createElement(
+            "img"
+        );
 
     img.src =
-        user.photoURL || defaultAvatar;
+        user.photoURL ||
+        defaultAvatar;
+
 
     img.onerror = () => {
-        img.src = defaultAvatar;
+
+        img.src =
+            defaultAvatar;
+
     };
 
 
     const details =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    details.className = "user-details";
+    details.className =
+        "user-details";
 
 
     const name =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    name.className = "user-name";
+    name.className =
+        "user-name";
 
     name.textContent =
-        user.name || "User";
+        user.name ||
+        "User";
 
 
     const about =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    about.className = "user-about";
+    about.className =
+        "user-about";
+
 
     if(user.online){
 
@@ -2299,35 +2934,54 @@ function createUserRow(user,type){
     }
 
 
-    details.appendChild(name);
-    details.appendChild(about);
+    details.appendChild(
+        name
+    );
+
+    details.appendChild(
+        about
+    );
 
 
     const actions =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    actions.className = "row-actions";
+    actions.className =
+        "row-actions";
 
 
     if(type === "friends"){
 
         const btn =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         btn.className =
             "small-btn add-btn";
 
-        btn.textContent = "Chat";
+        btn.textContent =
+            "Chat";
 
-        btn.onclick = event => {
 
-            event.stopPropagation();
+        btn.onclick =
+            event => {
 
-            selectUser(user);
+                event.stopPropagation();
 
-        };
+                selectUser(
+                    user
+                );
 
-        actions.appendChild(btn);
+            };
+
+
+        actions.appendChild(
+            btn
+        );
+
 
         row.onclick = () =>
             selectUser(user);
@@ -2337,46 +2991,68 @@ function createUserRow(user,type){
 
     else if(type === "people"){
 
-        if(friendIds.has(user.id)){
+        if(friendIds.has(
+            user.id
+        )){
 
             const btn =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             btn.className =
                 "small-btn add-btn";
 
-            btn.textContent = "Chat";
+            btn.textContent =
+                "Chat";
 
-            btn.onclick = event => {
 
-                event.stopPropagation();
+            btn.onclick =
+                event => {
 
-                selectUser(user);
+                    event.stopPropagation();
 
-            };
+                    selectUser(
+                        user
+                    );
 
-            actions.appendChild(btn);
+                };
+
+
+            actions.appendChild(
+                btn
+            );
+
 
             row.onclick = () =>
                 selectUser(user);
 
-        }else{
+        }
+
+        else{
 
             const outgoing =
                 outgoingRequests.find(
-                    r => r.toUid === user.id
+                    r =>
+                        r.toUid ===
+                        user.id
                 );
+
 
             const incoming =
                 incomingRequests.find(
-                    r => r.fromUid === user.id
+                    r =>
+                        r.fromUid ===
+                        user.id
                 );
 
 
             if(outgoing){
 
                 const btn =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
                 btn.className =
                     "small-btn cancel-btn";
@@ -2384,24 +3060,31 @@ function createUserRow(user,type){
                 btn.textContent =
                     "Sent";
 
-                btn.onclick = event => {
 
-                    event.stopPropagation();
+                btn.onclick =
+                    event => {
 
-                    cancelFriendRequest(
-                        outgoing.id
-                    );
+                        event.stopPropagation();
 
-                };
+                        cancelFriendRequest(
+                            outgoing.id
+                        );
 
-                actions.appendChild(btn);
+                    };
+
+
+                actions.appendChild(
+                    btn
+                );
 
             }
 
             else if(incoming){
 
                 const accept =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
                 accept.className =
                     "small-btn accept-btn";
@@ -2409,19 +3092,23 @@ function createUserRow(user,type){
                 accept.textContent =
                     "Accept";
 
-                accept.onclick = event => {
 
-                    event.stopPropagation();
+                accept.onclick =
+                    event => {
 
-                    acceptFriendRequest(
-                        incoming
-                    );
+                        event.stopPropagation();
 
-                };
+                        acceptFriendRequest(
+                            incoming
+                        );
+
+                    };
 
 
                 const reject =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
                 reject.className =
                     "small-btn reject-btn";
@@ -2429,26 +3116,35 @@ function createUserRow(user,type){
                 reject.textContent =
                     "Reject";
 
-                reject.onclick = event => {
 
-                    event.stopPropagation();
+                reject.onclick =
+                    event => {
 
-                    rejectFriendRequest(
-                        incoming.id
-                    );
+                        event.stopPropagation();
 
-                };
+                        rejectFriendRequest(
+                            incoming.id
+                        );
+
+                    };
 
 
-                actions.appendChild(accept);
-                actions.appendChild(reject);
+                actions.appendChild(
+                    accept
+                );
+
+                actions.appendChild(
+                    reject
+                );
 
             }
 
             else{
 
                 const btn =
-                    document.createElement("button");
+                    document.createElement(
+                        "button"
+                    );
 
                 btn.className =
                     "small-btn add-btn";
@@ -2456,17 +3152,22 @@ function createUserRow(user,type){
                 btn.textContent =
                     "Add";
 
-                btn.onclick = event => {
 
-                    event.stopPropagation();
+                btn.onclick =
+                    event => {
 
-                    sendFriendRequest(
-                        user.id
-                    );
+                        event.stopPropagation();
 
-                };
+                        sendFriendRequest(
+                            user.id
+                        );
 
-                actions.appendChild(btn);
+                    };
+
+
+                actions.appendChild(
+                    btn
+                );
 
             }
 
@@ -2475,10 +3176,15 @@ function createUserRow(user,type){
     }
 
 
-    else if(type === "incoming-request"){
+    else if(
+        type ===
+        "incoming-request"
+    ){
 
         const accept =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         accept.className =
             "small-btn accept-btn";
@@ -2486,26 +3192,35 @@ function createUserRow(user,type){
         accept.textContent =
             "Accept";
 
-        accept.onclick = event => {
 
-            event.stopPropagation();
+        accept.onclick =
+            event => {
 
-            const req =
-                incomingRequests.find(
-                    r => r.fromUid === user.id
-                );
+                event.stopPropagation();
 
-            if(req){
+                const req =
+                    incomingRequests.find(
+                        r =>
+                            r.fromUid ===
+                            user.id
+                    );
 
-                acceptFriendRequest(req);
 
-            }
+                if(req){
 
-        };
+                    acceptFriendRequest(
+                        req
+                    );
+
+                }
+
+            };
 
 
         const reject =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         reject.className =
             "small-btn reject-btn";
@@ -2513,33 +3228,51 @@ function createUserRow(user,type){
         reject.textContent =
             "Reject";
 
-        reject.onclick = event => {
 
-            event.stopPropagation();
+        reject.onclick =
+            event => {
 
-            const req =
-                incomingRequests.find(
-                    r => r.fromUid === user.id
-                );
+                event.stopPropagation();
 
-            if(req){
+                const req =
+                    incomingRequests.find(
+                        r =>
+                            r.fromUid ===
+                            user.id
+                    );
 
-                rejectFriendRequest(req.id);
 
-            }
+                if(req){
 
-        };
+                    rejectFriendRequest(
+                        req.id
+                    );
 
-        actions.appendChild(accept);
-        actions.appendChild(reject);
+                }
+
+            };
+
+
+        actions.appendChild(
+            accept
+        );
+
+        actions.appendChild(
+            reject
+        );
 
     }
 
 
-    else if(type === "outgoing-request"){
+    else if(
+        type ===
+        "outgoing-request"
+    ){
 
         const btn =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         btn.className =
             "small-btn cancel-btn";
@@ -2547,31 +3280,50 @@ function createUserRow(user,type){
         btn.textContent =
             "Cancel";
 
-        btn.onclick = event => {
 
-            event.stopPropagation();
+        btn.onclick =
+            event => {
 
-            const req =
-                outgoingRequests.find(
-                    r => r.toUid === user.id
-                );
+                event.stopPropagation();
 
-            if(req){
+                const req =
+                    outgoingRequests.find(
+                        r =>
+                            r.toUid ===
+                            user.id
+                    );
 
-                cancelFriendRequest(req.id);
 
-            }
+                if(req){
 
-        };
+                    cancelFriendRequest(
+                        req.id
+                    );
 
-        actions.appendChild(btn);
+                }
+
+            };
+
+
+        actions.appendChild(
+            btn
+        );
 
     }
 
 
-    row.appendChild(img);
-    row.appendChild(details);
-    row.appendChild(actions);
+    row.appendChild(
+        img
+    );
+
+    row.appendChild(
+        details
+    );
+
+    row.appendChild(
+        actions
+    );
+
 
     return row;
 
@@ -2582,70 +3334,108 @@ function createUserRow(user,type){
    SEND FRIEND REQUEST
 ===================================================== */
 
-async function sendFriendRequest(toUid){
+async function sendFriendRequest(
+    toUid
+){
 
-    if(!currentUser || !toUid) return;
+    if(!currentUser ||
+       !toUid)
+        return;
 
-    if(friendIds.has(toUid)){
 
-        alert("Already friends.");
+    if(friendIds.has(
+        toUid
+    )){
+
+        alert(
+            "Already friends."
+        );
+
         return;
 
     }
 
+
     const id =
-        currentUser.uid + "_" + toUid;
+        currentUser.uid +
+        "_" +
+        toUid;
+
 
     const ref =
-        db.collection("friendRequests").doc(id);
+        db
+        .collection("friendRequests")
+        .doc(id);
+
 
     const existing =
         await ref.get();
 
-    if(existing.exists &&
-       existing.data().status === "pending"){
+
+    if(
+        existing.exists &&
+        existing.data().status ===
+        "pending"
+    ){
 
         return;
 
     }
 
+
     await ref.set({
 
-        fromUid:currentUser.uid,
-        toUid:toUid,
-        status:"pending",
+        fromUid:
+            currentUser.uid,
+
+        toUid:
+            toUid,
+
+        status:
+            "pending",
+
         createdAt:
-            firebase.firestore.FieldValue.serverTimestamp(),
+            firebase.firestore.FieldValue
+            .serverTimestamp(),
+
         updatedAt:
-            firebase.firestore.FieldValue.serverTimestamp()
+            firebase.firestore.FieldValue
+            .serverTimestamp()
 
     });
 
-    await loadRequests();
 
-    renderCurrentTab();
+    await loadRequests();
 
 }
 
 
 /* =====================================================
-   CANCEL REQUEST
+   CANCEL FRIEND REQUEST
 ===================================================== */
 
-async function cancelFriendRequest(requestId){
+async function cancelFriendRequest(
+    requestId
+){
 
-    if(!requestId) return;
+    if(!requestId)
+        return;
+
 
     await db
         .collection("friendRequests")
         .doc(requestId)
         .update({
 
-            status:"cancelled",
+            status:
+                "cancelled",
+
             updatedAt:
-                firebase.firestore.FieldValue.serverTimestamp()
+                firebase.firestore.FieldValue
+                .serverTimestamp()
 
         });
+
 
     await loadRequests();
 
@@ -2653,12 +3443,17 @@ async function cancelFriendRequest(requestId){
 
 
 /* =====================================================
-   ACCEPT REQUEST
+   ACCEPT FRIEND
 ===================================================== */
 
-async function acceptFriendRequest(request){
+async function acceptFriendRequest(
+    request
+){
 
-    if(!currentUser || !request) return;
+    if(!currentUser ||
+       !request)
+        return;
+
 
     const friendId =
         friendDocId(
@@ -2666,23 +3461,27 @@ async function acceptFriendRequest(request){
             request.fromUid
         );
 
+
     await db.runTransaction(
         async transaction => {
 
             const requestRef =
                 db
-                    .collection("friendRequests")
-                    .doc(request.id);
+                .collection("friendRequests")
+                .doc(request.id);
+
 
             const friendRef =
                 db
-                    .collection("friends")
-                    .doc(friendId);
+                .collection("friends")
+                .doc(friendId);
+
 
             const reqSnap =
                 await transaction.get(
                     requestRef
                 );
+
 
             if(!reqSnap.exists){
 
@@ -2691,6 +3490,7 @@ async function acceptFriendRequest(request){
                 );
 
             }
+
 
             transaction.set(
                 friendRef,
@@ -2702,20 +3502,28 @@ async function acceptFriendRequest(request){
                     ],
 
                     createdAt:
-                        firebase.firestore.FieldValue.serverTimestamp()
+                        firebase.firestore
+                        .FieldValue
+                        .serverTimestamp()
 
                 },
-                {merge:true}
+                {
+                    merge:true
+                }
             );
+
 
             transaction.update(
                 requestRef,
                 {
 
-                    status:"accepted",
+                    status:
+                        "accepted",
 
                     updatedAt:
-                        firebase.firestore.FieldValue.serverTimestamp()
+                        firebase.firestore
+                        .FieldValue
+                        .serverTimestamp()
 
                 }
             );
@@ -2723,31 +3531,40 @@ async function acceptFriendRequest(request){
         }
     );
 
+
     await loadFriends();
+
     await loadRequests();
 
 }
 
 
 /* =====================================================
-   REJECT REQUEST
+   REJECT FRIEND
 ===================================================== */
 
-async function rejectFriendRequest(requestId){
+async function rejectFriendRequest(
+    requestId
+){
 
-    if(!requestId) return;
+    if(!requestId)
+        return;
+
 
     await db
         .collection("friendRequests")
         .doc(requestId)
         .update({
 
-            status:"rejected",
+            status:
+                "rejected",
 
             updatedAt:
-                firebase.firestore.FieldValue.serverTimestamp()
+                firebase.firestore.FieldValue
+                .serverTimestamp()
 
         });
+
 
     await loadRequests();
 
@@ -2755,12 +3572,14 @@ async function rejectFriendRequest(requestId){
 
 
 /* =====================================================
-   SELECT USER / OPEN CHAT
+   SELECT USER
 ===================================================== */
 
 function selectUser(user){
 
-    if(!friendIds.has(user.id)){
+    if(!friendIds.has(
+        user.id
+    )){
 
         alert(
             "You can chat only with friends."
@@ -2770,21 +3589,42 @@ function selectUser(user){
 
     }
 
-    selectedUser = user;
 
-    $("chatEmpty").style.display = "none";
+    selectedUser =
+        user;
 
-    $("chatArea").style.display = "flex";
+
+    $("chatEmpty")
+        .style
+        .display =
+        "none";
+
+
+    $("chatArea")
+        .style
+        .display =
+        "flex";
+
 
     $("chatAvatar").src =
-        user.photoURL || defaultAvatar;
+        user.photoURL ||
+        defaultAvatar;
+
 
     $("chatUserName").textContent =
-        user.name || "User";
+        user.name ||
+        "User";
 
-    updateChatStatus(user);
 
-    $("app").classList.add("chat-open");
+    updateChatStatus(
+        user
+    );
+
+
+    $("app")
+        .classList
+        .add("chat-open");
+
 
     loadMessages();
 
@@ -2797,28 +3637,43 @@ function selectUser(user){
 
 function closeChat(){
 
-    $("app").classList.remove(
-        "chat-open"
-    );
+    $("app")
+        .classList
+        .remove("chat-open");
 
-    selectedUser = null;
+
+    selectedUser =
+        null;
+
 
     if(unsubscribeMessages){
 
         unsubscribeMessages();
-        unsubscribeMessages = null;
+
+        unsubscribeMessages =
+            null;
 
     }
+
 
     if(unsubscribeTyping){
 
         unsubscribeTyping();
-        unsubscribeTyping = null;
+
+        unsubscribeTyping =
+            null;
 
     }
 
-    $("messages").innerHTML = "";
-    $("typing").textContent = "";
+
+    $("messages")
+        .innerHTML =
+        "";
+
+
+    $("typing")
+        .textContent =
+        "";
 
 }
 
@@ -2827,16 +3682,20 @@ function closeChat(){
    CHAT STATUS
 ===================================================== */
 
-function updateChatStatus(user){
+function updateChatStatus(
+    user
+){
 
     if(user.online){
 
-        $("chatUserStatus").innerHTML =
+        $("chatUserStatus")
+            .innerHTML =
             `<span class="online-dot"></span>Online`;
 
     }else{
 
-        $("chatUserStatus").textContent =
+        $("chatUserStatus")
+            .textContent =
             "Offline";
 
     }
@@ -2850,7 +3709,12 @@ function updateChatStatus(user){
 
 function chatId(a,b){
 
-    return [a,b].sort().join("_");
+    return [
+        a,
+        b
+    ]
+    .sort()
+    .join("_");
 
 }
 
@@ -2861,8 +3725,10 @@ function chatId(a,b){
 
 function loadMessages(){
 
-    if(!currentUser || !selectedUser)
+    if(!currentUser ||
+       !selectedUser)
         return;
+
 
     if(unsubscribeMessages){
 
@@ -2870,43 +3736,60 @@ function loadMessages(){
 
     }
 
+
     const id =
         chatId(
             currentUser.uid,
             selectedUser.id
         );
 
-    $("messages").innerHTML = "";
+
+    $("messages")
+        .innerHTML =
+        "";
+
 
     unsubscribeMessages =
         db
         .collection("chats")
         .doc(id)
         .collection("messages")
-        .orderBy("createdAt","asc")
-        .onSnapshot(snapshot => {
+        .orderBy(
+            "createdAt",
+            "asc"
+        )
+        .onSnapshot(
+            snapshot => {
 
-            $("messages").innerHTML = "";
+                $("messages")
+                    .innerHTML =
+                    "";
 
-            snapshot.forEach(doc => {
 
-                renderMessage(
-                    doc.id,
-                    doc.data()
+                snapshot.forEach(
+                    doc => {
+
+                        renderMessage(
+                            doc.id,
+                            doc.data()
+                        );
+
+                    }
                 );
 
-            });
 
-            scrollMessages();
+                scrollMessages();
 
-        },error => {
+            },
+            error => {
 
-            console.error(
-                "Message listener error:",
-                error
-            );
+                console.error(
+                    error
+                );
 
-        });
+            }
+        );
+
 
     listenTyping();
 
@@ -2917,106 +3800,163 @@ function loadMessages(){
    RENDER MESSAGE
 ===================================================== */
 
-function renderMessage(id,data){
+function renderMessage(
+    id,
+    data
+){
 
     const wrap =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     wrap.className =
         "message-wrap " +
-        (data.senderId === currentUser.uid
-            ? "mine"
-            : "");
+        (
+            data.senderId ===
+            currentUser.uid
+                ? "mine"
+                : ""
+        );
 
 
     const bubble =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    bubble.className = "message";
+
+    bubble.className =
+        "message";
 
 
     if(data.type === "image"){
 
         const img =
-            document.createElement("img");
+            document.createElement(
+                "img"
+            );
 
-        img.src = data.fileUrl;
+        img.src =
+            data.fileUrl;
 
-        img.alt = "Image";
+        bubble.appendChild(
+            img
+        );
 
-        bubble.appendChild(img);
 
         if(data.text){
 
             const text =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             text.textContent =
                 data.text;
 
-            bubble.appendChild(text);
+            bubble.appendChild(
+                text
+            );
 
         }
 
     }
 
-    else if(data.type === "video"){
+    else if(
+        data.type ===
+        "video"
+    ){
 
         const video =
-            document.createElement("video");
+            document.createElement(
+                "video"
+            );
 
-        video.src = data.fileUrl;
+        video.src =
+            data.fileUrl;
 
-        video.controls = true;
+        video.controls =
+            true;
 
-        video.playsInline = true;
+        video.playsInline =
+            true;
 
-        bubble.appendChild(video);
+        bubble.appendChild(
+            video
+        );
 
     }
 
-    else if(data.type === "audio"){
+    else if(
+        data.type ===
+        "audio"
+    ){
 
         const audio =
-            document.createElement("audio");
+            document.createElement(
+                "audio"
+            );
 
-        audio.src = data.fileUrl;
+        audio.src =
+            data.fileUrl;
 
-        audio.controls = true;
+        audio.controls =
+            true;
 
-        bubble.appendChild(audio);
+        bubble.appendChild(
+            audio
+        );
 
     }
 
     else{
 
         const text =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         text.textContent =
-            data.text || "";
+            data.text ||
+            "";
 
-        bubble.appendChild(text);
+        bubble.appendChild(
+            text
+        );
 
     }
 
 
     const time =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
 
     time.className =
         "message-time";
 
     time.textContent =
-        formatTime(data.createdAt);
+        formatTime(
+            data.createdAt
+        );
 
-    bubble.appendChild(time);
+
+    bubble.appendChild(
+        time
+    );
 
 
-    if(data.senderId === currentUser.uid){
+    if(
+        data.senderId ===
+        currentUser.uid
+    ){
 
         const del =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         del.className =
             "message-delete";
@@ -3024,39 +3964,60 @@ function renderMessage(id,data){
         del.textContent =
             "Delete";
 
-        del.onclick = () =>
-            deleteMessage(id);
 
-        bubble.appendChild(del);
+        del.onclick =
+            () =>
+                deleteMessage(
+                    id
+                );
+
+
+        bubble.appendChild(
+            del
+        );
 
     }
 
 
-    wrap.appendChild(bubble);
+    wrap.appendChild(
+        bubble
+    );
 
-    $("messages").appendChild(wrap);
+
+    $("messages")
+        .appendChild(
+            wrap
+        );
 
 }
 
 
 /* =====================================================
-   FORMAT TIME
+   TIME
 ===================================================== */
 
-function formatTime(timestamp){
+function formatTime(
+    timestamp
+){
 
-    if(!timestamp) return "";
+    if(!timestamp)
+        return "";
+
 
     const date =
         timestamp.toDate
             ? timestamp.toDate()
             : new Date(timestamp);
 
+
     return date.toLocaleTimeString(
         [],
         {
-            hour:"2-digit",
-            minute:"2-digit"
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
         }
     );
 
@@ -3064,21 +4025,28 @@ function formatTime(timestamp){
 
 
 /* =====================================================
-   SEND TEXT MESSAGE
+   SEND MESSAGE
 ===================================================== */
 
 async function sendMessage(){
 
-    if(!currentUser || !selectedUser)
+    if(!currentUser ||
+       !selectedUser)
         return;
+
 
     const input =
         $("messageInput");
 
-    const text =
-        input.value.trim();
 
-    if(!text) return;
+    const text =
+        input.value
+        .trim();
+
+
+    if(!text)
+        return;
+
 
     const id =
         chatId(
@@ -3086,32 +4054,41 @@ async function sendMessage(){
             selectedUser.id
         );
 
+
     try{
 
         await db
-            .collection("chats")
-            .doc(id)
-            .collection("messages")
-            .add({
+        .collection("chats")
+        .doc(id)
+        .collection("messages")
+        .add({
 
-                senderId:
-                    currentUser.uid,
+            senderId:
+                currentUser.uid,
 
-                receiverId:
-                    selectedUser.id,
+            receiverId:
+                selectedUser.id,
 
-                text:text,
+            text:
+                text,
 
-                type:"text",
+            type:
+                "text",
 
-                createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+            createdAt:
+                firebase.firestore.FieldValue
+                .serverTimestamp()
 
-            });
+        });
 
-        input.value = "";
 
-        await setTyping(false);
+        input.value =
+            "";
+
+
+        await setTyping(
+            false
+        );
 
     }catch(error){
 
@@ -3130,9 +4107,14 @@ async function sendMessage(){
    ENTER SEND
 ===================================================== */
 
-function handleMessageKey(event){
+function handleMessageKey(
+    event
+){
 
-    if(event.key === "Enter"){
+    if(
+        event.key ===
+        "Enter"
+    ){
 
         event.preventDefault();
 
@@ -3147,22 +4129,26 @@ function handleMessageKey(event){
    DELETE MESSAGE
 ===================================================== */
 
-async function deleteMessage(messageId){
+async function deleteMessage(
+    messageId
+){
 
-    if(!selectedUser) return;
+    if(!selectedUser)
+        return;
 
-    const ok =
-        confirm(
-            "Delete this message?"
-        );
 
-    if(!ok) return;
+    if(!confirm(
+        "Delete this message?"
+    ))
+        return;
+
 
     const id =
         chatId(
             currentUser.uid,
             selectedUser.id
         );
+
 
     await db
         .collection("chats")
@@ -3175,29 +4161,43 @@ async function deleteMessage(messageId){
 
 
 /* =====================================================
-   FILE SEND
+   SEND FILE
 ===================================================== */
 
-async function sendFile(event){
+async function sendFile(
+    event
+){
 
     const file =
         event.target.files[0];
 
-    if(!file ||
-       !currentUser ||
-       !selectedUser)
+
+    if(
+        !file ||
+        !currentUser ||
+        !selectedUser
+    )
         return;
 
-    if(file.size > 100 * 1024 * 1024){
+
+    if(
+        file.size >
+        100 *
+        1024 *
+        1024
+    ){
 
         alert(
             "File must be smaller than 100MB."
         );
 
-        event.target.value = "";
+        event.target.value =
+            "";
+
         return;
 
     }
+
 
     try{
 
@@ -3209,25 +4209,36 @@ async function sendFile(event){
             "_" +
             file.name;
 
+
         const storageRef =
-            storage.ref().child(path);
+            storage
+            .ref()
+            .child(path);
+
 
         const upload =
-            await storageRef.put(file);
+            await storageRef
+            .put(file);
+
 
         const url =
-            await upload.ref.getDownloadURL();
+            await upload.ref
+            .getDownloadURL();
+
 
         const type =
-            file.type.startsWith("image/")
-                ? "image"
-                : "video";
+            file.type
+                .startsWith("image/")
+                    ? "image"
+                    : "video";
+
 
         const id =
             chatId(
                 currentUser.uid,
                 selectedUser.id
             );
+
 
         await db
             .collection("chats")
@@ -3241,14 +4252,18 @@ async function sendFile(event){
                 receiverId:
                     selectedUser.id,
 
-                fileUrl:url,
+                fileUrl:
+                    url,
 
-                fileName:file.name,
+                fileName:
+                    file.name,
 
-                type:type,
+                type:
+                    type,
 
                 createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
 
             });
 
@@ -3257,13 +4272,14 @@ async function sendFile(event){
         console.error(error);
 
         alert(
-            "File upload failed: " +
-            error.message
+            "File upload failed."
         );
 
     }
 
-    event.target.value = "";
+
+    event.target.value =
+        "";
 
 }
 
@@ -3274,32 +4290,48 @@ async function sendFile(event){
 
 function handleTyping(){
 
-    if(!selectedUser) return;
+    if(!selectedUser)
+        return;
+
 
     setTyping(true);
 
-    clearTimeout(typingTimer);
+
+    clearTimeout(
+        typingTimer
+    );
+
 
     typingTimer =
         setTimeout(
-            () => setTyping(false),
+            () => {
+
+                setTyping(
+                    false
+                );
+
+            },
             1200
         );
 
 }
 
 
-async function setTyping(status){
+async function setTyping(
+    status
+){
 
     if(!currentUser ||
        !selectedUser)
         return;
+
 
     const id =
         chatId(
             currentUser.uid,
             selectedUser.id
         );
+
 
     try{
 
@@ -3308,16 +4340,23 @@ async function setTyping(status){
             .doc(id)
             .set({
 
-                uid:currentUser.uid,
-                typing:status,
+                uid:
+                    currentUser.uid,
+
+                typing:
+                    status,
+
                 updatedAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
 
             });
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
 
@@ -3332,9 +4371,11 @@ function listenTyping(){
 
     }
 
+
     if(!currentUser ||
        !selectedUser)
         return;
+
 
     const id =
         chatId(
@@ -3342,38 +4383,50 @@ function listenTyping(){
             selectedUser.id
         );
 
+
     unsubscribeTyping =
         db
         .collection("typing")
         .doc(id)
-        .onSnapshot(snapshot => {
+        .onSnapshot(
+            snapshot => {
 
-            if(!snapshot.exists){
+                if(!snapshot.exists){
 
-                $("typing").textContent = "";
-                return;
+                    $("typing")
+                        .textContent =
+                        "";
+
+                    return;
+
+                }
+
+
+                const data =
+                    snapshot.data();
+
+
+                if(
+                    data.typing &&
+                    data.uid !==
+                    currentUser.uid
+                ){
+
+                    $("typing")
+                        .textContent =
+                        selectedUser.name +
+                        " is typing...";
+
+                }else{
+
+                    $("typing")
+                        .textContent =
+                        "";
+
+                }
 
             }
-
-            const data =
-                snapshot.data();
-
-            if(
-                data.typing &&
-                data.uid !== currentUser.uid
-            ){
-
-                $("typing").textContent =
-                    selectedUser.name +
-                    " is typing...";
-
-            }else{
-
-                $("typing").textContent = "";
-
-            }
-
-        });
+        );
 
 }
 
@@ -3387,12 +4440,16 @@ function scrollMessages(){
     const box =
         $("messages");
 
-    setTimeout(() => {
 
-        box.scrollTop =
-            box.scrollHeight;
+    setTimeout(
+        () => {
 
-    },50);
+            box.scrollTop =
+                box.scrollHeight;
+
+        },
+        50
+    );
 
 }
 
@@ -3418,16 +4475,20 @@ async function toggleRecording(){
 
 async function startRecording(){
 
-    if(!navigator.mediaDevices ||
-       !navigator.mediaDevices.getUserMedia){
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices
+            .getUserMedia
+    ){
 
         alert(
-            "Microphone is not supported in this browser."
+            "Microphone is not supported."
         );
 
         return;
 
     }
+
 
     if(!selectedUser){
 
@@ -3439,22 +4500,33 @@ async function startRecording(){
 
     }
 
+
     try{
 
         const stream =
-            await navigator.mediaDevices.getUserMedia({
+            await navigator.mediaDevices
+            .getUserMedia({
                 audio:true
             });
 
-        recordedChunks = [];
+
+        recordedChunks =
+            [];
+
 
         mediaRecorder =
-            new MediaRecorder(stream);
+            new MediaRecorder(
+                stream
+            );
+
 
         mediaRecorder.ondataavailable =
             event => {
 
-                if(event.data.size > 0){
+                if(
+                    event.data.size >
+                    0
+                ){
 
                     recordedChunks.push(
                         event.data
@@ -3470,9 +4542,11 @@ async function startRecording(){
 
                 stream
                     .getTracks()
-                    .forEach(track =>
-                        track.stop()
+                    .forEach(
+                        track =>
+                            track.stop()
                     );
+
 
                 const blob =
                     new Blob(
@@ -3484,21 +4558,30 @@ async function startRecording(){
                         }
                     );
 
-                await uploadVoice(blob);
+
+                await uploadVoice(
+                    blob
+                );
 
             };
 
 
         mediaRecorder.start();
 
-        recording = true;
 
-        $("voiceBtn").textContent =
+        recording =
+            true;
+
+
+        $("voiceBtn")
+            .textContent =
             "⏹";
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Microphone permission denied."
@@ -3518,9 +4601,11 @@ function stopRecording(){
 
         mediaRecorder.stop();
 
-        recording = false;
+        recording =
+            false;
 
-        $("voiceBtn").textContent =
+        $("voiceBtn")
+            .textContent =
             "🎤";
 
     }
@@ -3532,9 +4617,13 @@ function stopRecording(){
    UPLOAD VOICE
 ===================================================== */
 
-async function uploadVoice(blob){
+async function uploadVoice(
+    blob
+){
 
-    if(!selectedUser) return;
+    if(!selectedUser)
+        return;
+
 
     try{
 
@@ -3545,20 +4634,29 @@ async function uploadVoice(blob){
             Date.now() +
             ".webm";
 
+
         const ref =
-            storage.ref().child(path);
+            storage
+            .ref()
+            .child(path);
+
 
         const upload =
-            await ref.put(blob);
+            await ref
+            .put(blob);
+
 
         const url =
-            await upload.ref.getDownloadURL();
+            await upload.ref
+            .getDownloadURL();
+
 
         const id =
             chatId(
                 currentUser.uid,
                 selectedUser.id
             );
+
 
         await db
             .collection("chats")
@@ -3572,18 +4670,23 @@ async function uploadVoice(blob){
                 receiverId:
                     selectedUser.id,
 
-                fileUrl:url,
+                fileUrl:
+                    url,
 
-                type:"audio",
+                type:
+                    "audio",
 
                 createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                    firebase.firestore.FieldValue
+                    .serverTimestamp()
 
             });
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Voice message failed."
@@ -3600,17 +4703,30 @@ async function uploadVoice(blob){
 
 function openProfileModal(){
 
-    if(!currentProfile) return;
+    if(!currentProfile)
+        return;
 
-    $("profileNameInput").value =
-        currentProfile.name || "";
 
-    $("profileAboutInput").value =
-        currentProfile.about || "";
+    $("profileNameInput")
+        .value =
+        currentProfile.name ||
+        "";
 
-    $("profilePhotoInput").value = "";
 
-    $("profileModal").style.display =
+    $("profileAboutInput")
+        .value =
+        currentProfile.about ||
+        "";
+
+
+    $("profilePhotoInput")
+        .value =
+        "";
+
+
+    $("profileModal")
+        .style
+        .display =
         "flex";
 
 }
@@ -3618,7 +4734,9 @@ function openProfileModal(){
 
 function closeProfileModal(){
 
-    $("profileModal").style.display =
+    $("profileModal")
+        .style
+        .display =
         "none";
 
 }
@@ -3630,37 +4748,53 @@ function closeProfileModal(){
 
 async function saveProfile(){
 
-    if(!currentUser) return;
+    if(!currentUser)
+        return;
+
 
     const name =
         $("profileNameInput")
-            .value
-            .trim();
+        .value
+        .trim();
+
 
     const about =
         $("profileAboutInput")
-            .value
-            .trim();
+        .value
+        .trim();
+
 
     if(!name){
 
-        alert("Name is required.");
+        alert(
+            "Name is required."
+        );
+
         return;
 
     }
 
+
     try{
 
         let photoURL =
-            currentProfile.photoURL || "";
+            currentProfile.photoURL ||
+            "";
+
 
         const file =
             $("profilePhotoInput")
-                .files[0];
+            .files[0];
+
 
         if(file){
 
-            if(file.size > 5 * 1024 * 1024){
+            if(
+                file.size >
+                5 *
+                1024 *
+                1024
+            ){
 
                 alert(
                     "Profile photo must be under 5MB."
@@ -3670,6 +4804,7 @@ async function saveProfile(){
 
             }
 
+
             const path =
                 "profilePhotos/" +
                 currentUser.uid +
@@ -3678,32 +4813,54 @@ async function saveProfile(){
                 "_" +
                 file.name;
 
+
             const ref =
-                storage.ref().child(path);
+                storage
+                .ref()
+                .child(path);
+
 
             const upload =
-                await ref.put(file);
+                await ref.put(
+                    file
+                );
+
 
             photoURL =
-                await upload.ref.getDownloadURL();
+                await upload.ref
+                .getDownloadURL();
 
         }
+
 
         await db
             .collection("users")
             .doc(currentUser.uid)
             .set({
 
-                name:name,
-                about:about,
-                photoURL:photoURL
+                name:
+                    name,
 
-            },{merge:true});
+                about:
+                    about,
+
+                photoURL:
+                    photoURL
+
+            },{
+                merge:true
+            });
 
 
-        currentProfile.name = name;
-        currentProfile.about = about;
-        currentProfile.photoURL = photoURL;
+        currentProfile.name =
+            name;
+
+        currentProfile.about =
+            about;
+
+        currentProfile.photoURL =
+            photoURL;
+
 
         renderMyProfile();
 
@@ -3715,7 +4872,9 @@ async function saveProfile(){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Profile update failed."
@@ -3727,20 +4886,23 @@ async function saveProfile(){
 
 
 /* =====================================================
-   WEBRTC
+   WEBRTC CONFIG
 ===================================================== */
 
 const rtcConfig = {
 
     iceServers:[
+
         {
             urls:
                 "stun:stun.l.google.com:19302"
         },
+
         {
             urls:
                 "stun:stun1.l.google.com:19302"
         }
+
     ]
 
 };
@@ -3750,13 +4912,18 @@ const rtcConfig = {
    START CALL
 ===================================================== */
 
-async function startCall(type){
+async function startCall(
+    type
+){
 
     if(!currentUser ||
        !selectedUser)
         return;
 
-    if(!friendIds.has(selectedUser.id)){
+
+    if(!friendIds.has(
+        selectedUser.id
+    )){
 
         alert(
             "You can call only friends."
@@ -3766,18 +4933,23 @@ async function startCall(type){
 
     }
 
+
     try{
+
+        stopRingtone();
+
 
         localStream =
             await navigator.mediaDevices
-                .getUserMedia({
+            .getUserMedia({
 
-                    audio:true,
+                audio:true,
 
-                    video:
-                        type === "video"
+                video:
+                    type ===
+                    "video"
 
-                });
+            });
 
 
         peerConnection =
@@ -3788,14 +4960,17 @@ async function startCall(type){
 
         localStream
             .getTracks()
-            .forEach(track => {
+            .forEach(
+                track => {
 
-                peerConnection.addTrack(
-                    track,
-                    localStream
-                );
+                    peerConnection
+                        .addTrack(
+                            track,
+                            localStream
+                        );
 
-            });
+                }
+            );
 
 
         peerConnection.ontrack =
@@ -3804,23 +4979,38 @@ async function startCall(type){
                 remoteStream =
                     event.streams[0];
 
-                $("remoteVideo").srcObject =
+                $("remoteVideo")
+                    .srcObject =
                     remoteStream;
 
             };
 
 
+        currentCallId =
+            db
+            .collection("calls")
+            .doc()
+            .id;
+
+
         peerConnection.onicecandidate =
             async event => {
 
-                if(event.candidate){
+                if(
+                    event.candidate
+                ){
 
                     await db
                         .collection("calls")
-                        .doc(callId)
-                        .collection("callerCandidates")
+                        .doc(
+                            currentCallId
+                        )
+                        .collection(
+                            "callerCandidates"
+                        )
                         .add(
-                            event.candidate.toJSON()
+                            event.candidate
+                            .toJSON()
                         );
 
                 }
@@ -3828,20 +5018,22 @@ async function startCall(type){
             };
 
 
-        const callId =
-            db.collection("calls").doc().id;
-
         const offer =
-            await peerConnection.createOffer();
+            await peerConnection
+            .createOffer();
 
-        await peerConnection.setLocalDescription(
-            offer
-        );
+
+        await peerConnection
+            .setLocalDescription(
+                offer
+            );
 
 
         await db
             .collection("calls")
-            .doc(callId)
+            .doc(
+                currentCallId
+            )
             .set({
 
                 callerId:
@@ -3850,39 +5042,67 @@ async function startCall(type){
                 receiverId:
                     selectedUser.id,
 
-                type:type,
+                type:
+                    type,
 
                 offer:{
-                    type:offer.type,
-                    sdp:offer.sdp
+
+                    type:
+                        offer.type,
+
+                    sdp:
+                        offer.sdp
+
                 },
 
-                status:"ringing",
+                status:
+                    "ringing",
 
                 createdAt:
-                    firebase.firestore.FieldValue.serverTimestamp()
+                    firebase.firestore
+                    .FieldValue
+                    .serverTimestamp()
 
             });
 
 
-        listenCallerAnswer(callId);
+        showOutgoingCallStatus(
+            type
+        );
 
-        listenReceiverCandidates(callId);
 
-        $("localVideo").srcObject =
+        listenCallerAnswer(
+            currentCallId
+        );
+
+
+        listenReceiverCandidates(
+            currentCallId
+        );
+
+
+        $("localVideo")
+            .srcObject =
             localStream;
 
-        $("videoModal").style.display =
+
+        $("videoModal")
+            .style
+            .display =
             "block";
+
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Call failed: " +
             error.message
         );
+
 
         cleanupCall();
 
@@ -3892,75 +5112,175 @@ async function startCall(type){
 
 
 /* =====================================================
-   LISTEN CALL ANSWER
+   OUTGOING CALL DISPLAY
 ===================================================== */
 
-function listenCallerAnswer(callId){
+function showOutgoingCallStatus(
+    type
+){
 
-    db.collection("calls")
-      .doc(callId)
-      .onSnapshot(async snapshot => {
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
 
-          const data =
-              snapshot.data();
 
-          if(!data) return;
-
-          if(
-              data.answer &&
-              peerConnection &&
-              !peerConnection.currentRemoteDescription
-          ){
-
-              await peerConnection.setRemoteDescription(
-                  new RTCSessionDescription(
-                      data.answer
-                  )
-              );
-
-          }
-
-          if(
-              data.status === "ended"
-          ){
-
-              cleanupCall();
-
-          }
-
-      });
+    $("chatCallStatus")
+        .textContent =
+        type === "video"
+            ? "📹 Calling " +
+              (
+                selectedUser?.name ||
+                "User"
+              ) +
+              "..."
+            : "📞 Calling " +
+              (
+                selectedUser?.name ||
+                "User"
+              ) +
+              "...";
 
 }
 
 
 /* =====================================================
-   RECEIVER CANDIDATES
+   CALLER ANSWER
 ===================================================== */
 
-function listenReceiverCandidates(callId){
+function listenCallerAnswer(
+    callId
+){
 
-    db.collection("calls")
-      .doc(callId)
-      .collection("receiverCandidates")
-      .onSnapshot(snapshot => {
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .onSnapshot(
+            async snapshot => {
 
-          snapshot.docChanges()
-            .forEach(async change => {
+                const data =
+                    snapshot.data();
 
-                if(change.type === "added" &&
-                   peerConnection){
 
-                    await peerConnection.addIceCandidate(
-                        new RTCIceCandidate(
-                            change.doc.data()
-                        )
-                    );
+                if(!data)
+                    return;
+
+
+                if(
+                    data.answer &&
+                    peerConnection &&
+                    !peerConnection
+                        .currentRemoteDescription
+                ){
+
+                    await peerConnection
+                        .setRemoteDescription(
+                            new RTCSessionDescription(
+                                data.answer
+                            )
+                        );
+
+
+                    $("chatCallStatus")
+                        .textContent =
+                        "🔵 Call connected";
 
                 }
 
-            });
 
-      });
+                if(
+                    data.status ===
+                    "rejected"
+                ){
+
+                    alert(
+                        "Call rejected."
+                    );
+
+                    cleanupCall();
+
+                }
+
+
+                if(
+                    data.status ===
+                    "ended"
+                ){
+
+                    cleanupCall();
+
+                }
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
+
+}
+
+
+/* =====================================================
+   RECEIVER ICE
+===================================================== */
+
+function listenReceiverCandidates(
+    callId
+){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .collection(
+            "receiverCandidates"
+        )
+        .onSnapshot(
+            snapshot => {
+
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        async change => {
+
+                            if(
+                                change.type ===
+                                "added" &&
+                                peerConnection
+                            ){
+
+                                try{
+
+                                    await peerConnection
+                                        .addIceCandidate(
+                                            new RTCIceCandidate(
+                                                change.doc.data()
+                                            )
+                                        );
+
+                                }catch(error){
+
+                                    console.error(
+                                        error
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
 
 }
 
@@ -3977,6 +5297,7 @@ function listenForIncomingCalls(){
 
     }
 
+
     unsubscribeIncomingCalls =
         db
         .collection("calls")
@@ -3985,77 +5306,265 @@ function listenForIncomingCalls(){
             "==",
             currentUser.uid
         )
-        .onSnapshot(snapshot => {
+        .onSnapshot(
+            snapshot => {
 
-            snapshot.docChanges()
-                .forEach(change => {
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        change => {
 
-                    if(change.type !== "added")
-                        return;
+                            if(
+                                change.type !==
+                                "added"
+                            )
+                                return;
 
-                    const data =
-                        change.doc.data();
 
-                    if(
-                        data.status === "ringing"
-                    ){
+                            const data =
+                                change.doc.data();
 
-                        const age =
-                            Date.now() -
-                            (
-                                data.createdAt
-                                ?.toDate()
-                                ?.getTime() ||
-                                Date.now()
-                            );
 
-                        if(age < 60000){
+                            if(
+                                data.status ===
+                                "ringing"
+                            ){
 
-                            showIncomingCall(
-                                change.doc.id,
-                                data
-                            );
+                                showIncomingCall(
+                                    change.doc.id,
+                                    data
+                                );
+
+                            }
 
                         }
+                    );
 
-                    }
-
-                });
-
-        });
+            }
+        );
 
 }
 
 
 /* =====================================================
-   SHOW INCOMING CALL
+   INCOMING CALL DISPLAY + RING
 ===================================================== */
 
-function showIncomingCall(callId,data){
+function showIncomingCall(
+    callId,
+    data
+){
+
+    /*
+       Save incoming call
+    */
 
     incomingCallData = {
-        callId,
+
+        callId:
+            callId,
+
         ...data
+
     };
+
+
+    currentCallId =
+        callId;
+
 
     const caller =
         allUsers.find(
-            u => u.id === data.callerId
+            u =>
+                u.id ===
+                data.callerId
         );
 
-    $("incomingCallAvatar").src =
-        caller?.photoURL || defaultAvatar;
 
-    $("incomingCallName").textContent =
-        caller?.name || "Someone";
+    const callerName =
+        caller?.name ||
+        "Someone";
 
-    $("incomingCallType").textContent =
+
+    const callerPhoto =
+        caller?.photoURL ||
+        defaultAvatar;
+
+
+    /*
+       ==========================
+       POPUP DISPLAY
+       ==========================
+    */
+
+    $("incomingCallAvatar")
+        .src =
+        callerPhoto;
+
+
+    $("incomingCallName")
+        .textContent =
+        callerName;
+
+
+    $("incomingCallType")
+        .textContent =
         data.type === "video"
-            ? "Incoming video call"
-            : "Incoming voice call";
+            ? "📹 Incoming video call"
+            : "📞 Incoming voice call";
 
-    $("incomingCallModal").style.display =
+
+    $("incomingCallModal")
+        .style
+        .display =
         "flex";
+
+
+    /*
+       ==========================
+       CHAT DISPLAY
+       ==========================
+    */
+
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
+
+
+    $("chatCallStatus")
+        .textContent =
+        data.type === "video"
+            ? "📹 " +
+              callerName +
+              " is calling you..."
+            : "📞 " +
+              callerName +
+              " is calling you...";
+
+
+    /*
+       ==========================
+       OPEN CHAT AUTOMATICALLY
+       ==========================
+    */
+
+    if(caller){
+
+        selectedUser =
+            caller;
+
+
+        $("chatEmpty")
+            .style
+            .display =
+            "none";
+
+
+        $("chatArea")
+            .style
+            .display =
+            "flex";
+
+
+        $("chatAvatar")
+            .src =
+            callerPhoto;
+
+
+        $("chatUserName")
+            .textContent =
+            callerName;
+
+
+        updateChatStatus(
+            caller
+        );
+
+
+        $("app")
+            .classList
+            .add("chat-open");
+
+
+        loadMessages();
+
+    }
+
+
+    /*
+       ==========================
+       RING
+       ==========================
+    */
+
+    startRingtone();
+
+}
+
+
+/* =====================================================
+   START RINGTONE
+===================================================== */
+
+function startRingtone(){
+
+    const ringtone =
+        $("callRingtone");
+
+
+    if(!ringtone)
+        return;
+
+
+    ringtone.currentTime =
+        0;
+
+
+    const playPromise =
+        ringtone.play();
+
+
+    if(
+        playPromise &&
+        typeof playPromise.catch ===
+        "function"
+    ){
+
+        playPromise.catch(
+            error => {
+
+                console.log(
+                    "Browser blocked autoplay:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   STOP RINGTONE
+===================================================== */
+
+function stopRingtone(){
+
+    const ringtone =
+        $("callRingtone");
+
+
+    if(!ringtone)
+        return;
+
+
+    ringtone.pause();
+
+    ringtone.currentTime =
+        0;
 
 }
 
@@ -4069,50 +5578,93 @@ async function acceptIncomingCall(){
     if(!incomingCallData)
         return;
 
+
     const call =
         incomingCallData;
 
-    $("incomingCallModal").style.display =
+
+    /*
+       STOP RING
+    */
+
+    stopRingtone();
+
+
+    $("incomingCallModal")
+        .style
+        .display =
         "none";
 
-    const caller =
-        allUsers.find(
-            u => u.id === call.callerId
-        );
 
-    if(caller){
+    $("chatCallStatus")
+        .style
+        .display =
+        "block";
 
-        selectedUser = caller;
 
-        $("chatEmpty").style.display = "none";
-
-        $("chatArea").style.display = "flex";
-
-        $("chatAvatar").src =
-            caller.photoURL || defaultAvatar;
-
-        $("chatUserName").textContent =
-            caller.name || "User";
-
-        $("app").classList.add(
-            "chat-open"
-        );
-
-    }
+    $("chatCallStatus")
+        .textContent =
+        "🔵 Connecting call...";
 
 
     try{
 
+        const caller =
+            allUsers.find(
+                u =>
+                    u.id ===
+                    call.callerId
+            );
+
+
+        if(caller){
+
+            selectedUser =
+                caller;
+
+
+            $("chatEmpty")
+                .style
+                .display =
+                "none";
+
+
+            $("chatArea")
+                .style
+                .display =
+                "flex";
+
+
+            $("chatAvatar")
+                .src =
+                caller.photoURL ||
+                defaultAvatar;
+
+
+            $("chatUserName")
+                .textContent =
+                caller.name ||
+                "User";
+
+
+            $("app")
+                .classList
+                .add("chat-open");
+
+        }
+
+
         localStream =
             await navigator.mediaDevices
-                .getUserMedia({
+            .getUserMedia({
 
-                    audio:true,
+                audio:true,
 
-                    video:
-                        call.type === "video"
+                video:
+                    call.type ===
+                    "video"
 
-                });
+            });
 
 
         peerConnection =
@@ -4123,14 +5675,17 @@ async function acceptIncomingCall(){
 
         localStream
             .getTracks()
-            .forEach(track => {
+            .forEach(
+                track => {
 
-                peerConnection.addTrack(
-                    track,
-                    localStream
-                );
+                    peerConnection
+                        .addTrack(
+                            track,
+                            localStream
+                        );
 
-            });
+                }
+            );
 
 
         peerConnection.ontrack =
@@ -4139,7 +5694,8 @@ async function acceptIncomingCall(){
                 remoteStream =
                     event.streams[0];
 
-                $("remoteVideo").srcObject =
+                $("remoteVideo")
+                    .srcObject =
                     remoteStream;
 
             };
@@ -4148,14 +5704,21 @@ async function acceptIncomingCall(){
         peerConnection.onicecandidate =
             async event => {
 
-                if(event.candidate){
+                if(
+                    event.candidate
+                ){
 
                     await db
                         .collection("calls")
-                        .doc(call.callId)
-                        .collection("receiverCandidates")
+                        .doc(
+                            call.callId
+                        )
+                        .collection(
+                            "receiverCandidates"
+                        )
                         .add(
-                            event.candidate.toJSON()
+                            event.candidate
+                            .toJSON()
                         );
 
                 }
@@ -4163,81 +5726,151 @@ async function acceptIncomingCall(){
             };
 
 
-        await peerConnection.setRemoteDescription(
-            new RTCSessionDescription(
-                call.offer
-            )
-        );
+        await peerConnection
+            .setRemoteDescription(
+                new RTCSessionDescription(
+                    call.offer
+                )
+            );
 
 
         const answer =
-            await peerConnection.createAnswer();
+            await peerConnection
+            .createAnswer();
 
-        await peerConnection.setLocalDescription(
-            answer
-        );
+
+        await peerConnection
+            .setLocalDescription(
+                answer
+            );
 
 
         await db
             .collection("calls")
-            .doc(call.callId)
+            .doc(
+                call.callId
+            )
             .update({
 
                 answer:{
-                    type:answer.type,
-                    sdp:answer.sdp
+
+                    type:
+                        answer.type,
+
+                    sdp:
+                        answer.sdp
+
                 },
 
-                status:"connected"
+                status:
+                    "connected"
 
             });
 
 
-        db.collection("calls")
-          .doc(call.callId)
-          .collection("callerCandidates")
-          .onSnapshot(snapshot => {
-
-              snapshot.docChanges()
-                .forEach(async change => {
-
-                    if(
-                        change.type === "added" &&
-                        peerConnection
-                    ){
-
-                        await peerConnection.addIceCandidate(
-                            new RTCIceCandidate(
-                                change.doc.data()
-                            )
-                        );
-
-                    }
-
-                });
-
-          });
+        listenCallerCandidates(
+            call.callId
+        );
 
 
-        $("localVideo").srcObject =
+        $("localVideo")
+            .srcObject =
             localStream;
 
-        $("videoModal").style.display =
+
+        $("videoModal")
+            .style
+            .display =
             "block";
 
-        incomingCallData = null;
+
+        $("chatCallStatus")
+            .textContent =
+            "🔵 Call connected";
+
+
+        incomingCallData =
+            null;
+
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         alert(
-            "Could not answer call."
+            "Could not answer call: " +
+            error.message
         );
+
 
         cleanupCall();
 
     }
+
+}
+
+
+/* =====================================================
+   LISTEN CALLER CANDIDATES
+===================================================== */
+
+function listenCallerCandidates(
+    callId
+){
+
+    const unsubscribe =
+        db
+        .collection("calls")
+        .doc(callId)
+        .collection(
+            "callerCandidates"
+        )
+        .onSnapshot(
+            snapshot => {
+
+                snapshot
+                    .docChanges()
+                    .forEach(
+                        async change => {
+
+                            if(
+                                change.type ===
+                                "added" &&
+                                peerConnection
+                            ){
+
+                                try{
+
+                                    await peerConnection
+                                        .addIceCandidate(
+                                            new RTCIceCandidate(
+                                                change.doc.data()
+                                            )
+                                        );
+
+                                }catch(error){
+
+                                    console.error(
+                                        error
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+
+    callUnsubscribers.push(
+        unsubscribe
+    );
 
 }
 
@@ -4248,8 +5881,12 @@ async function acceptIncomingCall(){
 
 async function rejectIncomingCall(){
 
+    stopRingtone();
+
+
     if(!incomingCallData)
         return;
+
 
     try{
 
@@ -4260,19 +5897,37 @@ async function rejectIncomingCall(){
             )
             .update({
 
-                status:"rejected"
+                status:
+                    "rejected"
 
             });
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
 
-    incomingCallData = null;
 
-    $("incomingCallModal").style.display =
+    incomingCallData =
+        null;
+
+
+    currentCallId =
+        null;
+
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
         "none";
 
 }
@@ -4284,26 +5939,35 @@ async function rejectIncomingCall(){
 
 async function endCall(){
 
+    stopRingtone();
+
+
     try{
 
-        if(incomingCallData){
+        if(currentCallId){
 
             await db
                 .collection("calls")
                 .doc(
-                    incomingCallData.callId
+                    currentCallId
                 )
                 .update({
-                    status:"ended"
+
+                    status:
+                        "ended"
+
                 });
 
         }
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
     }
+
 
     cleanupCall();
 
@@ -4316,41 +5980,98 @@ async function endCall(){
 
 function cleanupCall(){
 
+    stopRingtone();
+
+
+    callUnsubscribers
+        .forEach(
+            unsubscribe => {
+
+                try{
+
+                    unsubscribe();
+
+                }catch(e){}
+
+            }
+        );
+
+
+    callUnsubscribers =
+        [];
+
+
     if(localStream){
 
         localStream
             .getTracks()
-            .forEach(track =>
-                track.stop()
+            .forEach(
+                track =>
+                    track.stop()
             );
 
     }
 
+
     if(peerConnection){
 
-        peerConnection.close();
+        try{
+
+            peerConnection.close();
+
+        }catch(e){}
 
     }
 
-    localStream = null;
-    remoteStream = null;
-    peerConnection = null;
-    incomingCallData = null;
 
-    $("localVideo").srcObject = null;
-    $("remoteVideo").srcObject = null;
+    localStream =
+        null;
 
-    $("videoModal").style.display =
+    remoteStream =
+        null;
+
+    peerConnection =
+        null;
+
+    currentCallId =
+        null;
+
+    incomingCallData =
+        null;
+
+
+    $("localVideo")
+        .srcObject =
+        null;
+
+
+    $("remoteVideo")
+        .srcObject =
+        null;
+
+
+    $("videoModal")
+        .style
+        .display =
         "none";
 
-    $("incomingCallModal").style.display =
+
+    $("incomingCallModal")
+        .style
+        .display =
+        "none";
+
+
+    $("chatCallStatus")
+        .style
+        .display =
         "none";
 
 }
 
 
 /* =====================================================
-   MOBILE KEYBOARD FIX
+   MOBILE KEYBOARD
 ===================================================== */
 
 if(window.visualViewport){
@@ -4359,26 +6080,16 @@ if(window.visualViewport){
         "resize",
         () => {
 
-            const composer =
-                document.querySelector(
-                    ".composer"
-                );
-
-            if(!composer) return;
-
-            /*
-              Keep layout stable when
-              mobile keyboard opens.
-            */
-
             document.documentElement
-                .style.setProperty(
+                .style
+                .setProperty(
                     "--keyboard-height",
                     Math.max(
                         0,
                         window.innerHeight -
                         window.visualViewport.height
-                    ) + "px"
+                    ) +
+                    "px"
                 );
 
         }
